@@ -35,10 +35,12 @@ function ProcessGoogleBookmark(bookmarksHtml){
 				AddLabel('['+$(this).text()+']', {title:title, href:href});
 				ss.push($(this).text());
 			});
-			AddLabel('[ALL]', {title:"["+ ss.join(",")  +"] " + title, href:href});
+			AddLabel('[ALL]', {title:title + " <i>["+ ss.join(",")  +"]</i>", href:href});
 		}
 
 	});
+    all_labels.sort(SortLabel);
+	all_labels[all_labels.length-1].bookmarks.sort(SortBookmark);
 }
 
 function AddLabel(label, bookmark){
@@ -60,7 +62,28 @@ function AddLabel(label, bookmark){
 	// save bookmark
 	lb.bookmarks.push(bookmark);
 }
-
+// bookmark label object compare function
+function SortLabel(a,b){
+	if (a.label == "[empty]" || b.label == "[ALL]" )
+		return -1;
+	if (a.label == "[ALL]" || b.label == "[empty]" )
+		return 1;
+	if (a.label > b.label)
+		return 1;
+	else if (a.label == b.label)
+		return 0;
+	else
+		return -1;
+}
+// bookmark label object compare function
+function SortBookmark(a,b){
+	if (a.title > b.title)
+		return 1;
+	else if (a.title == b.title)
+		return 0;
+	else
+		return -1;
+}
 
 $(function(){
 	setTimeout("LoadBookmark();",500);

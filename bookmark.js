@@ -1,4 +1,5 @@
 var bkg = chrome.extension.getBackgroundPage();
+var retry = 0;
 
 function LoadBookmark()
 {
@@ -11,34 +12,27 @@ function LoadBookmark()
 		$("#add_bookmark").attr("href",bkg.google_bookmark_add + "&bkmk=" + encodeURI(current_url) + "&title=" + encodeURI(current_title)  );
 	});
 
-	if (!bkg.load_ready){ setTimeout("LoadBookmark();", 1000); return;}
+	if (!bkg.load_ready){ 
+	    if (retry>5)
+			RefreshBookmark();
+		else
+		    setTimeout("LoadBookmark();", 1000); 
+		retry = retry + 1;
+		return;
+	}
 	if (bkg.last_error!="") alert(bkg.last_error);
 
 	document.getElementById("labels").innerHTML = PrintBookmark();
 	adjust_screen();
 }
 function RefreshBookmark(){
+	retry = 0;
 	bkg.load_ready = false;
 	bkg.LoadBookmark();
 	LoadBookmark();
 }
 
-// bookmark label object compare function
-function SortBookmark(a,b){
-	if (a.label == "[empty]" || b.label == "[ALL]" )
-		return -1;
-	if (a.label == "[ALL]" || b.label == "[empty]" )
-		return 1;
-	if (a.label > b.label)
-		return 1;
-	else if (a.label == b.label)
-		return 0;
-	else
-		return -1;
-}
-
 function PrintBookmark(){
-	bkg.all_labels.sort(SortBookmark);
 	var s = new Array;
 	for(pi=0; pi<bkg.all_labels.length; pi++){
 		s.push( "<div class='f' id='"+ pi  +"' onclick='labelClick(this);'>" + bkg.all_labels[pi].label+"</div>");
