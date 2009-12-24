@@ -1,7 +1,30 @@
+Google Chrome: Google Bookmark Extension 
+========================================
 
-Google Chrome: Google Bookmark Plugin
+Chrome extension for convenient sync bookmarks by using Google Bookmarks. Very simple and easy to use but usefull.
 
-v0.3 (2009.12.25) Jimmy Liang
+Thanks for using and be happier ;-)
+Any comments and suggestions are welcome!
 
+
+Update history
+--------------
+v1.0 (2009.12.24 Xmas env. for fun) Jimmy Liang
+
+1. Using Jquery to make javascript simpler.
+2. Using background.html to read google bookmarks' xml. popup only retrieve data from background, no need read from internet. User can click "Reload" any time needed.
+3. On the popup, use: setTimeout("LoadBookmark",500); to show popup immediately. Advoided popup freezed like some other bookmark extensions.
+4. Add an "ALL" label on the end of the labels to show all bookmarks together, for easier to find and find out reduplicate bookmarks.
+5. Add a loading indicator.
+6. Auto ajust div to show bookmarks and scroll.
+
+TODO(maybe):
+-----------
+1. edit bookmark in popup?
+2. need Login in popup? or not?
+3. batch move bookmarks to other label?
+4. batch delete bookmarks.
+5. more level of labels in the format: aa/bb/cc ?
+6. chrome itself's bookmark sync function maybe better...
 
 
