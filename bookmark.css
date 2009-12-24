@@ -1,0 +1,13 @@
+#top_title {margin-bottom:2px;}
+#main {border:solid 1px green;width:500px;height:540px;font-size:90%;line-height:1.3;padding:4px;}
+#labels div.f {float:left;border:solid white 2px;cursor:pointer;}
+#labels div.f:hover {background-color:lightYellow;border:solid red 2px;}
+#div_bookmarks {border-top:solid green 1px;margin-top:4px;overflow-y:scroll;padding:2px;}
+#div_bookmarks a { text-decoration:none;overflow:hidden;}
+#div_bookmarks a:visited {}
+#div_bookmarks a:hover {background-color:lightYellow;text-decoration:underline;color:red;}
+.clear { float:none; clear:both; }
+.error {color:red;}
+h2 {margin:0;padding:0;font-size:110%;}
+#buttons{margin-left:20px;font-size:70%;padding-bottom:2px;}
+body {width:520px;height:5555555555flow:hidden;font-size:1em;}
