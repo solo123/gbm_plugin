@@ -1,6 +1,6 @@
 {
   "name": "Google bookmarks",
-  "version": "0.51",
+  "version": "1.0",
   "description": "Google bookmarks extension for Chrome",
   "background_page": "background.html",
   "browser_action": {
