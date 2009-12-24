@@ -4,9 +4,13 @@ var google_bookmark_xml = "http://www.google.com/bookmarks/?output=xml&num=10000
 var google_bookmark_add = "http://www.google.com/bookmarks/mark?op=edit&output=popup";
 var load_ready = false;
 var last_error = "";
+var labels_html ="";
+var bookmarks_html = "";
+var current_label = "";
 
 function LoadBookmark()
 {
+	console.log('start load bookmark...');
 	load_ready = false;
 	last_error = "";
 	all_labels = new Array;
@@ -16,6 +20,7 @@ function LoadBookmark()
 		else
 			ProcessGoogleBookmark(data);
 		load_ready = true;
+		console.log('load finished.' + last_error);
 	});
 }
 function ProcessGoogleBookmark(bookmarksHtml){
@@ -39,8 +44,9 @@ function ProcessGoogleBookmark(bookmarksHtml){
 		}
 
 	});
-    all_labels.sort(SortLabel);
+  all_labels.sort(SortLabel);
 	all_labels[all_labels.length-1].bookmarks.sort(SortBookmark);
+	labels_html = LabelsHtml();
 }
 
 function AddLabel(label, bookmark){
@@ -85,6 +91,27 @@ function SortBookmark(a,b){
 		return -1;
 }
 
+function LabelsHtml(){
+	var s = new Array;
+	for(var i=0; i<all_labels.length; i++){
+		s.push( "<div class='f' id='"+ i  +"' onclick='labelClick(this);'>" + all_labels[i].label+"</div>");
+	}
+	s.push( "<div class='clear'></div>");
+	return s.join("");
+}
+
+function SetCurrentLabel(labelID){
+  var lb = all_labels[labelID];
+	var s = new Array;
+	s.push("<ul type='disc'>");
+	for (var i=0; i<lb.bookmarks.length; i++){
+		s.push("<li><a href='"+ lb.bookmarks[i].href +"' target='bookmark'>"+ lb.bookmarks[i].title  +"</a></li>");
+	}
+	s.push("</ul>");
+	current_label = lb.label;
+	bookmarks_html = s.join("");
+}
+
 $(function(){
-	setTimeout("LoadBookmark();",500);
-	});
+	LoadBookmark();
+});

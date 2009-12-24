@@ -25,6 +25,8 @@ TODO(maybe):
 3. batch move bookmarks to other label?
 4. batch delete bookmarks.
 5. more level of labels in the format: aa/bb/cc ?
-6. chrome itself's bookmark sync function maybe better...
+6. add bookmark default into current label.
+7. save the current state when the popup off.
+chrome itself's bookmark sync function maybe better...
 
 
