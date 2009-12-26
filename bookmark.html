@@ -7,21 +7,49 @@
 	</head>
 
 	<body>
+		<div id="container">
 		<div id="top_title">
-		Google Bookmarks(v1.01) 
-		<span id="buttons">
-			<a href='#' id='add_bookmark' target="_blank">Add</a>
-			<a href='http://www.google.com/bookmarks/' target='_blank'>Edit</a> 
-			<a href='#' onclick='RefreshBookmark();return false;'>Reload</a>
-		</span>
-	</div>
-		<div id="main">
+			<span id="buttons">
+				<a id="btn_bookmarks" href="javascript:void(0);" onclick="tab_click(this);return false;">Bookmarks</a>
+				<a id="btn_add" href='javascript:void(0);' onclick="tab_click(this);return false;">
+					<img src="sprite.png" style="margin:0 2px -2px 0px;" ><span id="btn_add_text">Add</span></a>
+				<a href='javascript:void(0);' onclick='tab_click(this);return false;'>Reload</a>
+			</span>
+			<span id="plugin_title">Google Bookmarks(v1.01)</span>
+		</div>
+		
+		<div id="div_main">
 			<div id="labels" ><table><tr><td><img src='indicator.gif' height='24' /></td><td>Processing bookmark data...</td></tr></table><p>Not login? <a href='http://www.google.com/bookmarks' target='bookmark'>login now.</a></p></div>
 			<div id="div_bookmarks">
 				<h2 id="current_label"></h2>
 				<div id="bookmark_list" >&nbsp;</div>
 			</div>
 		</div>
+		
+		<div id="div_add">
+			<iframe id='frame_add' scrolling="no" frameborder="0"></iframe> 
+		</div>
+		
+			<div id="div_delete">
+		<h2>Are you sure to delete bookmark?</h2>
+		<p>
+			<b>ID:</b> <span id="dele_id"></span>_<span id="dele_bmid"></span>
+		</p>
+		<p>
+			<b>Url:</b> <span id="dele_url"></span>
+		</p>
+		<p>
+			<b>Title:</b> <span id="dele_title"></span>
+		</p>
+		<p>
+			<input type="button" value="Delete" onclick="dele_bookmark();" />
+			<input type="button" value="Cancel" onclick="cancel_dele();" />
+		</p>
+	</div>
+
+		<div id="status_bar"></div>
+	</div>
+	
 
 	</body>
 </html>

@@ -1,26 +1,36 @@
 var all_labels = new Array;
-var current_url, current_title;
-var google_bookmark_xml = "http://www.google.com/bookmarks/?output=xml&num=100000";
-var google_bookmark_add = "http://www.google.com/bookmarks/mark?op=edit&output=popup";
+var google_bookmark_base = "http://www.google.com/bookmarks/";
 var load_ready = false;
 var last_error = "";
+
+// for cache
 var labels_html ="";
 var bookmarks_html = "";
-var current_label = "";
 
-function LoadBookmark()
+var current_label = "";
+var current_label_id = 0;
+
+// for delete need signature. just get from rss, don't know the best way. jimmy 2009.12.26
+var sig = "";
+
+function LoadBookmark(afterLoaded)
 {
-	console.log('start load bookmark...');
+	console.log('Loading bookmarks...');
 	load_ready = false;
 	last_error = "";
 	all_labels = new Array;
-	$.get(google_bookmark_xml, function(data){
+	$.get(google_bookmark_base, {output:"xml", num:"100000"}, function(data){
 		if (data=="")
 			last_error = "Retrieve bookmarks error.";
 		else
 			ProcessGoogleBookmark(data);
 		load_ready = true;
-		console.log('load finished.' + last_error);
+		console.log('Bookmarks loaded.' + last_error);
+		if (afterLoaded) afterLoaded();
+	});
+	$.get(google_bookmark_base + "find", {output:"rss", q:"a:false"}, function (data){
+		sig = $(data).find("signature:first").text();
+		console.log("Got signature:" + sig);
 	});
 }
 function ProcessGoogleBookmark(bookmarksHtml){
@@ -29,24 +39,24 @@ function ProcessGoogleBookmark(bookmarksHtml){
 		var labels = a_bookmark.find("label");
 		var title = a_bookmark.find("title:first").text();
 		var href = a_bookmark.find("url:first").text();
+		var bm_id = a_bookmark.find("id:first").text();
+		var lbs = $.map(a_bookmark.find("label"), function(a){return a.textContent;}).join(",");
+		var timestamp = new Date( (a_bookmark.find("timestamp:first").text())/1000);
+		var bo = {labels:lbs, bm_id:bm_id, title:title, href:href, timestamp:timestamp};  // bookmark object
 		
 		if (labels.length==0){
-			AddLabel('[empty]', {title:title, href:href} );
-			AddLabel('[ALL]', {title:title, href:href});
+			AddLabel('null', bo);
+			AddLabel('ALL', bo);
 		}
 		else {
-		    var ss = new Array;
-			labels.each(function(){
-				AddLabel('['+$(this).text()+']', {title:title, href:href});
-				ss.push($(this).text());
-			});
-			AddLabel('[ALL]', {title:title + " <i>["+ ss.join(",")  +"]</i>", href:href});
+			labels.each(function(){	AddLabel($(this).text(), bo);	});
+			AddLabel('ALL', bo);
 		}
 
 	});
-  all_labels.sort(SortLabel);
-	all_labels[all_labels.length-1].bookmarks.sort(SortBookmark);
-	labels_html = LabelsHtml();
+  all_labels.sort(SortLabel); // sort labels by name
+	all_labels[all_labels.length-1].bookmarks.sort(SortBookmark); // sort bookmarks in ALL by name
+	labels_html = LabelsHtml();  // render labels html for cache
 }
 
 function AddLabel(label, bookmark){
@@ -68,11 +78,12 @@ function AddLabel(label, bookmark){
 	// save bookmark
 	lb.bookmarks.push(bookmark);
 }
+
 // bookmark label object compare function
 function SortLabel(a,b){
-	if (a.label == "[empty]" || b.label == "[ALL]" )
+	if (a.label == "null" || b.label == "ALL" )
 		return -1;
-	if (a.label == "[ALL]" || b.label == "[empty]" )
+	if (a.label == "ALL" || b.label == "null" )
 		return 1;
 	if (a.label > b.label)
 		return 1;
@@ -81,6 +92,7 @@ function SortLabel(a,b){
 	else
 		return -1;
 }
+
 // bookmark label object compare function
 function SortBookmark(a,b){
 	if (a.title > b.title)
@@ -94,7 +106,7 @@ function SortBookmark(a,b){
 function LabelsHtml(){
 	var s = new Array;
 	for(var i=0; i<all_labels.length; i++){
-		s.push( "<div class='f' id='"+ i  +"' onclick='labelClick(this);'>" + all_labels[i].label+"</div>");
+		s.push( "<div class='f' id='"+ i  +"' onclick='labelClick(this);'>[" + all_labels[i].label+"]</div>");
 	}
 	s.push( "<div class='clear'></div>");
 	return s.join("");
@@ -103,12 +115,40 @@ function LabelsHtml(){
 function SetCurrentLabel(labelID){
   var lb = all_labels[labelID];
 	var s = new Array;
-	s.push("<ul type='disc'>");
+	s.push("<table width='100%' cellspacing='0' cellpadding='2' border='0'>");
 	for (var i=0; i<lb.bookmarks.length; i++){
-		s.push("<li><a href='"+ lb.bookmarks[i].href +"' target='bookmark'>"+ lb.bookmarks[i].title  +"</a></li>");
+		var bm = lb.bookmarks[i];
+		var tips = bm.title + 
+			'\n----------------------------------------------------------------\n' +
+			'Url:    ' + bm.href + "\n" + 
+			'Labels: ' + bm.labels + "\n" +
+			'Create: ' + bm.timestamp.getFullYear() +"."
+			+ bm.timestamp.getMonth() + "."
+			+ bm.timestamp.getDay() + " " + bm.timestamp.toTimeString() + "\n";
+
+		s.push("<tr><td width='36'>");
+		s.push("<img class='opicon' src='edit.png' onclick='edit_bookmark(this)'>");
+		s.push("<img class='opicon' src='delete.png' onclick='show_dele_bookmark("+ i +")'>");
+		s.push("</td><td ");
+		s.push(lb.label=="ALL" ? "class='nowrap1'" : "class='nowrap'" );
+		s.push(">");
+		s.push("<a href='");
+		s.push(bm.href);
+		s.push("' target='bookmark' title='");
+		s.push(tips);
+		s.push("' >");
+		s.push(bm.title);
+		s.push("</a></td>");
+		if (lb.label=="ALL"){
+			s.push("<td width='100'><span class='nowrap2'>");
+			s.push(bm.labels);
+			s.push("</span></td>");
+		}
+		s.push("</tr>");
 	}
-	s.push("</ul>");
+	s.push("</table>");
 	current_label = lb.label;
+	current_label_id = labelID;
 	bookmarks_html = s.join("");
 }
 
