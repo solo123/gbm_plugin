@@ -12,10 +12,10 @@
 			<span id="buttons">
 				<a id="btn_bookmarks" href="javascript:void(0);" onclick="tab_click(this);return false;">Bookmarks</a>
 				<a id="btn_add" href='javascript:void(0);' onclick="tab_click(this);return false;">
-					<img src="sprite.png" style="margin:0 2px -2px 0px;" ><span id="btn_add_text">Add</span></a>
+					<img src="sprite.png">&nbsp;<span id="btn_add_text">Add</span></a>
 				<a href='javascript:void(0);' onclick='tab_click(this);return false;'>Reload</a>
 			</span>
-			<span id="plugin_title">Google Bookmarks(v1.01)</span>
+			<span id="plugin_title">Google Bookmarks(v1.23)</span>
 		</div>
 		
 		<div id="div_main">
@@ -31,6 +31,8 @@
 		</div>
 		
 			<div id="div_delete">
+				<div id="delete_tit">Confirm to delete bookmark</div>
+				<div id="delete_info">
 		<h2>Are you sure to delete bookmark?</h2>
 		<p>
 			<b>ID:</b> <span id="dele_id"></span>_<span id="dele_bmid"></span>
@@ -42,12 +44,19 @@
 			<b>Title:</b> <span id="dele_title"></span>
 		</p>
 		<p>
+			<b>Labels:</b> <span id="dele_label"></span>
+		</p>
+		<p>
+			<b>Create at:</b> <span id="dele_time"></span>
+		</p>
+		<p>
 			<input type="button" value="Delete" onclick="dele_bookmark();" />
 			<input type="button" value="Cancel" onclick="cancel_dele();" />
 		</p>
 	</div>
+	</div>
 
-		<div id="status_bar"></div>
+		<div id="status_bar"> &gt; </div>
 	</div>
 	
 

@@ -1,6 +1,6 @@
-body {overflow:hidden;width:610px;font-size:0.9em;padding:4px 2px 6px 2px;margin:0;font-family:Times New Roman,Times,serif;}
-#container {padding:10px;overflow:hidden;margin:10px;}
-#top_title {margin-left:6px;font-size:90%;font-family:Courier New,Courier,monospace;}
+body {overflow:hidden;width:610px;font-size:0.9em;padding:0;margin:0;font-family:Times New Roman,Times,serif;}
+#container {padding:6px;overflow:hidden;margin:10px;height:554px;}
+#top_title {margin-left:6px;font-size:90%;font-family:Courier New,Courier,monospace;height:19px;}
 #plugin_title {margin-left:20px;font-weight:bold;font-size:85%;font-family:Verdana,Arial,Helvetica,sans-serif;}
 #main {line-height:1.3;padding:4px;}
 #labels {font-size:92%;background-color:#ddd; padding:4px;font-family:Verdana,Arial,Helvetica,sans-serif;}
@@ -14,17 +14,20 @@ body {overflow:hidden;width:610px;font-size:0.9em;padding:4px 2px 6px 2px;margin
 .clear { float:none; clear:both; }
 .error {color:red;}
 h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
-#buttons{margin-left:20px;font-size:70%;padding-bottom:2px;}
-#buttons a {padding:3px; border:solid 1px #ddd;text-decoration:none;color:black;}
+#buttons{margin-left:20px;font-size:70%;}
+#buttons a {padding:3px; border:solid 1px #ddd;border-bottom:solid 1px white;text-decoration:none;color:black;}
 #buttons a.visited {color:black;}
-#buttons a.current_tab {background-color:#ddd;}
+#buttons a.current_tab {background-color:#ddd;border-bottom:solid 1px #ddd;}
+#buttons a img {margin:0;padding:0;vertical-align:bottom;}
 li {margin-top:3px;}
 #div_main {border:solid 3px #ddd; padding:0;height:520px;}
-#div_add {border:solid 3px #ddd; padding:4px;}
+#div_add {border:solid 3px #ddd; padding:4px;height:512px;}
 .opicon {padding:2px;border:solid 1px #ddd;}
 .opicon:hover {border:solid 1px red;background-color:lightYellow;}
 .nowrap a {width:480px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .nowrap1 a {width:380px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .nowrap2 {font-size:80%;width:96px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-#div_delete {border:solid 3px #ddd; padding:4px;}
+#div_delete {border:solid 3px #ddd; padding:0;height:520px;}
+#delete_tit {height:24px;font-weight:bold;color:black;padding:4px;font-family:Courier New,Courier,monospace;font-size:90%;background-color:#ddd;}
+#delete_info {padding:8px;}
 #status_bar {padding-left:8px;font-size:70%;color:red;font-family:Courier New,Courier,monospace; }

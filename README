@@ -9,11 +9,16 @@ Any comments and suggestions are welcome!
 
 Update history
 --------------
-v1.1 (2009.12.26) Jimmy Liang
+v1.23
+1. css.
+2. code refactor.
+
+v1.20 (2009.12.26) Jimmy Liang
 
 1. add bookmark default into current label.
 2. save the current state when the popup off.
 3. delete bookmark.
+4. ajust some css.
 
 v1.0 (2009.12.24 Xmas env. for fun) Jimmy Liang
 

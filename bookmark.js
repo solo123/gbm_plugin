@@ -1,59 +1,74 @@
-var bkg = chrome.extension.getBackgroundPage();  // to ref background.html and js objects
-var current_page = "";  // the current tab's page in Chrome.
-var status_count = 0;
+/***********************************************************************
+*  Google Chrome Bookmarks Extension
+*-------------------------------------------------------------------------------------
+*  Create by: Jimmy Liang, 2009.12.24, Xmas eve just for fun
+*  OpenSource: http://github.com/solo123/gbm_plugin.git
+*
+************************************************************************/
+var bkg = chrome.extension.getBackgroundPage();  // ref to background.html
+var bookmark_edit_url = "";  // the edit url for the current tab's web page.
+var status_count = 0;  // for the status text
 
-function LoadData()
+var loading_template = "<table>" + 
+      "<tr><td><img src='indicator.gif' /></td><td>Loading google bookmark...</td></tr>" +
+      "</table>" +
+      "<p>Not login? <a href='http://www.google.com/bookmarks' target='bookmark'>login now.</a></p>";
+
+function InitAndShowHtml()
 {
-	$("#labels").html("<table><tr><td><img src='indicator.gif' /></td><td>Loading google bookmark...</td></tr></table><p>Not login? <a href='http://www.google.com/bookmarks' target='bookmark'>login now.</a></p>");
+  // init
+	$("#labels").html(loading_template);
 	$("#current_label").text("");
 	$("#bookmark_list").html("");
-
+  // generate edit url by current tab's web page info.
   chrome.tabs.getSelected(null, function(tab){
-		current_url = tab.url;
-		current_title = tab.title;
-		current_page = bkg.google_bookmark_base + "mark?op=edit&output=popup"
-			+ "&bkmk=" + encodeURI(current_url) 
-			+ "&title=" + encodeURI(current_title);
+		bookmark_edit_url = bkg.google_bookmark_base + "mark?op=edit&output=popup"
+			+ "&bkmk=" + encodeURI(tab.url) 
+			+ "&title=" + encodeURI(tab.title);
 	});
 
-	if (!bkg.load_ready){
-		bkg.LoadBookmark(ShowMainHtml);
-	} else
-		ShowMainHtml();
+	if (bkg.load_ready)
+    ShowBookmarksHtml();
+	else
+		bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
 }
-function ShowMainHtml(){
-	if (bkg.load_ready){
+function AfterBookmarkLoaded(){
+	ShowBookmarksHtml();
+	status_text("Bookmarks loaded.");
+}
+function ShowBookmarksHtml(){
+	if (!bkg.load_ready || bkg.last_error!=""){
+		$("#labels").html("<h2>Load google bookmark error:" + bkg.last_error + "</h2><p>Not login? <a href='http://www.google.com/bookmarks' target='bookmark'>login now.</a></p>");
+		status_text("Load bookmarks error.");
+  }
+  else {
+    // load success and show the html
+		if(bkg.bookmarks_html=="") bkg.SetCurrentLabel(bkg.current_label_id);
 		$("#labels").html(bkg.labels_html);
 		$("#div_bookmarks").height($("#div_main").height() - $("#labels").height() - 32);
 		$("#current_label").text("[" + bkg.current_label + "]");
-		if(bkg.bookmarks_html=="") bkg.SetCurrentLabel(bkg.current_label_id);
 		$("#bookmark_list").html(bkg.bookmarks_html);
 		$("#btn_bookmarks").addClass("current_tab");
-		status_text("Bookmarks loaded.");
-	} else {
-		$("#labels").html("<h2>Load google bookmark error:" + bkg.last_error + "</h2><p>Not login? <a href='http://www.google.com/bookmarks' target='bookmark'>login now.</a></p>");
-		status_text("Load bookmarks error.");
-	}
+	} 
 }
 
 function labelClick(lnk){
-	$("#div_bookmarks").height($("#div_main").height() - $("#labels").height() - 12);
-
 	bkg.SetCurrentLabel(lnk.id);
+	$("#div_bookmarks").height($("#div_main").height() - $("#labels").height() - 12);
 	$("#labels .selected").removeClass("selected").addClass("f");
 	lnk.className = "selected";
 	bkg.labels_html = $("#labels").html();
 	$("#current_label").text("[" + bkg.current_label + "]");
 	$("#bookmark_list").html(bkg.bookmarks_html);
-	status_text("Selected label:" + bkg.current_label );
+	status_text("Selected label: " + bkg.current_label );
 }
 
 function tab_click(tab){
 	status_text("");
 	$("#buttons, a.current_tab").removeClass("current_tab");
-	var edit_page = current_page;
+	var new_page = bookmark_edit_url;
 	if (bkg.current_label!="null" && bkg.current_label!="ALL")
-		edit_page = edit_page + "&labels=" + encodeURI(bkg.current_label);
+		new_page = new_page + "&labels=" + encodeURI(bkg.current_label);
 	if ($(tab).text()=="Bookmarks" ){
 		hide_divs();
 		$("#div_main").show();
@@ -63,14 +78,14 @@ function tab_click(tab){
 	else if ($(tab).text().trim()=="Add"){
 		hide_divs();
 		$("#div_add").show();
-		$("#frame_add").height(540).width(560).attr("src", edit_page);
+		$("#frame_add").height(490).width(560).attr("src", new_page);
 		$(tab).addClass("current_tab");
 	}
 	else if ($(tab).text()=="Reload"){
 		hide_divs();
 		$("#div_main").show();
 		$("#btn_bookmarks").addClass("current_tab");
-		bkg.LoadBookmark(ShowMainHtml);
+		bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
 	}
 }
 
@@ -82,7 +97,7 @@ function edit_bookmark(bmid){
 	var edit_page = bkg.google_bookmark_base + "mark?op=edit&output=popup&bkmk=" + encodeURI(bkmk);
 	$("#div_main").hide();
 	$("#div_add").show();
-	$("#frame_add").height(540).width(560).attr("src", edit_page);
+	$("#frame_add").attr("src", edit_page).height(490).width(560);
 	$("#btn_add").addClass("current_tab")
 	$("#btn_add_text").text("Edit");
 	status_text("Edit bookmark");
@@ -91,7 +106,7 @@ function show_dele_bookmark(bmid){
 	$("#buttons, a.current_tab").removeClass("current_tab");
 	$("#div_main").hide();
 	$("#div_add").hide();
-	$("#div_delete").show().height(500).width(500);
+	$("#div_delete").show();
 	$("#btn_add").addClass("current_tab");
 	$("#btn_add_text").text("Delete");
 	
@@ -100,6 +115,10 @@ function show_dele_bookmark(bmid){
   $("#dele_title").text(bm.title);
   $("#dele_id").text(bm.bm_id);
   $("#dele_bmid").text(bmid);
+  $("#dele_label").text(bm.labels);
+  $("#dele_time").text(bm.timestamp.getFullYear() +"."
+			+ bm.timestamp.getMonth() + "."
+			+ bm.timestamp.getDay() + " " + bm.timestamp.toTimeString() );
 }
 function dele_bookmark(bmid){
 	var bmid = $("#dele_bmid").text();
@@ -108,7 +127,7 @@ function dele_bookmark(bmid){
  	$.post(bkg.google_bookmark_base + "mark", {dlq: bm.bm_id, sig:bkg.sig}, function(data){
 	 		console.log("delete success:" + data);
 	 		bkg.bookmarks_html = "";
-			bkg.LoadBookmark(ShowMainHtml);
+			bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
 			status_text("Bookmark deleted: " + bmid);
 	 	}, "text");	
 	hide_divs();
@@ -146,12 +165,14 @@ function status_text(statusText){
 	}
 	else {
 		$("#status_bar").text("> " + statusText).css("color","red");
-		status_count = 4;
-		setTimeout("status_text()",2000);
+    if (statusText!=""){
+      status_count = 4;
+      setTimeout("status_text()",2000);
+    }
 	}
 }
 $(function(){
 	hide_divs();
 	$("#div_main").show();
-	LoadData();
+	InitAndShowHtml();
 });
