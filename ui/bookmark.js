@@ -10,7 +10,7 @@ var bookmark_edit_url = "";  // the edit url for the current tab's web page.
 var status_count = 0;  // for the status text
 
 var loading_template = "<table>" + 
-      "<tr><td><img src='indicator.gif' /></td><td>Loading google bookmark...</td></tr>" +
+      "<tr><td><img src='images/indicator.gif' /></td><td>Loading google bookmark...</td></tr>" +
       "</table>" +
       "<p>Not login? <a href='http://www.google.com/bookmarks' target='bookmark'>login now.</a></p>";
 

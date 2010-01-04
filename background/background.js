@@ -30,22 +30,38 @@ function LoadBookmarkFromUrl(afterLoaded)
 	all_labels = new Array;
   
 	// load bookmarks xml from url:google_bookmark_base
-  $.get(google_bookmark_base, {output:"xml", num:"100000"}, function(data){
-		if (data=="")
-			last_error = "Retrieve bookmarks error.";
-		else
+  $.ajax({
+		type: "get",
+		url: google_bookmark_base,
+		data: {output:"xml", num:"100000"},
+		success: function(data, textStatus){
 			ParseBookmarks(data);
-      
-		load_ready = true;
-		console.log('Bookmarks loaded.' + last_error);
-		if (afterLoaded) afterLoaded();
+		},
+		error: function(){
+			last_error += "Retrieve bookmarks error.";
+			console.log("ERROR: " + last_error);
+		},
+		complete: function(XMLHttpRequest, textStatus){
+			load_ready = true;
+			console.log('Bookmarks loaded.');
+			if (afterLoaded) afterLoaded();
+		}
 	});
   
   // load signature from url:google_bookmark_base/find?output=rss
-	$.get(google_bookmark_base + "find", {output:"rss", q:"a:false"}, function (data){
-		sig = $(data).find("signature:first").text();
-		console.log("Got signature:" + sig);
-	});
+  $.ajax({
+		type: "get",
+		url: google_bookmark_base + "find",
+		data: {output:"rss", q:"a:false"},
+		success: function(data, textStatus){
+			sig = $(data).find("signature:first").text();
+			console.log("Got signature:" + sig);
+		},
+		error: function(){
+			last_error += "Retrieve signature error.";
+			console.log("ERROR: " + last_error);
+		}
+	}); 
 }
 
 function ParseBookmarks(bookmarksXml){
@@ -72,6 +88,7 @@ function ParseBookmarks(bookmarksXml){
   all_labels.sort(SortLabel); // sort labels by name
 	all_labels[all_labels.length-1].bookmarks.sort(SortBookmark); // sort bookmarks in ALL by name
 	labels_html = RenderLabelsHtml();  // render labels html for cache
+	console.log("Bookmarks parsed.");
 }
 
 function AddLabel(label, bookmark){
@@ -145,8 +162,8 @@ function RenderBookmarksHtml(lb){
       + bm.timestamp.toTimeString() + "\n";
 
 		s.push("<tr><td width='36'>");
-		s.push("<img class='opicon' src='edit.png' onclick='edit_bookmark(this)'>");
-		s.push("<img class='opicon' src='delete.png' onclick='show_dele_bookmark("+ i +")'>");
+		s.push("<img class='opicon' src='images/edit.png' onclick='edit_bookmark(this)'>");
+		s.push("<img class='opicon' src='images/delete.png' onclick='show_dele_bookmark("+ i +")'>");
 		s.push("</td><td ");
 		s.push(lb.label=="ALL" ? "class='nowrap1'" : "class='nowrap'" );
 		s.push(">");
@@ -174,6 +191,7 @@ function SetCurrentLabel(labelID){
 	current_label = lb.label;
 	current_label_id = labelID;
 	bookmarks_html = RenderBookmarksHtml(lb);
+	console.log("Set current label to: " + lb.label);
 }
 
 $(function(){

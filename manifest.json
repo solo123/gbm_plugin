@@ -1,17 +1,21 @@
 {
   "name": "Google bookmarks",
-  "version": "1.23",
+  "version": "1.25",
   "description": "Google bookmarks extension for Chrome",
-  "background_page": "background.html",
-  "icons": {"128":"bookmark.png"},
+  "background_page": "background/background.html",
+  "icons": {
+  	"128":"public/folder128.png",
+  	"16":"public/folder16.png",
+  	"32":"public/folder32.png",
+  	"48":"public/folder48.png"
+  },
   "browser_action": {
-    "default_icon": "icon.png",
-	"default_title": "Google Bookmarks",
-	"popup": "bookmark.html"
-
+    "default_icon": "public/folder32.png",
+		"default_title": "Google Bookmarks",
+		"popup": "ui/bookmark.html"
   },
   "permissions": [
-	"tabs",
+		"tabs",
     "http://www.google.com/"
   ]
 
