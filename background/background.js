@@ -5,10 +5,12 @@
 *  OpenSource: http://github.com/solo123/gbm_plugin.git
 *
 ************************************************************************/
-var all_labels = new Array;
+var all_labels;
+var all_bookmarks;
 var google_bookmark_base = "http://www.google.com/bookmarks/";
 var load_ready = false;
 var last_error = "";
+var parse_flag = false;
 
 // cached for popup to show.
 var labels_html ="";
@@ -26,8 +28,10 @@ function LoadBookmarkFromUrl(afterLoaded)
 	console.log('Loading bookmarks...');
   // init 
 	load_ready = false;
+	parse_flag = false;
 	last_error = "";
 	all_labels = new Array;
+	all_bookmarks = new Array;
   
 	// load bookmarks xml from url:google_bookmark_base
   $.ajax({
@@ -65,6 +69,8 @@ function LoadBookmarkFromUrl(afterLoaded)
 }
 
 function ParseBookmarks(bookmarksXml){
+	if (parse_flag) return;
+	parse_flag = true;
 	$(bookmarksXml).find("bookmark").each(function(){
 		var bookmark = $(this);
     var labels = bookmark.find("label");
@@ -82,7 +88,7 @@ function ParseBookmarks(bookmarksXml){
 		else {
 			labels.each(function(){	AddLabel($(this).text(), bo);	});
 		}
-    AddLabel('ALL', bo);
+    all_bookmarks.push(bo);
 	});
   
   all_labels.sort(SortLabel); // sort labels by name
@@ -147,38 +153,32 @@ function RenderLabelsHtml(){
 }
 
 // generate bookmarks html by given label node.
+function BookmarkDetail(bookmark){
+		var tips = bookmark.title + 
+			'\n----------------------------------------------------------------\n' +
+			'Url:       ' + bookmark.href   + "\n" + 
+			'Labels:  ' + bookmark.labels + "\n" +
+			'Create: ' + bookmark.timestamp.getFullYear() +"."
+			+ bookmark.timestamp.getMonth() + "."
+			+ bookmark.timestamp.getDay() + " " 
+      + bookmark.timestamp.toTimeString() + "\n";
+   return tips;
+}
 function RenderBookmarksHtml(lb){
 	var s = new Array;
 	s.push("<table width='100%' cellspacing='0' cellpadding='2' border='0'>");
 	for (var i=0; i<lb.bookmarks.length; i++){
 		var bm = lb.bookmarks[i];
-		var tips = bm.title + 
-			'\n----------------------------------------------------------------\n' +
-			'Url:       ' + bm.href   + "\n" + 
-			'Labels:  ' + bm.labels + "\n" +
-			'Create: ' + bm.timestamp.getFullYear() +"."
-			+ bm.timestamp.getMonth() + "."
-			+ bm.timestamp.getDay() + " " 
-      + bm.timestamp.toTimeString() + "\n";
-
-		s.push("<tr><td width='36'>");
-		s.push("<img class='opicon' src='images/edit.png' onclick='edit_bookmark(this)'>");
-		s.push("<img class='opicon' src='images/delete.png' onclick='show_dele_bookmark("+ i +")'>");
-		s.push("</td><td ");
-		s.push(lb.label=="ALL" ? "class='nowrap1'" : "class='nowrap'" );
-		s.push(">");
-		s.push("<a href='");
+		s.push("<tr><td width='56' nowrap='nowrap'>");
+		s.push("<span class='icon ui-icon ui-icon-pencil ui-corner-all' title='Edit' onclick='edit_bookmark("+ i +",0)' />");
+		s.push("<span class='icon ui-icon ui-icon-trash ui-corner-all'  title='Delete' onclick='show_dele_bookmark("+ i +",0)' />");
+		s.push("</td><td class='nowrap'><a href='");
 		s.push(bm.href);
 		s.push("' target='bookmark' title='");
-		s.push(tips);
+		s.push(BookmarkDetail(bm));
 		s.push("' >");
 		s.push(bm.title);
 		s.push("</a></td>");
-		if (lb.label=="ALL"){
-			s.push("<td width='100'><span class='nowrap2'>");
-			s.push(bm.labels);
-			s.push("</span></td>");
-		}
 		s.push("</tr>");
 	}
 	s.push("</table>");

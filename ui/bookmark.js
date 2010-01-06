@@ -6,7 +6,6 @@
 *
 ************************************************************************/
 var bkg = chrome.extension.getBackgroundPage();  // ref to background.html
-var bookmark_edit_url = "";  // the edit url for the current tab's web page.
 var status_count = 0;  // for the status text
 
 var loading_template = "<table>" + 
@@ -20,21 +19,19 @@ function InitAndShowHtml()
 	$("#labels").html(loading_template);
 	$("#current_label").text("");
 	$("#bookmark_list").html("");
-  // generate edit url by current tab's web page info.
-  chrome.tabs.getSelected(null, function(tab){
-		bookmark_edit_url = bkg.google_bookmark_base + "mark?op=edit&output=popup"
-			+ "&bkmk=" + encodeURI(tab.url) 
-			+ "&title=" + encodeURI(tab.title);
-	});
-
 	if (bkg.load_ready)
     ShowBookmarksHtml();
 	else
 		bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
 }
+function reload_bookmarks(){
+	$("#refresh_icon").html("<img src='images/indicator.gif' />");
+	bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
+}
 function AfterBookmarkLoaded(){
 	ShowBookmarksHtml();
 	status_text("Bookmarks loaded.");
+	$("#refresh_icon").html("<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>");
 }
 function ShowBookmarksHtml(){
 	if (!bkg.load_ready || bkg.last_error!=""){
@@ -45,8 +42,7 @@ function ShowBookmarksHtml(){
     // load success and show the html
 		if(bkg.bookmarks_html=="") bkg.SetCurrentLabel(bkg.current_label_id);
 		$("#labels").html(bkg.labels_html);
-		$("#div_bookmarks").height($("#div_main").height() - $("#labels").height() - 32);
-		$("#current_label").text("[" + bkg.current_label + "]");
+		$("#div_bookmarks").height($("#div_main").height() - $("#labels").height() - 12);
 		$("#bookmark_list").html(bkg.bookmarks_html);
 		$("#btn_bookmarks").addClass("current_tab");
 	} 
@@ -58,59 +54,55 @@ function labelClick(lnk){
 	$("#labels .selected").removeClass("selected").addClass("f");
 	lnk.className = "selected";
 	bkg.labels_html = $("#labels").html();
-	$("#current_label").text("[" + bkg.current_label + "]");
 	$("#bookmark_list").html(bkg.bookmarks_html);
 	status_text("Selected label: " + bkg.current_label );
+	var options = { to: "#div_bookmarks", className: 'ui-effects-transfer' }; 
+	$(lnk).effect("transfer",options,500);
 }
 
 function tab_click(tab){
-	status_text("");
-	$("#buttons, a.current_tab").removeClass("current_tab");
-	var new_page = bookmark_edit_url;
-	if (bkg.current_label!="null" && bkg.current_label!="ALL")
-		new_page = new_page + "&labels=" + encodeURI(bkg.current_label);
-	if ($(tab).text()=="Bookmarks" ){
-		hide_divs();
-		$("#div_main").show();
-		$(tab).addClass("current_tab");
-		$("#btn_add_text").text("Add");
-	} 
-	else if ($(tab).text().trim()=="Add"){
-		hide_divs();
-		$("#div_add").show();
-		$("#frame_add").height(490).width(560).attr("src", new_page);
-		$(tab).addClass("current_tab");
+	if (tab==1){ // all
+		filter();
 	}
-	else if ($(tab).text()=="Reload"){
-		hide_divs();
-		$("#div_main").show();
-		$("#btn_bookmarks").addClass("current_tab");
-		bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
+	else if (tab==3){ // add
+	  // generate edit url by current tab's web page info.
+	  chrome.tabs.getSelected(null, function(tab){
+			var edit_url = bkg.google_bookmark_base + "mark?op=edit&output=popup"
+				+ "&bkmk=" + encodeURI(tab.url) 
+				+ "&title=" + encodeURI(tab.title);
+			$("#frame_add").attr("src", edit_url);
+		});
 	}
+}
+function tab_show(tab){
+	if (tab!=4)	$("#tabs").tabs('disable',4);
+	if (tab!=3) $("#bm_add_lb").text("Add");
+	if (tab==2) $('#accordion').accordion('resize');
+
 }
 
-function edit_bookmark(bmid){
-	var bkmk = $(bmid).parent().parent().find('a').attr('href');
-	console.log("Edit:" + bkmk);
-	
-	$("#buttons, a.current_tab").removeClass("current_tab");
-	var edit_page = bkg.google_bookmark_base + "mark?op=edit&output=popup&bkmk=" + encodeURI(bkmk);
-	$("#div_main").hide();
-	$("#div_add").show();
-	$("#frame_add").attr("src", edit_page).height(490).width(560);
-	$("#btn_add").addClass("current_tab")
-	$("#btn_add_text").text("Edit");
+function edit_bookmark(bmid, flag){
+	var bm;
+	if (flag==0)
+		bm = (bkg.all_labels[bkg.current_label_id]).bookmarks[bmid];
+	else
+		bm = bkg.all_bookmarks[bmid];
+	console.log("Edit:" + bm.href);
+	var edit_page = bkg.google_bookmark_base + "mark?op=edit&output=popup&bkmk=" + encodeURI(bm.href);
+	$("#tabs").tabs('select', 3);
+	$("#frame_add").attr("src", edit_page);
+	$("#bm_add_lb").text("Edit");
 	status_text("Edit bookmark");
 }
-function show_dele_bookmark(bmid){
-	$("#buttons, a.current_tab").removeClass("current_tab");
-	$("#div_main").hide();
-	$("#div_add").hide();
-	$("#div_delete").show();
-	$("#btn_add").addClass("current_tab");
-	$("#btn_add_text").text("Delete");
-	
-	var bm = (bkg.all_labels[bkg.current_label_id]).bookmarks[bmid];
+
+
+function show_dele_bookmark(bmid, flag){
+	var bm;
+	if (flag==0)
+		bm = (bkg.all_labels[bkg.current_label_id]).bookmarks[bmid];
+	else
+		bm = bkg.all_bookmarks[bmid];
+	$("#tabs").tabs('enable', 4).tabs('select',4);
   $("#dele_url").text(bm.href);
   $("#dele_title").text(bm.title);
   $("#dele_id").text(bm.bm_id);
@@ -120,34 +112,20 @@ function show_dele_bookmark(bmid){
 			+ bm.timestamp.getMonth() + "."
 			+ bm.timestamp.getDay() + " " + bm.timestamp.toTimeString() );
 }
+
 function dele_bookmark(bmid){
-	var bmid = $("#dele_bmid").text();
-	var bm = (bkg.all_labels[bkg.current_label_id]).bookmarks[bmid];
-	console.log("Delete:(" + bm.bm_id + ") " + bm.href);
- 	$.post(bkg.google_bookmark_base + "mark", {dlq: bm.bm_id, sig:bkg.sig}, function(data){
+	var bmid = $("#dele_id").text();
+	console.log("Delete:(" + bmid + ")");
+ 	$.post(bkg.google_bookmark_base + "mark", {dlq: bmid, sig:bkg.sig}, function(data){
 	 		console.log("delete success:" + data);
 	 		bkg.bookmarks_html = "";
 			bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
 			status_text("Bookmark deleted: " + bmid);
 	 	}, "text");	
-	hide_divs();
-	$("#btn_add_text").text("Add");
-	$("#div_main").show();
-	$("#buttons, a.current_tab").removeClass("current_tab");
-	$("#btn_bookmarks").addClass("current_tab");
-}
-function hide_divs(){
-	$("#div_main").hide();
-	$("#div_add").hide();
-	$("#div_delete").hide();
+	$("#tabs").tabs('select',0);
 }
 function cancel_dele(){
-	hide_divs();
-	$("#div_main").show();
-	$("#buttons, a.current_tab").removeClass("current_tab");
-	$("#btn_bookmarks").addClass("current_tab");
-	$("#btn_add_text").text("Add");
-	status_text("");
+	$("#tabs").tabs('select',0);
 }
 function status_text(statusText){
 	if ( statusText==null){
@@ -171,8 +149,62 @@ function status_text(statusText){
     }
 	}
 }
+
+// generate bookmarks html by given label node.
+function RenderAllBookmarks(reg){
+	var s = new Array;
+	var cnt = 0;
+	s.push("<table width='100%' cellspacing='0' cellpadding='0' border='0'>");
+	for (var i=0; i<bkg.all_bookmarks.length; i++){
+		var bm = bkg.all_bookmarks[i];
+		if (reg==null || reg.test(bm.title) || reg.test(bm.href)){
+			s.push("<tr><td nowrap='nowrap'>");
+			s.push("<span class='icon ui-icon ui-icon-pencil ui-corner-all' title='Edit' onclick='edit_bookmark("+ i +",1)' />");
+			s.push("<span class='icon ui-icon ui-icon-trash ui-corner-all'  title='Delete' onclick='show_dele_bookmark("+ i +",1)' />");
+			s.push("</td><td ");
+			s.push("class='nowrap1'");
+			s.push(">");
+			s.push("<a href='");
+			s.push(bm.href);
+			s.push("' target='bookmark' title='");
+			s.push(bkg.BookmarkDetail(bm));
+			s.push("' >");
+			s.push(bm.title);
+			s.push("</a></td>");
+			s.push("<td width='100'><span class='nowrap2'>");
+			s.push(bm.labels);
+			s.push("</span></td>");
+			s.push("</tr>");
+			s.push("<tr><td></td><td colspan='2'");
+			s.push("<div class='bm_link'>");
+			s.push(bm.href);
+			s.push("</div>");
+			s.push("</td></tr>");
+			cnt++;
+		}
+	}
+	s.push("</table>");
+	$("#bm_count").text("(found:"+ cnt +")");
+	$("#bm_all").html(s.join(""));
+}
+
+function filter(){
+	var reg = new RegExp($("#bm_search").val(), "i");
+	RenderAllBookmarks(reg);
+}
 $(function(){
-	hide_divs();
-	$("#div_main").show();
+	$("#tabs").tabs({
+		select: function(event,ui){
+			tab_click(ui.index);
+		},
+		show: function(event,ui){
+			tab_show(ui.index);
+		}
+	}).tabs('disable',4);
+	
+	$("#accordion").accordion({
+		fillSpace: true
+	});
+	
 	InitAndShowHtml();
 });
