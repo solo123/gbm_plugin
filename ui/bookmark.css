@@ -5,7 +5,7 @@ body {overflow:hidden;width:610px;font-size:0.9em;padding:0;margin:0;font-family
 #labels div.f:hover {background-color:lightYellow;border:solid red 2px;}
 #labels div.selected {float:left;cursor:text;background-color:lightYellow;border:solid blue 2px;}
 #div_bookmarks {background:#fff url(images/bg_title_b.png) repeat-x; overflow-y:scroll;padding-top:6px;margin:auto;}
-#div_bookmarks a { text-decoration:none;color:darkgray;overflow:hidden;}
+#div_bookmarks a { text-decoration:none;color:#666;overflow:hidden;}
 #div_bookmarks a:visited {text-decoration:none;color:darkblue;}
 #div_bookmarks a:hover {background-color:lightYellow;text-decoration:underline;color:red;}
 .clear { float:none; clear:both; }
@@ -27,10 +27,10 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 #refresh_icon {float:right;border:solid 1px transparent;margin-right:4px;}
 #refresh_icon:hover {border:solid 1px red;background-color:#ffffa0;}
 #bm_all {height:480px;overflow-y:scroll;margin-top:6px;}
-#bm_all a { text-decoration:none;color:darkgray;overflow:hidden;}
+#bm_all a { text-decoration:none;color:#666;overflow:hidden;}
 #bm_all a:visited {text-decoration:none;color:darkblue;}
 #bm_all a:hover {background-color:lightYellow;text-decoration:underline;color:red;}
-#bm_search {padding-left:20px;background:transparent url(images/search.png) no-repeat 4px 6px;}
+#bm_search {padding-left:20px;font-size:110%;background:transparent url(images/search.png) no-repeat 4px 6px;}
 #bm_count {font-size:0.7em;color:#8B4513;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
 .bm_link {font-size:0.7em;color:darkGreen;padding-bottom:4px;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
 .prompt {font-size:0.7em;color:#999;text-decoration:none;}
@@ -40,3 +40,10 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 .ui-effects-transfer { border: 2px dotted gray; }
 #table_del {font-family:Verdana,Arial,Helvetica,sans-serif;font-size:0.9em;}
 #div_multi_labels {height:500px;}
+#acc_labels{padding:4px;font-size:1.2em;font-family:Courier New,Courier,monospace;}
+#acc_labels .f {float:left;border:solid transparent 2px;cursor:pointer;}
+#acc_labels .selected {border:solid blue 2px;background-color:lightyellow;}
+#acc_labels .f:hover {background-color:lightYellow;border:solid red 2px;}
+#acc_labels div.added {float:left;cursor:text;background-color:lightYellow;border:solid blue 2px;}
+#acc_selected_labels .b{font-weight:bold;font-size:110%;}
+.grayText {color:gray;}

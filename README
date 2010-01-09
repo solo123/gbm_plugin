@@ -8,7 +8,7 @@ Any comments and suggestions are welcome!
 Source Code: http://github.com/solo123/gbm_plugin
 
 Questions:
-1)  found google's api: http://code.google.com/apis/accounts, but still need to overcome origin policy. now i just use Google Bookmarks API like: http://lnkr.mobi/bm/google_bookmarks_api/ , i just not want to implement google accounts api now, because if i do that, i have to implement my own add and edit pages. that's a lot of work...
+1)  found google's api: http://code.google.com/apis/accounts, now i just use Google Bookmarks API like: http://lnkr.mobi/bm/google_bookmarks_api/ , i just not want to implement google accounts api now, because if i do that, i have to implement my own add and edit pages. that's a lot of work...
 
 TODO:
 1. quick search;
@@ -16,6 +16,12 @@ TODO:
 
 Update history
 --------------
+v2.0 (2010.01.09)
+1. JqueryUI.
+2. search bookmarks by regular expression.
+3. multi-labels select.
+4. save popup state in background.
+
 v1.23 (2009.12.29)
 1. css.
 2. code refactor.

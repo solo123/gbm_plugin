@@ -12,23 +12,22 @@ var load_ready = false;
 var last_error = "";
 var parse_flag = false;
 
-// cached for popup to show.
-var labels_html ="";
-var bookmarks_html = "";
-
 var current_label = "";
-var current_label_id = 0;
-
+var current_label_id = -1;
+var current_tab = 0;
+var current_search = "";
+var current_and_or = 1;
+var current_labels = "";
 // for delete need signature. just get from rss, don't know the best way. jimmy 2009.12.26
 var sig = "";
 
 // afterLoaded is the callback run after loaded.
 function LoadBookmarkFromUrl(afterLoaded)
 {
-	console.log('Loading bookmarks...');
   // init 
 	load_ready = false;
 	parse_flag = false;
+  current_label = "";
 	last_error = "";
 	all_labels = new Array;
 	all_bookmarks = new Array;
@@ -63,7 +62,7 @@ function LoadBookmarkFromUrl(afterLoaded)
 		},
 		error: function(){
 			last_error += "Retrieve signature error.";
-			console.log("ERROR: " + last_error);
+			console.log("ERROR: " + last_error);                   
 		}
 	}); 
 }
@@ -73,9 +72,13 @@ function ParseBookmarks(bookmarksXml){
 	parse_flag = true;
 	$(bookmarksXml).find("bookmark").each(function(){
 		var bookmark = $(this);
+    var lbo = [];
     var labels = bookmark.find("label");
+    for(var i=0; i<labels.length; i++){
+      lbo.push(labels[i].textContent);
+    }
 		var bo = {
-      labels: $.map(bookmark.find("label"), function(a){return a.textContent;}).join(","), 
+      labels: lbo, 
       bm_id: bookmark.find("id:first").text(), 
       title:   bookmark.find("title:first").text(), 
       href:   bookmark.find("url:first").text(), 
@@ -92,8 +95,7 @@ function ParseBookmarks(bookmarksXml){
 	});
   
   all_labels.sort(SortLabel); // sort labels by name
-	all_labels[all_labels.length-1].bookmarks.sort(SortBookmark); // sort bookmarks in ALL by name
-	labels_html = RenderLabelsHtml();  // render labels html for cache
+	all_bookmarks.sort(SortBookmark); // sort bookmarks in ALL by name
 	console.log("Bookmarks parsed.");
 }
 
@@ -141,57 +143,6 @@ function SortBookmark(a,b){
 		return 0;
 	else
 		return -1;
-}
-
-function RenderLabelsHtml(){
-	var s = new Array;
-	for(var i=0; i<all_labels.length; i++){
-		s.push( "<div class='f' id='"+ i  +"' onclick='labelClick(this);'>[" + all_labels[i].label+"]</div>");
-	}
-	s.push( "<div class='clear'></div>");
-	return s.join("");
-}
-
-// generate bookmarks html by given label node.
-function BookmarkDetail(bookmark){
-		var tips = bookmark.title + 
-			'\n----------------------------------------------------------------\n' +
-			'Url:       ' + bookmark.href   + "\n" + 
-			'Labels:  ' + bookmark.labels + "\n" +
-			'Create: ' + bookmark.timestamp.getFullYear() +"."
-			+ bookmark.timestamp.getMonth() + "."
-			+ bookmark.timestamp.getDay() + " " 
-      + bookmark.timestamp.toTimeString() + "\n";
-   return tips;
-}
-function RenderBookmarksHtml(lb){
-	var s = new Array;
-	s.push("<table width='100%' cellspacing='0' cellpadding='2' border='0'>");
-	for (var i=0; i<lb.bookmarks.length; i++){
-		var bm = lb.bookmarks[i];
-		s.push("<tr><td width='56' nowrap='nowrap'>");
-		s.push("<span class='icon ui-icon ui-icon-pencil ui-corner-all' title='Edit' onclick='edit_bookmark("+ i +",0)' />");
-		s.push("<span class='icon ui-icon ui-icon-trash ui-corner-all'  title='Delete' onclick='show_dele_bookmark("+ i +",0)' />");
-		s.push("</td><td class='nowrap'><a href='");
-		s.push(bm.href);
-		s.push("' target='bookmark' title='");
-		s.push(BookmarkDetail(bm));
-		s.push("' >");
-		s.push(bm.title);
-		s.push("</a></td>");
-		s.push("</tr>");
-	}
-	s.push("</table>");
-  return s.join("");
-}
-
-function SetCurrentLabel(labelID){
-  var lb = all_labels[labelID];
-
-	current_label = lb.label;
-	current_label_id = labelID;
-	bookmarks_html = RenderBookmarksHtml(lb);
-	console.log("Set current label to: " + lb.label);
 }
 
 $(function(){
