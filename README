@@ -11,8 +11,7 @@ Questions:
 1)  found google's api: http://code.google.com/apis/accounts, now i just use Google Bookmarks API like: http://lnkr.mobi/bm/google_bookmarks_api/ , i just not want to implement google accounts api now, because if i do that, i have to implement my own add and edit pages. that's a lot of work...
 
 TODO:
-1. quick search;
-2. multi-labels selection.
+...
 
 Update history
 --------------
