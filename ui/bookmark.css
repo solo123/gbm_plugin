@@ -34,9 +34,9 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 #bm_count {font-size:0.7em;color:#8B4513;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
 .bm_link {font-size:0.7em;color:darkGreen;padding-bottom:4px;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
 .prompt {font-size:0.7em;color:#999;text-decoration:none;}
-#tab-all a.prompt.link {color:#999;}
-#tab-all a.prompt.visited {color:#999;}
-#tab-all a.prompt:hover {text-decoration:underline;color:red;}
+#tab-search a.prompt.link {color:#999;}
+#tab-search a.prompt.visited {color:#999;}
+#tab-search a.prompt:hover {text-decoration:underline;color:red;}
 .ui-effects-transfer { border: 2px dotted gray; }
 #table_del {font-family:Verdana,Arial,Helvetica,sans-serif;font-size:0.9em;}
 #div_multi_labels {height:500px;}

@@ -12,7 +12,7 @@ function bm_set_div_height(){
 }
 function bm_label_clicked(event){
   lnk = $(event.target);
-  bkg.current_label_id = lnk.attr("tag");
+  bkg.States.current_label_id = lnk.attr("tag");
   bm_set_div_height();
   
 	$("#labels .selected").removeClass("selected");
@@ -23,20 +23,20 @@ function bm_label_clicked(event){
 	lnk.effect("transfer",options,500);
 }
 function bm_render_labels(){
-  if (!bkg.load_ready) return "";
+  if (!bkg.MyBookmarks.load_ready) return "";
 	var s = new Array;
-	for(var i=0; i<bkg.all_labels.length; i++){
+	for(var i=0; i<bkg.MyBookmarks.all_labels.length; i++){
 		s.push("<div class='f");
-		if (i==bkg.current_label_id) s.push(" selected");
-    s.push("' tag='"+ i  +"'>[" + bkg.all_labels[i].label+"]</div>");
+		if (i==GetStateInt("current_label_id")) s.push(" selected");
+    s.push("' tag='"+ i  +"'>[" + bkg.MyBookmarks.all_labels[i].label+"]</div>");
 	}
 	s.push( "<div class='clear'></div>");
 	return s.join("");
 }
 function bm_render_bookmarks(){
-  if (!bkg.load_ready || bkg.current_label_id<0) return "";
+  if (!bkg.MyBookmarks.load_ready || GetStateInt("current_label_id")<0) return "";
   
-  var lb = bkg.all_labels[bkg.current_label_id];
+  var lb = bkg.MyBookmarks.all_labels[GetStateInt("current_label_id")];
 	var s = new Array;
 	s.push("<table width='100%' cellspacing='0' cellpadding='2' border='0'>");
 	for (var i=0; i<lb.bookmarks.length; i++){
@@ -57,11 +57,11 @@ function bm_render_bookmarks(){
   return s.join("");
 }
 function bm_edit(bmid){
-	var bm = (bkg.all_labels[bkg.current_label_id]).bookmarks[bmid];
+	var bm = (bkg.MyBookmarks.all_labels[GetStateInt("current_label_id")]).bookmarks[bmid];
   OpenEditTab(bm);  		
 }
 function bm_dele(bmid){
-	var bm = (bkg.all_labels[bkg.current_label_id]).bookmarks[bmid];
+	var bm = (bkg.MyBookmarks.all_labels[GetStateInt("current_label_id")]).bookmarks[bmid];
 	dele_show(bm);
 }
 

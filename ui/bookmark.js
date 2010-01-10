@@ -11,14 +11,14 @@ var status_count = 0;  // for the status text
 // ------------------- init & reload -------------------------
 function Init()
 {
-  if (!bkg.load_ready) 
+  if (!bkg.MyBookmarks.load_ready) 
     ReloadBookmarks();
   else {
   	$("#refresh_icon").html("<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>").click(ReloadBookmarks);
     $("#tabs")
       .data('disabled.tabs', [4])
-      .tabs("select", bkg.current_tab)
-      .bind('tabsselect', function(event,ui){TabClicked(event, ui);});
+      .tabs("select", GetState("current_tab"));
+      //.bind('tabsselect', function(event,ui){TabClicked(event, ui);});
   }
 }
 function ReloadBookmarks(){
@@ -26,27 +26,37 @@ function ReloadBookmarks(){
 	bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
 }
 function AfterBookmarkLoaded(){
-	if (!bkg.load_ready || bkg.last_error!="") 
-    status_text("Load bookmarks error.");
+	if (!bkg.MyBookmarks.load_ready || bkg.MyBookmarks.load_error) 
+    status_text("Load bookmarks error:" + bkg.MyBookmarks.error_message);
   else {
-    bm_load();
+    var current_tab = $("#tabs").tabs('option', 'selected');
+    AfterTabShow(current_tab);
 	  status_text("Bookmarks loaded.");
 	}
 	$("#refresh_icon").html("<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>").click(ReloadBookmarks);
   $("#tabs").data('disabled.tabs', [4]);
 }
+function GetStateInt(state){
+  if (typeof(bkg.States[state])=="undefined")
+    return -1;
+  else
+    return bkg.States[state];
+}
+function GetState(state){
+  if (typeof(bkg.States[state])=="undefined")
+    return "";
+  else
+    return bkg.States[state];
+}
 
 //----------------- Tab events ---------------------------------------
 function LoadReady(){
-  return (bkg && bkg.load_ready);
-}
-function TabClicked(event,ui){
-  bkg.current_tab = ui.index;
+  return (bkg && bkg.MyBookmarks.load_ready);
 }
 function AfterTabShow(tab){
   if (!LoadReady()) return;
 	if (tab!=4)	$("#tabs").tabs('disable',4);
-	if (tab!=3) $("#bm_add_lb").text("Add");
+	if (tab!=3) $("#label_add").text("Add");
 	if (tab==0){
 	  if (bm_isempty()) bm_load();
   } else if (tab==1){
@@ -54,11 +64,11 @@ function AfterTabShow(tab){
   } else if (tab==2){
     if (lb_isempty()) lb_load();
   } else if (tab==3){
-    if ($("#bm_add_lb").text()=="Add"){
+    if ($("#label_add").text()=="Add"){
       $("#frame_add").attr("src", "");
   	  // get add url from chrome's tab
   	  chrome.tabs.getSelected(null, function(ctab){
-  			var add_url = bkg.google_bookmark_base 
+  			var add_url = bkg.GOOGLE_BOOKMARK_BASE 
           + "mark?op=edit&output=popup"
   				+ "&bkmk=" + encodeURI(ctab.url) 
   				+ "&title=" + encodeURI(ctab.title)
@@ -66,13 +76,13 @@ function AfterTabShow(tab){
   			$("#frame_add").attr("src", add_url);
   		});
     }
-  }
+  } 
 }
 function OpenEditTab(bookmark){
 	//console.log("Edit:" + bookmark.href);
-	var edit_page = bkg.google_bookmark_base + "mark?op=edit&output=popup&bkmk=" + encodeURI(bookmark.href);
+	var edit_page = bkg.GOOGLE_BOOKMARK_BASE + "mark?op=edit&output=popup&bkmk=" + encodeURI(bookmark.href);
 	$("#frame_add").attr("src", edit_page);
-	$("#bm_add_lb").text("Edit");
+	$("#label_add").text("Edit");
 	$("#tabs").tabs('select', 3);
 	// status_text("Edit bookmark");
 }
@@ -111,18 +121,18 @@ function BookmarkTips(bookmark){
    return tips;
 }
 function SaveCurrentState(){
-  bkg.current_tab = $("#tabs").tabs('option', 'selected');
+  bkg.States.current_tab = $("#tabs").tabs('option', 'selected');
 }
 //------------------- startup ------------------------------
 $(function(){
-  	$("#tabs").tabs({
-  	   show: function(event,ui){AfterTabShow(ui.index)},
-  		disabled: [1,2,3,4]
-  	});
+  $("#tabs").tabs({
+    show: function(event,ui){AfterTabShow(ui.index)},
+    disabled: [1,2,3,4]
+  });
 
-    $("#accordion").accordion({
-  		fillSpace: true
-  	});
+  $("#accordion").accordion({
+		fillSpace: true
+	});
 
-  	Init();
+	Init();
 });

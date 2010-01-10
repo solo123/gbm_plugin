@@ -5,71 +5,74 @@
 *  OpenSource: http://github.com/solo123/gbm_plugin.git
 *
 ************************************************************************/
-var all_labels;
-var all_bookmarks;
-var google_bookmark_base = "http://www.google.com/bookmarks/";
-var load_ready = false;
-var last_error = "";
-var parse_flag = false;
+// public vars
+var GOOGLE_BOOKMARK_BASE = "http://www.google.com/bookmarks/";
 
-var current_label = "";
-var current_label_id = -1;
-var current_tab = 0;
-var current_search = "";
-var current_and_or = 1;
-var current_labels = "";
-// for delete need signature. just get from rss, don't know the best way. jimmy 2009.12.26
-var sig = "";
+var MyBookmarks = {
+  load_ready: false,
+  load_error: false,
+  error_message: "",
+  // for delete need signature. just get from rss, don't know the best way. jimmy 2009.12.26
+  sig: ""
+};
+var States = {};
 
 // afterLoaded is the callback run after loaded.
 function LoadBookmarkFromUrl(afterLoaded)
 {
-  // init 
-	load_ready = false;
-	parse_flag = false;
-  current_label = "";
-	last_error = "";
-	all_labels = new Array;
-	all_bookmarks = new Array;
+  MyBookmarks.load_ready = false;
+  MyBookmarks.load_error = false;
+  MyBookmarks.error_message = "";
+  MyBookmarks.all_labels = new Array;
+  MyBookmarks.all_bookmarks = new Array;
   
-	// load bookmarks xml from url:google_bookmark_base
+	// load bookmarks xml from url:GOOGLE_BOOKMARK_BASE
   $.ajax({
 		type: "get",
-		url: google_bookmark_base,
+		url: GOOGLE_BOOKMARK_BASE,
 		data: {output:"xml", num:"100000"},
 		success: function(data, textStatus){
 			ParseBookmarks(data);
+			MyBookmarks.load_ready = true;
+			if (afterLoaded) afterLoaded();
 		},
 		error: function(){
-			last_error += "Retrieve bookmarks error.";
-			console.log("ERROR: " + last_error);
+		  MyBookmarks.load_error = true;
+			MyBookmarks.error_message += "Retrieve bookmarks error.";
+			console.error(MyBookmarks.error_message);
+			if (afterLoaded) afterLoaded();
 		},
 		complete: function(XMLHttpRequest, textStatus){
-			load_ready = true;
 			console.log('Bookmarks loaded.');
-			if (afterLoaded) afterLoaded();
 		}
 	});
   
-  // load signature from url:google_bookmark_base/find?output=rss
+  // load signature from url:GOOGLE_BOOKMARK_BASE/find?output=rss
   $.ajax({
 		type: "get",
-		url: google_bookmark_base + "find",
+		url: GOOGLE_BOOKMARK_BASE + "find",
 		data: {output:"rss", q:"a:false"},
 		success: function(data, textStatus){
-			sig = $(data).find("signature:first").text();
-			console.log("Got signature:" + sig);
+			MyBookmarks.sig = $(data).find("signature:first").text();
+			console.log("Got signature:" + MyBookmarks.sig);
 		},
 		error: function(){
-			last_error += "Retrieve signature error.";
-			console.log("ERROR: " + last_error);                   
+			MyBookmarks.error_message += "Retrieve signature error.";
+			console.error(MyBookmarks.error_message);                   
 		}
 	}); 
 }
 
+function FindBookmarkById(bookmarkID){
+  for(var i=0; i<MyBookmarks.all_bookmarks.length; i++){
+    if (MyBookmarks.all_bookmarks[i].bm_id == bookmarkID)
+      return MyBookmarks.all_bookmarks[i];
+  }
+  return null;
+}
+
+//------------- private functions blow -----------------------
 function ParseBookmarks(bookmarksXml){
-	if (parse_flag) return;
-	parse_flag = true;
 	$(bookmarksXml).find("bookmark").each(function(){
 		var bookmark = $(this);
     var lbo = [];
@@ -91,20 +94,20 @@ function ParseBookmarks(bookmarksXml){
 		else {
 			labels.each(function(){	AddLabel($(this).text(), bo);	});
 		}
-    all_bookmarks.push(bo);
+    MyBookmarks.all_bookmarks.push(bo);
 	});
   
-  all_labels.sort(SortLabel); // sort labels by name
-	all_bookmarks.sort(SortBookmark); // sort bookmarks in ALL by name
+  MyBookmarks.all_labels.sort(SortLabel); // sort labels by name
+	MyBookmarks.all_bookmarks.sort(SortBookmark); // sort bookmarks in ALL by name
 	console.log("Bookmarks parsed.");
 }
 
 function AddLabel(label, bookmark){
 	var lb = null;
 	// search if the label exist.
-	for (var i=0; i<all_labels.length; i++){
-		if (all_labels[i].label == label ){
-			lb = all_labels[i];
+	for (var i=0; i<MyBookmarks.all_labels.length; i++){
+		if (MyBookmarks.all_labels[i].label == label ){
+			lb = MyBookmarks.all_labels[i];
 			break;
 		}
 	}
@@ -113,7 +116,7 @@ function AddLabel(label, bookmark){
 		lb = new Object;
 		lb.label = label;
 		lb.bookmarks = new Array();
-		all_labels.push(lb);
+		MyBookmarks.all_labels.push(lb);
 	}
 	// save bookmark
 	lb.bookmarks.push(bookmark);
@@ -145,6 +148,4 @@ function SortBookmark(a,b){
 		return -1;
 }
 
-$(function(){
-	LoadBookmarkFromUrl();
-});
+

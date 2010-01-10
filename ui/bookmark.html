@@ -17,12 +17,12 @@
 		<div id="tabs">
 			<ul>
 				<li><a href="#tab-bm">Bookmarks</a></li>
-				<li><a href="#tab-all">Search</a></li>
+				<li><a href="#tab-search">Search</a></li>
 				<li><a href="#tab-labels">Labels</a></li>
-				<li><a id="lnk_add" href="#tab-edit"><img src="images/sprite.png" height="12" /> <span id="bm_add_lb">Add</span></a></li>
+				<li><a href="#tab-edit"><img src="images/sprite.png" height="12" /> <span id="label_add">Add</span></a></li>
 				<li><a href="#tab-del">Delete</a></li>
 				<li style='float:right;padding-top:4px;'>
-					<span>Google Bookmarks (v2.0)</span>
+					<span>Google Bookmarks (v2.0.2)</span>
 				</li>
 			</ul>
 			
@@ -44,7 +44,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="tab-all" class="tab">
+			<div id="tab-search" class="tab">
 				<input id="bm_search" type="text" size="40" onkeyup="sh_search();" />
 				<span id="bm_count"></span>
 				<a class="prompt" href='http://www.google.cn/search?q=javascript+regular+expression' title="IgnoreCase default. Click to learn more..." target='_blank'>regular expression supported.</a>
@@ -87,7 +87,7 @@
 					</tr>
 					<tr>
 						<td valign="top" align="right"><b>Title:</b></td>
-						<td><span id="dele_title"></td>
+						<td><span id="dele_title" style="font-size:120%;color:darkGreen;font-weight:bold;"></td>
 					</tr>
 					<tr>
 						<td valign="top" align="right"><b>URL:</b></td>

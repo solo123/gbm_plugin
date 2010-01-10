@@ -11,7 +11,7 @@ function dele_show(bm){
 function dele_bookmark(bmid){
 	var bmid = $("#dele_id").text();
 	console.log("Delete:(" + bmid + ")");
- 	$.post(bkg.google_bookmark_base + "mark", {dlq: bmid, sig:bkg.sig}, function(data){
+ 	$.post(bkg.GOOGLE_BOOKMARK_BASE + "mark", {dlq: bmid, sig:bkg.sig}, function(data){
 	 		console.log("delete success:" + data);
 	 		bkg.bookmarks_html = "";
 			bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);

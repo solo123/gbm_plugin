@@ -2,18 +2,18 @@ function sh_isempty(){
   return ($("#bm_all").text()=="");
 }
 function sh_load(){
-  $("#bm_search").val(bkg.current_search);
+  $("#bm_search").val(GetState("current_search"));
   sh_search();
 }
 function sh_search(){
   var ss = $("#bm_search").val();
-  bkg.current_search = ss; 
+  bkg.States.current_search = ss; 
 	var reg = new RegExp(ss, "i");
 	var s = new Array;
 	var cnt = 0;
 	s.push("<table width='100%' cellspacing='0' cellpadding='0' border='0'>");
-	for (var i=0; i<bkg.all_bookmarks.length; i++){
-		var bm = bkg.all_bookmarks[i];
+	for (var i=0; i<bkg.MyBookmarks.all_bookmarks.length; i++){
+		var bm = bkg.MyBookmarks.all_bookmarks[i];
 		if (reg==null || reg.test(bm.title) || reg.test(bm.href)){
 			s.push("<tr><td nowrap='nowrap'>");
 			s.push("<span class='icon ui-icon ui-icon-pencil ui-corner-all' title='Edit' onclick='sh_edit("+ i +")' />");
@@ -46,10 +46,10 @@ function sh_search(){
 }
 
 function sh_edit(bmid){
-	var bm = bkg.all_bookmarks[bmid];
+	var bm = bkg.MyBookmarks.all_bookmarks[bmid];
 	OpenEditTab(bm);
 }
 function sh_dele(bmid){
-	var bm = bkg.all_bookmarks[bmid];
+	var bm = bkg.MyBookmarks.all_bookmarks[bmid];
 	dele_show(bm);
 }

@@ -5,16 +5,16 @@ function lb_load(){
   $("#acc_labels").html(lb_render_labels());
   $('#accordion').accordion('resize');
   $("#acc_labels > .f").click(lb_label_click);
-  if (bkg.current_and_or==0)  $("#acc_radio_or").attr("checked",1);
-  lb_set_state(bkg.current_labels);
+  if (GetStateInt("current_and_or")==0)  $("#acc_radio_or").attr("checked",1);
+  lb_set_state(GetState("current_labels"));
 }
 function lb_save_state(){
   var lbs = $("#acc_labels > .selected");
   var s = "";
   if (lbs.length>0)
     s = $.map($('#acc_labels .selected'), function(a){return $(a).attr("tag")}).join(",");
-  bkg.current_labels = s;
-  bkg.current_and_or = $("#acc_radio_and:checked").length;
+  bkg.States.current_labels = s;
+  bkg.States.current_and_or = $("#acc_radio_and:checked").length;
 }
 function lb_set_state(state){
   if (state && state != ""){
@@ -36,10 +36,10 @@ function lb_and_or_click(){
   lb_refresh_bookmarks();
 }
 function lb_render_labels(){
-  if (!bkg.load_ready) return "";
+  if (!bkg.MyBookmarks.load_ready) return "";
 	var s = new Array;
-	for(var i=0; i<bkg.all_labels.length; i++){
-		s.push("<div class='f' tag='"+ i  +"'>[" + bkg.all_labels[i].label+"]</div>");
+	for(var i=0; i<bkg.MyBookmarks.all_labels.length; i++){
+		s.push("<div class='f' tag='"+ i  +"'>[" + bkg.MyBookmarks.all_labels[i].label+"]</div>");
 	}
 	s.push( "<div class='clear'></div>");
 	return s.join("");
@@ -59,7 +59,7 @@ function lb_refresh_bookmarks(){
   var first_label = null;
   var bm_count = 0;
   for (var i=0; i<lbs.length; i++){
-    var lb = bkg.all_labels[$(lbs[i]).attr("tag")];
+    var lb = bkg.MyBookmarks.all_labels[$(lbs[i]).attr("tag")];
     slb.push(lb.label);
     if (first_label!=null){
       if (typeof(first_label.bookmarks)=="undefined") console.log("error first_bookmark");
@@ -88,8 +88,8 @@ function lb_refresh_bookmarks(){
     }
   } else {
     // or
-    for(var i=0; i<bkg.all_bookmarks.length; i++){
-      var bm = bkg.all_bookmarks[i];
+    for(var i=0; i<bkg.MyBookmarks.all_bookmarks.length; i++){
+      var bm = bkg.MyBookmarks.all_bookmarks[i];
       if(have_one_in_array(slb,bm.labels)){
         lb_add_bookmark(bm,found_bm);
         bm_count++;
@@ -151,14 +151,17 @@ function lb_edit(node){
   var bm = {href: lnk};
   OpenEditTab(bm);
 }
-function lb_dele(node){
-  var bm = {
-    href: "",
-    title: "",
-    bm_id: "need",
-    labels: [""],
-    timestamp: ""
-  };
+function lb_dele(bookmarkID){
+  var bm = bkg.FindBookmarkById(bookmarkID);
+  if (bm==null){
+    bm = {
+      href: "",
+      title: "",
+      bm_id: bookmarkID,
+      labels: [""],
+      timestamp: ""
+    };
+  }
   dele_show(bm);
 }
 

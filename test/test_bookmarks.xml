@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml_api_reply version="1">
+  <bookmarks>
+    <bookmark>
+      <title>title 01</title>
+      <url>http://www.title01.com</url>
+      <timestamp>1262940041177707</timestamp>
+      <id>16286772823511791188</id>
+      <labels>
+        <label>label1</label>
+        <label>label2</label>
+      </labels>
+      <attributes />
+    </bookmark>
+    <bookmark>
+      <title>title 02</title>
+      <url>http://www.title02.com</url>
+      <timestamp>1262940041177707</timestamp>
+      <id>16286772823511791188</id>
+      <labels>
+        <label>label2</label>
+        <label>label3</label>
+      </labels>
+      <attributes />
+    </bookmark>
+    <bookmark>
+      <title>title 03</title>
+      <url>http://www.title03.com</url>
+      <timestamp>1262940041177707</timestamp>
+      <id>16286772823511791188</id>
+      <labels>
+        <label>label3</label>
+        <label>label4</label>
+      </labels>
+      <attributes />
+    </bookmark>
+  </bookmarks>
+</xml_api_reply>
