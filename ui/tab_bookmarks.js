@@ -8,7 +8,13 @@ function bm_load(){
   $("#labels > .f").click(bm_label_clicked);
 }
 function bm_set_div_height(){
-  $("#div_bookmarks").height($("#div_main").height() - $("#labels").height() - 12);
+  var h0 = $("#div_main").height();
+  var h1 = $("#labels").height();
+  if (h1>h0/2.5){
+    h1 = Math.round(h0/2.5);
+    $("#labels").height(h1).css("overflow-y","scroll");
+  } 
+  $("#div_bookmarks").height(h0 - h1 - 12);
 }
 function bm_label_clicked(event){
   lnk = $(event.target);

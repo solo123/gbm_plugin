@@ -34,6 +34,7 @@ function LoadBookmarkFromUrl(afterLoaded)
 		success: function(data, textStatus){
 			ParseBookmarks(data);
 			MyBookmarks.load_ready = true;
+			// -- for test. LoadLotsBookmarks();
 			if (afterLoaded) afterLoaded();
 		},
 		error: function(){
@@ -148,4 +149,17 @@ function SortBookmark(a,b){
 		return -1;
 }
 
+// for test
+function LoadLotsBookmarks(){
+  for(var i=0; i<100; i++){
+		var bo = {
+      labels: "label" + i, 
+      bm_id: "id:i", 
+      title:  "My label " + i, 
+      href:   "href:" + i, 
+      timestamp: new Date()
+    };  // bookmark object
+    AddLabel("label"+i, bo);
+  }
+}
 
