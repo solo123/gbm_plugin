@@ -72,7 +72,7 @@ function AfterTabShow(tab){
           + "mark?op=edit&output=popup"
   				+ "&bkmk=" + encodeURI(ctab.url) 
   				+ "&title=" + encodeURI(ctab.title)
-          + "&labels=" + encodeURI(bkg.current_label);
+          + "&labels=" + encodeURI(bkg.MyBookmarks.all_labels[GetStateInt("current_label_id")].label);
   			$("#frame_add").attr("src", add_url);
   		});
     }
