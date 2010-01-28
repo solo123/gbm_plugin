@@ -1,6 +1,6 @@
 {
   "name": "Google bookmarks",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Google bookmarks extension for Chrome",
   "background_page": "background/background.html",
   "icons": {
@@ -16,6 +16,7 @@
   },
   "permissions": [
 		"tabs",
+		"bookmarks",
     "http://www.google.com/"
   ]
 

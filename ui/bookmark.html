@@ -12,17 +12,17 @@
 		<link rel="stylesheet" type="text/css" href="bookmark.css"/> 
 	</head>
 
-	<body onunload="SaveCurrentState();">
+	<body>
 	<div id="container">	
 		<div id="tabs">
 			<ul>
 				<li><a href="#tab-bm">Bookmarks</a></li>
 				<li><a href="#tab-search">Search</a></li>
 				<li><a href="#tab-labels">Labels</a></li>
-				<li><a href="#tab-edit"><img src="images/sprite.png" height="12" /> <span id="label_add">Add</span></a></li>
-				<li><a href="#tab-del">Delete</a></li>
+				<li><a href="#tab-op"><img src="images/sprite.png" height="12" /> <span id="label_add">Add</span></a></li>
+				<li><a href="#tab-tools">Tools</a></li>
 				<li style='float:right;padding-top:4px;'>
-					<span>Google Bookmarks (v2.1)</span>
+					<span>Google Bookmarks (v2.2)</span>
 				</li>
 			</ul>
 			
@@ -46,8 +46,7 @@
 			</div>
 			<div id="tab-search" class="tab">
 				<input id="bm_search" type="text" size="40" onkeyup="sh_search();" />
-				<span id="bm_count"></span>
-				<a class="prompt" href='http://www.google.cn/search?q=javascript+regular+expression' title="IgnoreCase default. Click to learn more..." target='_blank'>regular expression supported.</a>
+				<span id="bm_count" title="RegExp supported. IgnoreCase default."></span>
 				<div id="bm_all"></div>
 			</div>
 			
@@ -68,43 +67,41 @@
 				</div>
 			</div>
 			
-			<div id="tab-edit" class="tab">
-				<iframe id='frame_add' scrolling="no" height="490" width="530" frameborder="0" src=""></iframe> 
-			</div>			
-			
-			<div id="tab-del" class="tab">
+			<div id="tab-op" class="tab">
       <div style='padding:6px;'>
 				<img src="images/logo_sm.gif" />
-			<table id="table_del" cellspacing="0" cellpadding="5" border="0" style="width: 500px;margin-top:10px;">
+				<span style="float:right;text-align:right;"><a href="https://www.google.com/accounts/ManageAccount?service=hist" class="prompt" target="_blank">My account</a> | <a href="https://www.google.com/accounts/Logout?continue=http://www.google.com" target="_blank" class="prompt">Logout</a></span>
+				<hr style="height:1px;" />
+			<table id="table_bm" cellspacing="0" cellpadding="6" border="0" style="width: 500px;margin-top:10px;">
 				<tbody>
 					<tr>
 						<td align="right"><img src="images/sprite.png" /></td>
-						<td><font size="+1" style="color:red;"><b>Delete Bookmark</b></font></td>
+						<td><font size="+1" id="bm_op_title" style="color:red;"><b>Delete Bookmark</b></font></td>
 					</tr>
 					<tr>
-						<td valign="top" align="right"><b>ID:</b></td>
-						<td><span id="dele_id"></span> <span id="dele_bmid"></span></td>
+						<td align="right"><b>ID:</b></td>
+						<td><b><span id="bm_id" ></span></td>
 					</tr>
 					<tr>
-						<td valign="top" align="right"><b>Title:</b></td>
-						<td><span id="dele_title" style="font-size:120%;color:darkGreen;font-weight:bold;"></td>
+						<td align="right"><b>Title:</b></td>
+						<td><input type="text" id="bm_title" /></td>
 					</tr>
 					<tr>
-						<td valign="top" align="right"><b>URL:</b></td>
-						<td><span id="dele_url"></span></td>
+						<td align="right"><b>URL:</b></td>
+						<td><textarea id="bm_url" rows="4"></textarea></td>
 					</tr>
 					<tr>
-						<td valign="top" align="right"><b>Labels:</b></td>
-						<td><span id="dele_label"></span></td>
+						<td align="right"><b>Labels:</b></td>
+						<td><input type="text" id="bm_labels" /></td>
 					</tr>
-					<tr>
-						<td valign="top" align="right" nowrap="nowrap"><b>Create at:</b></td>
-						<td><span id="dele_time"></span></td>
+          <tr>
+						<td align="right" nowrap="nowrap"><b>Create at:</b></td>
+						<td><span id="bm_time"></span></td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>
-						<input type="button" value="Confirm Delete" onclick="dele_bookmark();" />
+						<input type="button" id="btn_op" />
 						<input type="button" value="Cancel" onclick="cancel_dele();" />
 						</td>
 					</tr>
@@ -112,6 +109,13 @@
 			</table>				
       </div>
 			</div>
+
+			<div id="tab-tools" class="tab">
+			   <h2>Tools</h2>
+			   <ul>
+			     <li><a href="../tools/import.html" target="_blank">Export Chrome's bookmarks into Google Bookmarks.</a></li>
+			   </ul>
+			</div>			
 			
 		</div><!-- End of tabs -->
 		

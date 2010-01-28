@@ -24,7 +24,6 @@ function bm_label_clicked(event){
 	$("#labels .selected").removeClass("selected");
 	lnk.addClass("selected");
 	$("#bookmark_list").html(bm_render_bookmarks());
-	status_text("Selected label: " + lnk.text() );
 	var options = { to: "#div_bookmarks", className: 'ui-effects-transfer' }; 
 	lnk.effect("transfer",options,500);
 }
@@ -68,6 +67,7 @@ function bm_edit(bmid){
 }
 function bm_dele(bmid){
 	var bm = (bkg.MyBookmarks.all_labels[GetStateInt("current_label_id")]).bookmarks[bmid];
-	dele_show(bm);
+	ShowBmTable(bm,"Delete");
+	$("#tabs").tabs('select',3);
 }
 

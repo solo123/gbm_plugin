@@ -51,5 +51,6 @@ function sh_edit(bmid){
 }
 function sh_dele(bmid){
 	var bm = bkg.MyBookmarks.all_bookmarks[bmid];
-	dele_show(bm);
+	ShowBmTable(bm,"Delete");
+	$("#tabs").tabs('select',3);
 }
