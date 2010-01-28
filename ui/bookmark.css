@@ -52,3 +52,6 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 #acc_labels div.added {float:left;cursor:text;background-color:lightYellow;border:solid blue 2px;}
 #acc_selected_labels .b{font-weight:bold;font-size:110%;}
 .grayText {color:gray;}
+#tab-tools {font-size:120%;}
+#tab-tools a {text-decoration:none;}
+#tab-tools a:hover {text-decoration:underline;color:red;}

@@ -1,219 +1,45 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=GBK">
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Export Chrome bookmarks into Google Bookmarks.</title>
 		<link rel="stylesheet" type="text/css" href="../public/jqueryui/lightBlue/jquery-ui-1.7.2.custom.css"/> 
 		<link rel="stylesheet" href="../public/jquery.treeview.css" type="text/css" />
 		<script type="text/javascript" src="../public/jquery-1.3.2.min.js"></script>
 		<script type="text/javascript" src="../public/jquery-ui-1.7.2.custom.min.js"></script> 
 		<script type="text/javascript" src="../public/jquery.treeview.min.js"></script>
-
+		<script type="text/javascript" src="import.js"></script>
 <style>
-div, td, th { color: black; }
-#bookmarks {height:60%;overflow:scroll;}
+body{background:#dceaf9 url(../ui/images/bg_title.png) repeat-x;padding:10px;}
+h2 {margin:0;padding:6px;text-align:right;color:#999;font-family:fantasy,cursive,Courier;font-weight:normal;}
+#top {width:75%;margin:auto;}
+#container {width:75%;height:80%;overflow:hidden;margin:auto;}
+#bookmarks {overflow-y:scroll;height:80%;}
+#buttons {width:75%;margin:auto;margin-top:4px;}
+#data {width:100%;height:76%;}
 </style>
-
-<script>
-  // Search the bookmarks when entering the search keyword.
-  $(function() {
-    $('#search').change(function() {
-       $('#bookmarks').empty();
-       dumpBookmarks($('#search').val());
-    });
-    dumpBookmarks();
-    $("#bookmarks > ul").treeview();
-    $("#ttul").treeview();
-    $('#example').treeview();
-    
-  });
-  // Traverse the bookmark tree, and print the folder and nodes.
-  function dumpBookmarks(query) {
-    var bookmarkTreeNodes = chrome.bookmarks.getTree(
-      function(bookmarkTreeNodes) {
-        $('#bookmarks').append(dumpTreeNodes(bookmarkTreeNodes, query));
-      });
-  }
-  function dumpTreeNodes(bookmarkNodes, query) {
-    var list = $('<ul>');
-    var i;
-    for (i = 0; i < bookmarkNodes.length; i++) {
-      list.append(dumpNode(bookmarkNodes[i], query));
-    }
-    return list;
-  }
-  function dumpNode(bookmarkNode, query) {
-    if (bookmarkNode.title) {
-      if (query && !bookmarkNode.children) {
-        if (String(bookmarkNode.title).indexOf(query) == -1) {
-          return $('<span></span>');
-        }
-      }
-      var anchor = $('<a>');
-      anchor.attr('href', bookmarkNode.url);
-      anchor.text(bookmarkNode.title);
-      /*
-       * When clicking on a bookmark in the extension, a new tab is fired with
-       * the bookmark url.
-       */
-      anchor.click(function() {
-        chrome.tabs.create({url: bookmarkNode.url});
-      });
-      var span = $('<span>');
-      var options = bookmarkNode.children ?
-        $('<span>[<a href="#" id="addlink">Add</a>]</span>') :
-        $('<span>[<a id="editlink" href="#">Edit</a> <a id="deletelink" ' +
-          'href="#">Delete</a>]</span>');
-      var edit = bookmarkNode.children ? $('<table><tr><td>Name</td><td>' +
-        '<input id="title"></td></tr><tr><td>URL</td><td><input id="url">' +
-        '</td></tr></table>') : $('<input>');
-      // Show add and edit links when hover over.
-          span.hover(function() {
-          span.append(options);
-          $('#deletelink').click(function() {
-            $('#deletedialog').empty().dialog({
-                   autoOpen: false,
-                   title: 'Confirm Deletion',
-                   resizable: false,
-                   height: 140,
-                   modal: true,
-                   overlay: {
-                     backgroundColor: '#000',
-                     opacity: 0.5
-                   },
-                   buttons: {
-                     'Yes, Delete It!': function() {
-                        chrome.bookmarks.remove(String(bookmarkNode.id));
-                        span.parent().remove();
-                        $(this).dialog('destroy');
-                      },
-                      Cancel: function() {
-                        $(this).dialog('destroy');
-                      }
-                   }
-                 }).dialog('open');
-           });
-          $('#addlink').click(function() {
-            $('#adddialog').empty().append(edit).dialog({autoOpen: false,
-              closeOnEscape: true, title: 'Add New Bookmark', modal: true,
-              buttons: {
-              'Add' : function() {
-                 chrome.bookmarks.create({parentId: bookmarkNode.id,
-                   title: $('#title').val(), url: $('#url').val()});
-                 $('#bookmarks').empty();
-                 $(this).dialog('destroy');
-                 window.dumpBookmarks();
-               },
-              'Cancel': function() {
-                 $(this).dialog('destroy');
-              }
-            }}).dialog('open');
-          });
-          $('#editlink').click(function() {
-           edit.val(anchor.text());
-           $('#editdialog').empty().append(edit).dialog({autoOpen: false,
-             closeOnEscape: true, title: 'Edit Title', modal: true,
-             show: 'slide', buttons: {
-                'Save': function() {
-                   chrome.bookmarks.update(String(bookmarkNode.id), {
-                     title: edit.val()
-                   });
-                   anchor.text(edit.val());
-                   options.show();
-                   $(this).dialog('destroy');
-                },
-               'Cancel': function() {
-                   $(this).dialog('destroy');
-               }
-           }}).dialog('open');
-          });
-          options.fadeIn();
-        },
-        // unhover
-        function() {
-          options.remove();
-        }).append(anchor);
-    }
-    var li = $(bookmarkNode.title ? '<li>' : '<div>').append(span);
-    if (bookmarkNode.children && bookmarkNode.children.length > 0) {
-      li.append(dumpTreeNodes(bookmarkNode.children, query));
-    }
-    return li;
-  }
-</script>
 </head>
 <body>
-  <div id="div_bookmarks">
-  <div>Search Bookmarks: <input id="search"></div>
-  <div id="bookmarks" style="border:solid 1px red;"></div>
-  <div id="editdialog"></div>
-  <div id="deletedialog"></div>
-  <div id="adddialog"></div>
-  </div>
-  
-  <div id="div_operate">
+<form action="http://www.google.com/bookmarks/mark?op=upload" method="POST">
+<div id="top">
+<h2>Export Chrome Bookmarks</h2>
+</div>
+<div id="container">
+	<ul>
+		<li><a href="#tabs-1">Chrome Bookmarks</a></li>
+		<li><a href="#tabs-2">Upload Data</a></li>
+	</ul>
+	<div id="tabs-1">
+	 <div id="bookmarks">
+	 </div>
+	</div>
+	<div id="tabs-2">
+	 <textarea id="data" name="&lt;?xml version"></textarea>
+	</div>
+</div>
+<div id="buttons">
+<input type="button" value="Refresh" onclick="dumpBookmarks();">
+<input type="submit" value="Export to Google Bookmarks" />
+</div>
+</form>
 
-<FORM action="http://www.google.com/bookmarks/mark?op=upload" method="POST">
-<TEXTAREA id="data" name="&lt;?xml version" rows="13" cols="80">
-"1.0" encoding="utf-8"?> 
-<bookmarks>
-	<bookmark>
-		<url>http://www.w3caaa.org</url>
-		<title>W3C</title>
-		<labels>
-			<label>web</label>
-		</labels>
-	</bookmark>
-</bookmarks>
-</TEXTAREA>
-zx:<input type="text" value="hihi40f1q5g1MA" />
-<INPUT type="SUBMIT" value="Submit to Google Bookmarks">
-</FORM>
-
-  </div>
-  
-  <div id="tt">
-  <ul id="ttul">
-    <li><span>abc</span>
-      <ul>
-        <li>aa</li>
-        <li>aa</li>
-        <li>aa</li>
-      </ul>
-    </li>
-    <li>
-      <ul>
-        <li>aa</li>
-        <li>aa</li>
-        <li>aa</li>
-      </ul>
-    </li>
-  </ul>
-  </div>
-  
-  
-  <ul id="example" class="filetree">
-		<li><span class="folder">Folder 1</span>
-			<ul>
-				<li><span class="file">Item 1.1</span></li>
-			</ul>
-		</li>
-		<li><span class="folder">Folder 2</span>
-			<ul>
-				<li><span class="folder">Subfolder 2.1</span>
-					<ul>
-						<li><span class="file">File 2.1.1</span></li>
-						<li><span class="file">File 2.1.2</span></li>
-					</ul>
-				</li>
-				<li><span class="file">File 2.2</span></li>
-			</ul>
-		</li>
-		<li class="closed"><span class="folder">Folder 3 (closed at start)</span>
-			<ul>
-				<li><span class="file">File 3.1</span></li>
-			</ul>
-		</li>
-		<li><span class="file">File 4</span></li>
-	</ul>  
-   
 </body>
 </html>
