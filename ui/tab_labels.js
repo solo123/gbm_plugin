@@ -123,7 +123,7 @@ function lb_show_label_count(count){
 function lb_add_bookmark(bookmark, bookmarks){
   var s = bookmarks;
 	s.push("<tr><td nowrap='nowrap'>");
-	s.push("<span class='icon ui-icon ui-icon-pencil ui-corner-all' title='Edit' onclick='lb_edit(this)' />");
+	s.push("<span class='icon ui-icon ui-icon-pencil ui-corner-all' title='Edit' onclick=\"lb_edit('"+ bookmark.bm_id +"')\" />");
 	s.push("<span class='icon ui-icon ui-icon-trash ui-corner-all'  title='Delete' onclick=\"lb_dele('"+ bookmark.bm_id +"')\" />");
 	s.push("</td><td ");
 	s.push("class='nowrap1'");
@@ -146,23 +146,14 @@ function lb_add_bookmark(bookmark, bookmarks){
 	s.push("</td></tr>");
 }
 
-function lb_edit(node){
-  var lnk = $(node).parent().parent().find("a:first").attr("href");
-  var bm = {href: lnk};
+function lb_edit(bmid){
+  var bm = bkg.FindBookmarkById(bmid);
   OpenEditTab(bm);
 }
 function lb_dele(bookmarkID){
   var bm = bkg.FindBookmarkById(bookmarkID);
-  if (bm==null){
-    bm = {
-      href: "",
-      title: "",
-      bm_id: bookmarkID,
-      labels: [""],
-      timestamp: ""
-    };
-  }
-  dele_show(bm);
+  ShowBmTable(bm,"Delete");
+  $("#tabs").tabs('select',3);
 }
 
 function string_in_array(str,arr){
