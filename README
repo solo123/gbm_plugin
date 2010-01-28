@@ -7,17 +7,18 @@ Any comments and suggestions are welcome!
 
 Source Code: http://github.com/solo123/gbm_plugin
 
-Questions:
-1)  found google's api: http://code.google.com/apis/accounts, now i just use Google Bookmarks API like: http://lnkr.mobi/bm/google_bookmarks_api/ , i just not want to implement google accounts api now, because if i do that, i have to implement my own add and edit pages. that's a lot of work...
-
 TODO:
 ...
-
 Update history
 --------------
-v2.1
+v2.2 (2010.01.29)
+1) Labels and bookmarks sort by name. using toUpperCase().
+2) Solve sometime cannot reload bookmarks. when reload, ajax.abort() previous first.
+3) Seems google changed add & edit popup option. Implemented Add&Edit pages.
+4) Import chrome's bookmarks into google bookmarks. by xml post method.
+
+v2.1 (2010.01.17)
 1. labels cloud can scroll now.
-2.
 
 v2.0 (2010.01.09)
 1. JqueryUI.
