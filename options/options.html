@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Export Chrome bookmarks into Google Bookmarks.</title>
+		<link rel="stylesheet" type="text/css" href="../public/jqueryui/lightBlue/jquery-ui-1.7.2.custom.css"/> 
+		<script type="text/javascript" src="../public/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="../public/jquery-ui-1.7.2.custom.min.js"></script> 
+		<script type="text/javascript" src="options.js"></script> 
+<style>
+body{background:#dceaf9 url(../ui/images/bg_title.png) repeat-x;padding:10px;}
+h2 {margin:0;padding:6px;text-align:right;color:#999;font-family:fantasy,cursive,Courier;font-weight:normal;}
+#top {width:75%;margin:auto;}
+#container {width:75%;height:80%;overflow:hidden;margin:auto;}
+#bookmarks {overflow-y:scroll;height:80%;}
+#buttons {width:75%;margin:auto;margin-top:4px;}
+#data {width:100%;height:76%;}
+.notes {font-size:80%;font-family:Times, "Times New Roman", Georgia, serif;}
+.prompt {width: 100px; text-align:right;display:-moz-inline-box; display:inline-block;}
+.prompt1 {width: 200px; text-align:right;display:-moz-inline-box; display:inline-block;}
+</style>
+</head>
+<body>
+<div id="top"><h2>Options</h2></div>
+<div id="container">	
+  <ul>		
+    <li>
+    <a href="#tabs-1">Display</a>
+    </li>		
+    <li>
+    <a href="#tabs-2">Bookmarks API</a>
+    </li>		
+    <li style='float:right;padding-top:4px;'>			
+      <span>Google Bookmarks Options
+      </span>		
+    </li>	
+  </ul>
+  <div id="tabs-1">
+    <div style="padding:8px;">
+      <p>
+        <span class="prompt">Theme:</span>
+        <select class="options" id="theme">
+         <option value="blue">blue</option>
+         <option value="green">green</option>
+        </select>
+      </p>
+      <p>
+        <span class="prompt">Font size:</span>
+        <input class="options" type="text" id="font_size" size="7" /> * Please type <b>%</b> or <b>px</b> or <b>em</b> inside.
+      </p>
+      <fieldset>
+      <legend>Popup Size</legend>
+      <p>
+        <span class="prompt">width:</span>
+        <input type="text" class="options" id="popup_width" size="5" />px (440 ~ 2000px)
+      </p>
+      <p>
+        <span class="prompt">height:</span>
+        <input type="text" class="options" id="popup_height" size="5" />px (500 ~ 640px)
+      </p>
+      </fieldset>
+    </div>	 
+  </div>	
+  <div id="tabs-2">
+    <div style="padding:8px;">
+      <p>
+        Please <b>donot</b> change these setting unless you do know Google Bookmarks API.
+      </p>
+      <p>
+        <span class="prompt1">Google Bookmarks URL:</span>
+        <input type="text" class="options" id="bookmark_url" size="40" />
+      </p>
+      <p>
+        <span class="prompt1">Signature URL:</span>
+        <input type="text" class="options" id="sig_url" size="40" />
+      </p>
+    </div>	 
+  </div>
+</div>
+<div id="buttons">
+  <input type="button" value="Save Options" onclick="save_options();">
+  <input type="button" value="Restore to default" onclick="restore_options();" />
+  <span class="notes">
+  </span>
+</div>
+
+</body>
+</html>

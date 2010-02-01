@@ -36,10 +36,10 @@ function lb_and_or_click(){
   lb_refresh_bookmarks();
 }
 function lb_render_labels(){
-  if (!bkg.MyBookmarks.load_ready) return "";
+  if (!bookmarks.load_ready) return "";
 	var s = new Array;
-	for(var i=0; i<bkg.MyBookmarks.all_labels.length; i++){
-		s.push("<div class='f' tag='"+ i  +"'>[" + bkg.MyBookmarks.all_labels[i].label+"]</div>");
+	for(var i=0; i<bookmarks.all_labels.length; i++){
+		s.push("<div class='f' tag='"+ i  +"'>[" + bookmarks.all_labels[i].label+"]</div>");
 	}
 	s.push( "<div class='clear'></div>");
 	return s.join("");
@@ -59,7 +59,7 @@ function lb_refresh_bookmarks(){
   var first_label = null;
   var bm_count = 0;
   for (var i=0; i<lbs.length; i++){
-    var lb = bkg.MyBookmarks.all_labels[$(lbs[i]).attr("tag")];
+    var lb = bookmarks.all_labels[$(lbs[i]).attr("tag")];
     slb.push(lb.label);
     if (first_label!=null){
       if (typeof(first_label.bookmarks)=="undefined") console.log("error first_bookmark");
@@ -88,8 +88,8 @@ function lb_refresh_bookmarks(){
     }
   } else {
     // or
-    for(var i=0; i<bkg.MyBookmarks.all_bookmarks.length; i++){
-      var bm = bkg.MyBookmarks.all_bookmarks[i];
+    for(var i=0; i<bookmarks.all_bookmarks.length; i++){
+      var bm = bookmarks.all_bookmarks[i];
       if(have_one_in_array(slb,bm.labels)){
         lb_add_bookmark(bm,found_bm);
         bm_count++;
@@ -99,6 +99,10 @@ function lb_refresh_bookmarks(){
  	found_bm.push("</table>");
   $("#acc_bookmarks").html(found_bm.join(""));
   lb_show_bookmark_count(bm_count);
+	var w = LoadOption("popup_width")-220; 
+  $(".nowrap1 a").width(w);
+  $(".bm_link").width(w);
+  
 }
 function lb_show_bookmark_count(count){
   var cnt = $("#acc_bookmarks_cnt");

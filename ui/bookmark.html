@@ -2,8 +2,10 @@
 	<head>
 		<meta http-equiv=content-type content="text/html; charset=UTF-8"> 
 		<link rel="stylesheet" type="text/css" href="../public/jqueryui/lightBlue/jquery-ui-1.7.2.custom.css"/> 
+		<link rel="stylesheet" type="text/css" href="../public/jquery.autocomplete.css"/> 
 		<script type="text/javascript" src="../public/jquery-1.3.2.min.js"></script>
 		<script type="text/javascript" src="../public/jquery-ui-1.7.2.custom.min.js"></script> 
+		<script type="text/javascript" src="../public/jquery.autocomplete.min.js"></script> 
 		<script type="text/javascript" src="bookmark.js"></script>
 		<script type="text/javascript" src="tab_bookmarks.js"></script>
 		<script type="text/javascript" src="tab_search.js"></script>
@@ -22,7 +24,7 @@
 				<li><a href="#tab-op"><img src="images/sprite.png" height="12" /> <span id="label_add">Add</span></a></li>
 				<li><a href="#tab-tools">Tools</a></li>
 				<li style='float:right;padding-top:4px;'>
-					<span>Google Bookmarks (v2.2)</span>
+					<span>v2.3</span>
 				</li>
 			</ul>
 			
@@ -47,7 +49,13 @@
 			<div id="tab-search" class="tab">
 				<input id="bm_search" type="text" size="40" onkeyup="sh_search();" />
 				<span id="bm_count" title="RegExp supported. IgnoreCase default."></span>
-				<div id="bm_all"></div>
+				<div id="bm_all">
+        <div class="ui-widget" style="width:60%;">
+				<div style="padding: 0pt 0.7em; margin-top: 20px;" class="ui-state-highlight ui-corner-all"> 
+					<p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
+					<strong>Loading Bookmarks.</strong> Please wait...</p>
+				</div>
+			</div></div>
 			</div>
 			
 			<div id="tab-labels" class="tab">

@@ -6,12 +6,13 @@
 *
 ************************************************************************/
 var bkg = chrome.extension.getBackgroundPage();  // ref to background.html
+var bookmarks = bkg.bookmarks;
 var status_count = 0;  // for the status text
 
 // ------------------- init & reload -------------------------
 function Init()
 {
-  if (!bkg.MyBookmarks.load_ready) 
+  if (!bookmarks.load_ready) 
     ReloadBookmarks();
   else {
   	$("#refresh_icon").html("<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>").click(ReloadBookmarks);
@@ -19,20 +20,35 @@ function Init()
       .tabs("select", GetState("current_tab"))
       .bind('tabsselect', function(event,ui){bkg.States.previous_tab = bkg.States.current_tab;bkg.States.current_tab = ui.index; });
       //.bind('tabsselect', function(event,ui){TabClicked(event, ui);});
+    add_labels_auto();
   }
+}
+var add_labels_auto_flag = false;
+function add_labels_auto(){
+  add_labels_auto_flag = true;
+      // auto-complete
+    $("#bm_labels").autocomplete(bookmarks.all_labels, 
+      {
+        multiple: true,
+    		minChars: 0,
+    		autoFill: true,    
+        formatItem: function(row, i, max) {return row.label;},
+    		formatMatch: function(row, i, max){return row.label;}    
+      });
 }
 function ReloadBookmarks(){
 	$("#refresh_icon").html("<img src='images/indicator.gif' />"); //.unbind('click');
-	bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
+	bookmarks.LoadBookmarkFromUrl(AfterBookmarkLoaded);
 }
 function AfterBookmarkLoaded(){
-	if (!bkg.MyBookmarks.load_ready || bkg.MyBookmarks.load_error) 
+	if (!bookmarks.load_ready || bookmarks.load_error) 
     status_text("Load bookmarks error, need login?");
   else {
     var current_tab = $("#tabs").tabs('option', 'selected');
     $("#tabs").unbind('tabsselect')
       .bind('tabsselect', function(event,ui){bkg.States.previous_tab = bkg.States.current_tab;bkg.States.current_tab = ui.index; });
     AfterTabShow(current_tab);
+    if (!add_labels_auto_flag) add_labels_auto();
 	  status_text("Bookmarks loaded.");
 	}
 	$("#refresh_icon").html("<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>").click(ReloadBookmarks);
@@ -53,7 +69,7 @@ function GetState(state){
 
 //----------------- Tab events ---------------------------------------
 function LoadReady(){
-  return (bkg && bkg.MyBookmarks.load_ready);
+  return (bookmarks && bookmarks.load_ready);
 }
 function AfterTabShow(tab){
   if (!LoadReady()) return;
@@ -74,7 +90,7 @@ function AfterTabShow(tab){
   	       id   : '',
   	       href : ctab.url,
            title : ctab.title,
-           labels : l>0 ? bkg.MyBookmarks.all_labels[l].label : '',
+           labels : l>0 ? [bookmarks.all_labels[l].label] : [],
            timestamp : new Date()  
         };
         ShowBmTable(bm,"Add");
@@ -91,11 +107,11 @@ function save_add_bookmark(){
       prev : '', 
       title : $('#bm_title').val(), 
       labels : $('#bm_labels').val(), 
-      sig : bkg.MyBookmarks.sig},
+      sig : bookmarks.sig},
 		success: function(data, textStatus){
 		  status_text("Bookmark Saved:" + data.toString().substr(0,40));
-		  $("#tabs").tabs('select',bkg.States.previous_tab);
-		  bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
+		  //$("#tabs").tabs('select',bkg.States.previous_tab);
+		  bookmarks.LoadBookmarkFromUrl(AfterBookmarkLoaded);
 		},
 		error: function(){
 		  status_text('Bookmark save error!');
@@ -105,7 +121,7 @@ function save_add_bookmark(){
 function ShowBmTable(bm, operation){
   $("#label_add").text(operation);
   if (operation=="Add"){
-    bm1 = bkg.GetBookmarkByUrl(bm.href);
+    bm1 = bookmarks.GetBookmarkByUrl(bm.href);
     if (bm1){
       bm.labels = bm1.labels;
       bm.timestamp = bm1.timestamp;
@@ -124,7 +140,7 @@ function ShowBmTable(bm, operation){
   $("#bm_url").val(bm.href);
   $("#bm_title").val(bm.title);
   $("#bm_id").text(bm.bm_id);
-  $("#bm_labels").val(bm.labels.join(""));
+  $("#bm_labels").val(bm.labels ? bm.labels.join("") : "");
   $("#bm_time").text(bm.timestamp.getFullYear() +"."
 			+ bm.timestamp.getMonth() + "."
 			+ bm.timestamp.getDay() + " " + bm.timestamp.toTimeString() );
@@ -170,10 +186,30 @@ function BookmarkTips(bookmark){
 }
 
 //------------------- startup ------------------------------
+function LoadOption(option){
+  var op = localStorage["gbm_plugin."+option];
+  if (op && op.length>0) 
+    return op;
+  else 
+    return default_option(option);
+}
+function default_option(option){
+  if (option=="popup_width") return "610";
+  else if (option=="popup_height") return "620";
+  
+}
 $(function(){
+  $("body").width(LoadOption("popup_width")).css("font-size", LoadOption("font_size")).height(LoadOption("popup_height") - 40);
+  var h = LoadOption("popup_height")-100;
+  $("#div_main").height(h);
+  $("#div_add").height(h);
+  $("#bm_all").height(h-40);
+  $("#div_multi_labels").height(h-20);
+  $(".tab").height(h-20);
+
   $("#tabs").tabs({show: function(event,ui){AfterTabShow(ui.index)}});
   $("#accordion").accordion({fillSpace: true});
   $("#label_add").text("Add");
   
-	Init();
+  Init();
 });

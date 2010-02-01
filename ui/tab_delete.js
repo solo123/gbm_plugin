@@ -1,10 +1,9 @@
 function dele_bookmark(){
 	var bmid = $("#bm_id").text();
 	console.log("Delete:(" + bmid + ")");
- 	$.post(bkg.GOOGLE_BOOKMARK_BASE + "mark", {dlq: bmid, sig:bkg.MyBookmarks.sig}, function(data){
+ 	$.post(bkg.GOOGLE_BOOKMARK_BASE + "mark", {dlq: bmid, sig:bookmarks.sig}, function(data){
 	 		console.log("delete success:" + data);
-	 		bkg.bookmarks_html = "";
-			bkg.LoadBookmarkFromUrl(AfterBookmarkLoaded);
+			bookmarks.LoadBookmarkFromUrl(AfterBookmarkLoaded);
 			status_text("Bookmark deleted: " + bmid);
 	 	}, "text");	
 	$("#tabs").tabs('select',bkg.States.previous_tab);

@@ -1,10 +1,10 @@
-body {overflow:hidden;width:610px;font-size:0.9em;padding:0;margin:0;font-family:Times New Roman,Times,serif;}
+body {overflow:hidden;width:610px;font-size:90%;padding:0;margin:0;font-family:Times New Roman,Times,serif;}
 a.prompt.link {color:darkblue;text-decoration:none;}
 a.prompt.visited {color:darkblue;}
 a.prompt:hover {text-decoration:underline;color:red;}
 
-#container {padding:4px;overflow:hidden;margin:0px;height:610px;}
-#labels {font-size:1em;background:#dceaf9 url(images/bg_title.png) repeat-x; padding:4px;font-family:Verdana,Arial,Helvetica,sans-serif;}
+#container {padding:4px;overflow:hidden;margin:0px;}
+#labels {background:#dceaf9 url(images/bg_title.png) repeat-x; padding:4px;font-family:Verdana,Arial,Helvetica,sans-serif;}
 #labels div.f {float:left;border:solid transparent 2px;cursor:pointer;}
 #labels div.f:hover {background-color:lightYellow;border:solid red 2px;}
 #labels div.selected {float:left;cursor:text;background-color:lightYellow;border:solid blue 2px;}
@@ -21,10 +21,10 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 #div_add {border:solid 3px #ddd; padding:4px;height:512px;}
 .opicon {padding:2px;border:solid 1px #ddd;}
 .opicon:hover {border:solid 1px red;background-color:lightYellow;}
-.nowrap a {width:480px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nowrap a {display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .nowrap1 a {width:380px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
-.tab {height:514px;padding:0;margin:-2px -16px;}
+.tab {padding:0;margin:-2px -16px;}
 .icon {float:left;border:solid 1px #eee; margin-left:2px;}
 .icon:hover {border:solid 1px red;background-color:#ffffa0;}
 #status_bar {float:left;padding-left:8px;font-size:70%;color:red;font-family:Courier New,Courier,monospace; }
@@ -35,17 +35,17 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 #bm_all a:visited {text-decoration:none;color:darkblue;}
 #bm_all a:hover {background-color:lightYellow;text-decoration:underline;color:red;}
 #bm_search {padding-left:20px;font-size:110%;background:transparent url(images/search.png) no-repeat 4px 6px;}
-#bm_count {font-size:0.7em;color:#8B4513;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
-.bm_link {font-size:0.7em;color:darkGreen;padding-bottom:4px;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
-.prompt {font-size:0.7em;color:#999;text-decoration:none;}
+#bm_count {font-size:85%;color:#8B4513;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
+.bm_link {font-size:85%;color:darkGreen;padding-bottom:4px;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
+.prompt {font-size:85%;color:#999;text-decoration:none;}
 #tab-search a.prompt.link {color:#999;}
 #tab-search a.prompt.visited {color:#999;}
 #tab-search a.prompt:hover {text-decoration:underline;color:red;}
 .ui-effects-transfer { border: 2px dotted gray; }
-#table_bm {font-family:Verdana,Arial,Helvetica,sans-serif;font-size:0.9em;}
-#table_bm input[type="text"], #table_bm textarea {font-size:120%; width:400px;}
+#table_bm {font-family:Verdana,Arial,Helvetica,sans-serif;font-size:90%;}
+#table_bm input[type="text"], #table_bm textarea {font-size:120%; width:70%;}
 #div_multi_labels {height:500px;}
-#acc_labels{padding:4px;font-size:1.2em;font-family:Courier New,Courier,monospace;}
+#acc_labels{padding:4px;font-size:110%;font-family:Courier New,Courier,monospace;}
 #acc_labels .f {float:left;border:solid transparent 2px;cursor:pointer;}
 #acc_labels .selected {border:solid blue 2px;background-color:lightyellow;}
 #acc_labels .f:hover {background-color:lightYellow;border:solid red 2px;}

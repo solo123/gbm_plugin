@@ -5,15 +5,24 @@ function sh_load(){
   $("#bm_search").val(GetState("current_search"));
   sh_search();
 }
+
+var search_id = 0;
 function sh_search(){
+  search_id++;
+  setTimeout("sh_search1(" + search_id +")", 500);
+}
+function sh_search1(sid){
+  if (sid != search_id) return;
   var ss = $("#bm_search").val();
   bkg.States.current_search = ss; 
+  console.log("search:" + ss);
 	var reg = new RegExp(ss, "i");
 	var s = new Array;
 	var cnt = 0;
 	s.push("<table width='100%' cellspacing='0' cellpadding='0' border='0'>");
-	for (var i=0; i<bkg.MyBookmarks.all_bookmarks.length; i++){
-		var bm = bkg.MyBookmarks.all_bookmarks[i];
+	for (var i=0; i<bookmarks.all_bookmarks.length; i++){
+	   if (sid != search_id) {console.log("search break:" + sid); return;}
+		var bm = bookmarks.all_bookmarks[i];
 		if (reg==null || reg.test(bm.title) || reg.test(bm.href)){
 			s.push("<tr><td nowrap='nowrap'>");
 			s.push("<span class='icon ui-icon ui-icon-pencil ui-corner-all' title='Edit' onclick='sh_edit("+ i +")' />");
@@ -43,14 +52,17 @@ function sh_search(){
 	s.push("</table>");
 	$("#bm_count").text("(found:"+ cnt +")");
 	$("#bm_all").html(s.join(""));
+	var w = LoadOption("popup_width")-220; 
+  $(".nowrap1 a").width(w);
+  $(".bm_link").width(w);
 }
 
 function sh_edit(bmid){
-	var bm = bkg.MyBookmarks.all_bookmarks[bmid];
+	var bm = bookmarks.all_bookmarks[bmid];
 	OpenEditTab(bm);
 }
 function sh_dele(bmid){
-	var bm = bkg.MyBookmarks.all_bookmarks[bmid];
+	var bm = bookmarks.all_bookmarks[bmid];
 	ShowBmTable(bm,"Delete");
 	$("#tabs").tabs('select',3);
 }

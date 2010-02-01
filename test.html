@@ -4,8 +4,10 @@
   <meta http-equiv="content-type" content="text/html; charset=windows-1250">
   <meta name="generator" content="PSPad editor, www.pspad.com">
 	<script type="text/javascript" src="public/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="background/background.js"></script>
   <title></title>
   <script type="text/javascript">
+  
   var bkg = chrome.extension.getBackgroundPage();  // ref to background.html
 
   function post_bm(){
@@ -19,7 +21,7 @@
           title : $('#inp_title').val(), 
           labels : $('#inp_labels').val(), 
           annotation : $('#inp_anno').val(),
-          sig : bkg.MyBookmarks.sig},
+          sig : bkg.bookmarks.sig},
     		success: function(data, textStatus){
     			alert('Success: ' + data);
     		},
@@ -35,7 +37,13 @@
   function create_tab(){
     chrome.tabs.create({selected:true,url:"ui/import.html"});
     //chrome.tabs.executeScript(0,{code: "alert('ok');"});
-  }  
+  }
+  
+  var a = new Object();
+  a.bm = "bbbee";
+  a.test1 = function(i,j) { alert("result:" + i + "," + j); this.bm="ok!";}
+  
+    
   </script>
   </head>
   <body>
@@ -48,7 +56,11 @@
   <input type="button" value="Post" onclick='post_bm();' />
   <input type="submit" value="Submit" />  
    </form>
-
+<hr />
    <input type="button" value="create tab" onclick="create_tab();" />
+<hr />
+
+  <textarea id="test_cmd" rows="6" />
+  <input type="button" onclick="bkg.bookmarks.LoadBookmarksFromUrl();" />
   </body>
 </html>
