@@ -8,9 +8,16 @@ Any comments and suggestions are welcome!
 Source Code: http://github.com/solo123/gbm_plugin
 
 TODO:
+1) Themes?
 ...
+
 Update history
 --------------
+v2.3 (2010.02.01)
+1) Labels autocomplete in Add & Edit pages.
+2) Add Options page.
+3) Bug on Edit Bookmark (thanks yuppi).
+
 v2.2 (2010.01.29)
 1) Labels and bookmarks sort by name. using toUpperCase().
 2) Solve sometime cannot reload bookmarks. when reload, ajax.abort() previous first.

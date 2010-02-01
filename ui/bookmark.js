@@ -15,7 +15,7 @@ function Init()
   if (!bookmarks.load_ready) 
     ReloadBookmarks();
   else {
-  	$("#refresh_icon").html("<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>").click(ReloadBookmarks);
+  	$("#refresh_icon").html("<img src='images/refresh.png' />").click(ReloadBookmarks);
     $("#tabs")
       .tabs("select", GetState("current_tab"))
       .bind('tabsselect', function(event,ui){bkg.States.previous_tab = bkg.States.current_tab;bkg.States.current_tab = ui.index; });
@@ -51,7 +51,7 @@ function AfterBookmarkLoaded(){
     if (!add_labels_auto_flag) add_labels_auto();
 	  status_text("Bookmarks loaded.");
 	}
-	$("#refresh_icon").html("<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>").click(ReloadBookmarks);
+	$("#refresh_icon").html("<img src='images/refresh.png' />").click(ReloadBookmarks);
   $("#tabs").data('disabled.tabs', '');
 }
 function GetStateInt(state){
@@ -140,7 +140,7 @@ function ShowBmTable(bm, operation){
   $("#bm_url").val(bm.href);
   $("#bm_title").val(bm.title);
   $("#bm_id").text(bm.bm_id);
-  $("#bm_labels").val(bm.labels ? bm.labels.join("") : "");
+  $("#bm_labels").val(bm.labels ? bm.labels.join(", ") : "");
   $("#bm_time").text(bm.timestamp.getFullYear() +"."
 			+ bm.timestamp.getMonth() + "."
 			+ bm.timestamp.getDay() + " " + bm.timestamp.toTimeString() );
@@ -196,6 +196,7 @@ function LoadOption(option){
 function default_option(option){
   if (option=="popup_width") return "610";
   else if (option=="popup_height") return "620";
+  else if (option=="font_size") return "0.9em";
   
 }
 $(function(){
@@ -204,7 +205,7 @@ $(function(){
   $("#div_main").height(h);
   $("#div_add").height(h);
   $("#bm_all").height(h-40);
-  $("#div_multi_labels").height(h-20);
+  $("#div_multi_labels").height(h-40);
   $(".tab").height(h-20);
 
   $("#tabs").tabs({show: function(event,ui){AfterTabShow(ui.index)}});

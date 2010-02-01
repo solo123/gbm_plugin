@@ -6,7 +6,7 @@
 		<script type="text/javascript" src="../public/jquery-ui-1.7.2.custom.min.js"></script> 
 		<script type="text/javascript" src="options.js"></script> 
 <style>
-body{background:#dceaf9 url(../ui/images/bg_title.png) repeat-x;padding:10px;}
+body{background:#dceaf9 url(../ui/images/bg_title.png) repeat-x;padding:10px;font-size:80%;}
 h2 {margin:0;padding:6px;text-align:right;color:#999;font-family:fantasy,cursive,Courier;font-weight:normal;}
 #top {width:75%;margin:auto;}
 #container {width:75%;height:80%;overflow:hidden;margin:auto;}
@@ -19,7 +19,7 @@ h2 {margin:0;padding:6px;text-align:right;color:#999;font-family:fantasy,cursive
 </style>
 </head>
 <body>
-<div id="top"><h2>Options</h2></div>
+<div id="top"><h2>Chrome Extension Options</h2></div>
 <div id="container">	
   <ul>		
     <li>
@@ -35,13 +35,18 @@ h2 {margin:0;padding:6px;text-align:right;color:#999;font-family:fantasy,cursive
   </ul>
   <div id="tabs-1">
     <div style="padding:8px;">
-      <p>
-        <span class="prompt">Theme:</span>
-        <select class="options" id="theme">
-         <option value="blue">blue</option>
-         <option value="green">green</option>
-        </select>
-      </p>
+      <fieldset>
+      <legend>Theme - Actually not implement yet. ;-)</legend>
+        
+          
+<script type="text/javascript"
+  src="http://jqueryui.com/themeroller/themeswitchertool/">
+</script>
+    
+<div style="margin-left:10px;float:left;"><div id="switcher"></div></div>
+<div style="float:left;">when using themes, have to ref css on jqueryui website. now css just in this extension's directory. any idea?</div>
+    </fieldset>              
+        
       <p>
         <span class="prompt">Font size:</span>
         <input class="options" type="text" id="font_size" size="7" /> * Please type <b>%</b> or <b>px</b> or <b>em</b> inside.

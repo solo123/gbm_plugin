@@ -28,8 +28,10 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 .icon {float:left;border:solid 1px #eee; margin-left:2px;}
 .icon:hover {border:solid 1px red;background-color:#ffffa0;}
 #status_bar {float:left;padding-left:8px;font-size:70%;color:red;font-family:Courier New,Courier,monospace; }
-#refresh_icon {float:right;border:solid 1px transparent;margin-right:4px;}
-#refresh_icon:hover {border:solid 1px red;background-color:#ffffa0;}
+#options_icon {float:right;margin-right:4px;border:solid 1px transparent;padding:2px;}
+#options_icon:hover {border:solid 1px red; background-color:#ffffcc;}
+#refresh_icon {float:right;border:solid 1px transparent;margin-right:4px;padding:2px;}
+#refresh_icon:hover {border:solid 1px red;background-color:#ffffcc;}
 #bm_all {height:480px;overflow-y:scroll;margin-top:6px;}
 #bm_all a { text-decoration:none;color:#666;overflow:hidden;}
 #bm_all a:visited {text-decoration:none;color:darkblue;}
@@ -43,7 +45,7 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 #tab-search a.prompt:hover {text-decoration:underline;color:red;}
 .ui-effects-transfer { border: 2px dotted gray; }
 #table_bm {font-family:Verdana,Arial,Helvetica,sans-serif;font-size:90%;}
-#table_bm input[type="text"], #table_bm textarea {font-size:120%; width:70%;}
+#table_bm input[type="text"], #table_bm textarea {font-size:120%; width:100%;}
 #div_multi_labels {height:500px;}
 #acc_labels{padding:4px;font-size:110%;font-family:Courier New,Courier,monospace;}
 #acc_labels .f {float:left;border:solid transparent 2px;cursor:pointer;}
@@ -52,6 +54,6 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 #acc_labels div.added {float:left;cursor:text;background-color:lightYellow;border:solid blue 2px;}
 #acc_selected_labels .b{font-weight:bold;font-size:110%;}
 .grayText {color:gray;}
-#tab-tools {font-size:120%;}
-#tab-tools a {text-decoration:none;}
-#tab-tools a:hover {text-decoration:underline;color:red;}
+#tools {font-size:120%;}
+#tools a {text-decoration:none;}
+#tools a:hover {text-decoration:underline;color:red;}

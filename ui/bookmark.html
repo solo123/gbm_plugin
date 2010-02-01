@@ -24,7 +24,7 @@
 				<li><a href="#tab-op"><img src="images/sprite.png" height="12" /> <span id="label_add">Add</span></a></li>
 				<li><a href="#tab-tools">Tools</a></li>
 				<li style='float:right;padding-top:4px;'>
-					<span>v2.3</span>
+					<span>GBM(v2.3)</span>
 				</li>
 			</ul>
 			
@@ -66,10 +66,14 @@
 				<div id="div_multi_labels">
 					<div id="accordion">
               <h3><a href="#">Labels <span id="acc_label_cnt"></span></a></h3>
+              <div>
               <div id="acc_labels">
               </div>
+              </div>
               <h3><a href="#">Bookmarks <span id="acc_bookmarks_cnt"></span></a></h3>
+              <div>
               <div id="acc_bookmarks">
+              </div>
               </div>
             </div>
 				</div>
@@ -80,7 +84,7 @@
 				<img src="images/logo_sm.gif" />
 				<span style="float:right;text-align:right;"><a href="https://www.google.com/accounts/ManageAccount?service=hist" class="prompt" target="_blank">My account</a> | <a href="https://www.google.com/accounts/Logout?continue=http://www.google.com" target="_blank" class="prompt">Logout</a></span>
 				<hr style="height:1px;" />
-			<table id="table_bm" cellspacing="0" cellpadding="6" border="0" style="width: 500px;margin-top:10px;">
+			<table id="table_bm" cellspacing="0" cellpadding="6" border="0" style="width: 95%;margin-top:10px;">
 				<tbody>
 					<tr>
 						<td align="right"><img src="images/sprite.png" /></td>
@@ -119,10 +123,12 @@
 			</div>
 
 			<div id="tab-tools" class="tab">
+			 <div id="tools">
 			   <img src="images/tools.png" style="margin-left:10px;">
 			   <ul>
 			     <li><a href="../tools/import.html"  target="_blank"><img src="images/import.png" height="24" alt="import" />Export Chrome's bookmarks into Google Bookmarks.</a></li>
 			   </ul>
+			  </div>
 			</div>			
 			
 		</div><!-- End of tabs -->
@@ -131,6 +137,7 @@
 			<a href='#' target='_blank' style="float:left;display:block;text-decoration:none;color:white;cursor:text;">.</a><!-- for debug -->
 			<div id="status_bar"> &gt; </div>
 			<div id="refresh_icon" title="Reload bookmarks"><img src='images/indicator.gif' /></div>
+			<div id="options_icon" title="Options" onclick="chrome.tabs.create({url:'../options/options.html'});"><img src='../public/options.png' /></div>
 		</div>
 		
 	</div><!-- End of container -->
