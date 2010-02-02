@@ -185,42 +185,78 @@ function BookmarkTips(bookmark){
    return tips;
 }
 
+function set_options(){
+  $('body').css('height','auto').css('width','auto');
+  $('#container').hide();
+  var r = $('#resizer');
+  r.show();
+  r.resizable({
+      minWidth:  340,
+      minHeight: 400,
+      stop: function(a,b){
+        localStorage["width"] = b.size.width;
+        localStorage["height"] = b.size.height;
+        $('#width').val(b.size.width);
+        $('#height').val(b.size.height);
+      }
+   });
+  if (localStorage["height"]) r.height(localStorage["height"]);
+  if (localStorage["width"]) r.width(localStorage["width"]);
+  load_options();
+}
+function restore_options(){
+  $('#font_size').val('0.9em');
+  $('#height').val('580');
+  $('#width').val('600');
+}
+function save_options() {
+  $(".options").each(function(){
+    var op = this.id;
+    localStorage[op] = $(this).val();
+  });
+}
+
+function load_options() {
+  $(".options").each(function(){
+    var op = this.id;
+    var v  = localStorage[op];
+    $(this).val(v ? v : "");
+  });
+}
 //------------------- startup ------------------------------
 function LoadOption(option){
-  var op = localStorage["gbm_plugin."+option];
+  var op = localStorage[option];
   if (op && op.length>0) 
     return op;
   else 
     return default_option(option);
 }
 function default_option(option){
-  if (option=="popup_width") return "610";
-  else if (option=="popup_height") return "620";
+  if (option=="width") return "610";
+  else if (option=="height") return "620";
   else if (option=="font_size") return "0.9em";
   
 }
 
-var pop_w = 0;
-var pop_h = 0;
+var pop_w;
+var pop_h;
 $(function(){
-  var pop_w = parseInt(LoadOption("popup_width"));
-  var pop_h = parseInt(LoadOption("popup_height"));
-  var s = $("#status").height();
+  pop_w = parseInt(LoadOption("width"));
+  pop_h = parseInt(LoadOption("height"));
+  var s = 36;
   $("body")
   	.css("font-size", LoadOption("font_size"))
-	.height(pop_h).width(pop_w);
+    .height(pop_h).width(pop_w);
 
   $("#tabs").tabs({show: function(event,ui){AfterTabShow(ui.index)}});
 
-  pop_w = $('body').width;
-  pop_h = $('body').height;
   var th= $('#tabs .ui-tabs-nav').height();
-  $(".tab").height(h-s-th-33);
-  $('#container').height(h-2);
-  $("#div_main").height(h-s-th-16);
-  $("#div_add").height(h-s-th-26);
-  $("#bm_all").height(h-s-th-56);
-  $("#div_multi_labels").height(h-s-th-46);
+  $(".tab").height(pop_h-s-th-19);
+  $('#container').height(pop_h-2);
+  $("#div_main").height(pop_h-s-th);
+  $("#div_add").height(pop_h-s-th-10);
+  $("#bm_all").height(pop_h-s-th-38);
+  $("#div_multi_labels").height(pop_h-s-th-36);
 
   $("#accordion").accordion({fillSpace: true});
   $("#label_add").text("Add");

@@ -1,9 +1,9 @@
-body {overflow:hidden;width:610px;font-size:90%;padding:0;margin:0;font-family:Times New Roman,Times,serif;}
+body {font-size:90%;padding:0;margin:0;font-family:Times New Roman,Times,serif;}
 a.prompt.link {color:darkblue;text-decoration:none;}
 a.prompt.visited {color:darkblue;}
 a.prompt:hover {text-decoration:underline;color:red;}
 
-#container {padding:1px;overflow:hidden;margin:0px;height:438px;}
+#container {overflow:hidden;margin:0px;height:438px;padding:1px;}
 #labels {background:#dceaf9 url(images/bg_title.png) repeat-x; padding:4px;font-family:Verdana,Arial,Helvetica,sans-serif;}
 #labels div.f {float:left;border:solid transparent 2px;cursor:pointer;}
 #labels div.f:hover {background-color:lightYellow;border:solid red 2px;}
@@ -27,7 +27,7 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 .tab {padding:0;margin:-2px -16px;}
 .icon {float:left;border:solid 1px #eee; margin-left:2px;}
 .icon:hover {border:solid 1px red;background-color:#ffffa0;}
-#status {margin-top:2px;}
+#status {margin-top:2px;font-size:11px;}
 #status_bar {float:left;padding-left:8px;font-size:70%;color:red;font-family:Courier New,Courier,monospace; }
 #options_icon {float:right;margin-right:4px;border:solid 1px transparent;padding:2px;}
 #options_icon:hover {border:solid 1px red; background-color:#ffffcc;}
@@ -59,3 +59,9 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 #tools a {text-decoration:none;}
 #tools a:hover {text-decoration:underline;color:red;}
 .labels {font-size:80%;}
+
+h3 {margin:0;padding:0;}
+#resizer {border:solid 1px #999;margin:5px;padding:1px;display:none;}
+#resizer-tool {position:absolute;bottom:0;width:100%;height:60px;text-align:center;}
+#resizer-body {padding:0.5em;}
+.resizer-prompt {width: 60px; text-align:right;display:-moz-inline-box; display:inline-block;}

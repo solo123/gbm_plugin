@@ -99,7 +99,7 @@ function lb_refresh_bookmarks(){
  	found_bm.push("</table>");
   $("#acc_bookmarks").html(found_bm.join(""));
   lb_show_bookmark_count(bm_count);
-	var w = LoadOption("popup_width")-220; 
+	var w = pop_w-220; 
   $(".nowrap1 a").width(w);
   $(".bm_link").width(w);
   

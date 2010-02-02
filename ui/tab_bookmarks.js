@@ -5,7 +5,7 @@ function bm_load(){
   $("#labels").html(bm_render_labels());
   $("#bookmark_list").html(bm_render_bookmarks());
   bm_set_div_height();
-  $(".nowrap a").width(LoadOption("popup_width")-120);
+  $(".nowrap a").width(pop_w-120);
   $("#labels > .f").click(bm_label_clicked);
 }
 function bm_set_div_height(){
@@ -25,7 +25,7 @@ function bm_label_clicked(event){
   $("#labels .selected").removeClass("selected");
   lnk.addClass("selected");
   $("#bookmark_list").html(bm_render_bookmarks());
-  $(".nowrap a").width(LoadOption("popup_width")-120);
+  $(".nowrap a").width(pop_w - 120);
   var options = { to: "#div_bookmarks", className: 'ui-effects-transfer' }; 
   lnk.effect("transfer",options,500);
 }

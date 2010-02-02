@@ -52,7 +52,7 @@ function sh_search1(sid){
 	s.push("</table>");
 	$("#bm_count").text("(found:"+ cnt +")");
 	$("#bm_all").html(s.join(""));
-	var w = LoadOption("popup_width")-210; 
+	var w = pop_w -210; 
   $(".nowrap1 a").width(w);
   $(".bm_link").width(w);
 }

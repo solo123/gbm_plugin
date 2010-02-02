@@ -134,10 +134,37 @@
 			<a href='#' target='_blank' style="float:left;display:block;text-decoration:none;color:white;cursor:text;">.</a><!-- for debug -->
 			<div id="status_bar"> &gt; </div>
 			<div id="refresh_icon" title="Reload bookmarks"><img src='images/indicator.gif' /></div>
-			<div id="options_icon" title="Options" onclick="chrome.tabs.create({url:'../options/options.html'});"><img src='../public/options.png' /></div>
+			<div id="options_icon" title="Options" onclick='set_options();'><img src='../public/options.png' /></div>
 			<div class='clear'></div>
 		</div>
 		
 	</div><!-- End of container -->
+
+<div id="resizer" class="ui-widget-content ui-resizable">
+	<div>
+    <div id="resizer-body" >
+      <h3 class="ui-widget-header">Options</h3>
+      <p>
+        <span>Font size:</span>
+        <input class="options" type="text" id="font_size" size="7" /><br />
+        * Please type <b>%</b> or <b>px</b> or <b>em</b> inside.
+      </p>
+      <fieldset>
+      <legend>Popup Size</legend>
+      <p>
+        <span class="resizer-prompt">width:</span>
+        <input type="text" class="options" id="width" size="5" />px (400 ~ 1000px)
+      </p>
+      <p>
+        <span class="resizer-prompt">height:</span>
+        <input type="text" class="options" id="height" size="5" />px (450 ~ 900px)
+      </p>
+    </div>
+    <div class="resizer-tool">
+      <input type="button" value="Save Options" onclick="save_options();">
+      <input type="button" value="Restore to default" onclick="restore_options();" />
+    </div>	
+	</div>
+	</div>	
 	</body>
 </html>

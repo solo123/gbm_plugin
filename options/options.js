@@ -1,4 +1,4 @@
-var PREFIX = "gbm_plugin.";
+var PREFIX = "";
 
 $(function() {
   $('#container').tabs();
