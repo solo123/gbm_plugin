@@ -23,9 +23,6 @@
 				<li><a href="#tab-labels">Labels</a></li>
 				<li><a href="#tab-op"><img src="images/sprite.png" height="12" /> <span id="label_add">Add</span></a></li>
 				<li><a href="#tab-tools">Tools</a></li>
-				<li style='float:right;padding-top:4px;'>
-					<span>GBM(v2.3)</span>
-				</li>
 			</ul>
 			
 			<div id="tab-bm" class="tab">
@@ -47,7 +44,7 @@
 				</div>
 			</div>
 			<div id="tab-search" class="tab">
-				<input id="bm_search" type="text" size="40" onkeyup="sh_search();" />
+				<input id="bm_search" type="text" style='width:70%;' onkeyup="sh_search();" />
 				<span id="bm_count" title="RegExp supported. IgnoreCase default."></span>
 				<div id="bm_all">
         <div class="ui-widget" style="width:60%;">
@@ -138,6 +135,7 @@
 			<div id="status_bar"> &gt; </div>
 			<div id="refresh_icon" title="Reload bookmarks"><img src='images/indicator.gif' /></div>
 			<div id="options_icon" title="Options" onclick="chrome.tabs.create({url:'../options/options.html'});"><img src='../public/options.png' /></div>
+			<div class='clear'></div>
 		</div>
 		
 	</div><!-- End of container -->

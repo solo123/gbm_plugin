@@ -200,15 +200,22 @@ function default_option(option){
   
 }
 $(function(){
-  $("body").width(LoadOption("popup_width")).css("font-size", LoadOption("font_size")).height(LoadOption("popup_height") - 40);
-  var h = LoadOption("popup_height")-100;
-  $("#div_main").height(h);
-  $("#div_add").height(h);
-  $("#bm_all").height(h-40);
-  $("#div_multi_labels").height(h-40);
-  $(".tab").height(h-20);
+  var w = parseInt(LoadOption("popup_width"));
+  var h = parseInt(LoadOption("popup_height"));
+  var s = $("#status").height();
+  $("body").width(w).css("font-size", LoadOption("font_size")).height(h);
+  $('#container').height(h-2);
+
 
   $("#tabs").tabs({show: function(event,ui){AfterTabShow(ui.index)}});
+
+  var th= $('#tabs .ui-tabs-nav').height();
+  $(".tab").height(h-s-th-33);
+  $("#div_main").height(h-s-th-16);
+  $("#div_add").height(h-s-th-26);
+  $("#bm_all").height(h-s-th-56);
+  $("#div_multi_labels").height(h-s-th-46);
+
   $("#accordion").accordion({fillSpace: true});
   $("#label_add").text("Add");
   

@@ -8,21 +8,24 @@ Any comments and suggestions are welcome!
 Source Code: http://github.com/solo123/gbm_plugin
 
 TODO:
-1) Themes?
+1. Themes?
 ...
 
 Update history
 --------------
+v2.4 (2010.02.02)
+1. Fix bug on options page.
+
 v2.3 (2010.02.01)
-1) Labels autocomplete in Add & Edit pages.
-2) Add Options page.
-3) Bug on Edit Bookmark (thanks yuppi).
+1. Labels autocomplete in Add & Edit pages.
+2. Add Options page.
+3. Bug on Edit Bookmark.
 
 v2.2 (2010.01.29)
-1) Labels and bookmarks sort by name. using toUpperCase().
-2) Solve sometime cannot reload bookmarks. when reload, ajax.abort() previous first.
-3) Seems google changed add & edit popup option. Implemented Add&Edit pages.
-4) Import chrome's bookmarks into google bookmarks. by xml post method.
+1. Labels and bookmarks sort by name. using toUpperCase().
+2. Solve sometime cannot reload bookmarks. when reload, ajax.abort() previous first.
+3. Seems google changed add & edit popup option. Implemented Add&Edit pages.
+4. Import chrome's bookmarks into google bookmarks. by xml post method.
 
 v2.1 (2010.01.17)
 1. labels cloud can scroll now.

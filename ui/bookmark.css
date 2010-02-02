@@ -3,7 +3,7 @@ a.prompt.link {color:darkblue;text-decoration:none;}
 a.prompt.visited {color:darkblue;}
 a.prompt:hover {text-decoration:underline;color:red;}
 
-#container {padding:4px;overflow:hidden;margin:0px;}
+#container {padding:1px;overflow:hidden;margin:0px;height:438px;}
 #labels {background:#dceaf9 url(images/bg_title.png) repeat-x; padding:4px;font-family:Verdana,Arial,Helvetica,sans-serif;}
 #labels div.f {float:left;border:solid transparent 2px;cursor:pointer;}
 #labels div.f:hover {background-color:lightYellow;border:solid red 2px;}
@@ -17,8 +17,8 @@ a.prompt:hover {text-decoration:underline;color:red;}
 h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 
 
-#div_main {padding:0;margin:0;height:520px;}
-#div_add {border:solid 3px #ddd; padding:4px;height:512px;}
+#div_main {padding:0;margin:0;height:378px;}
+#div_add {border:solid 3px #ddd; padding:4px;height:376px;}
 .opicon {padding:2px;border:solid 1px #ddd;}
 .opicon:hover {border:solid 1px red;background-color:lightYellow;}
 .nowrap a {display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -27,6 +27,7 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 .tab {padding:0;margin:-2px -16px;}
 .icon {float:left;border:solid 1px #eee; margin-left:2px;}
 .icon:hover {border:solid 1px red;background-color:#ffffa0;}
+#status {margin-top:2px;}
 #status_bar {float:left;padding-left:8px;font-size:70%;color:red;font-family:Courier New,Courier,monospace; }
 #options_icon {float:right;margin-right:4px;border:solid 1px transparent;padding:2px;}
 #options_icon:hover {border:solid 1px red; background-color:#ffffcc;}
@@ -57,3 +58,4 @@ h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
 #tools {font-size:120%;}
 #tools a {text-decoration:none;}
 #tools a:hover {text-decoration:underline;color:red;}
+.labels {font-size:80%;}

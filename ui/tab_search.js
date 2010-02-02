@@ -37,11 +37,11 @@ function sh_search1(sid){
 			s.push("' >");
 			s.push(bm.title);
 			s.push("</a></td>");
-			s.push("<td width='100'><span class='nowrap2'>");
-			s.push(bm.labels.join(","));
-			s.push("</span></td>");
+			s.push("<td width='100' rowspan='2' valign='top' class='labels'>");
+			s.push(bm.labels.join(", "));
+			s.push("</td>");
 			s.push("</tr>");
-			s.push("<tr><td></td><td colspan='2'");
+			s.push("<tr><td></td><td>");
 			s.push("<div class='bm_link'>");
 			s.push(bm.href);
 			s.push("</div>");
@@ -52,7 +52,7 @@ function sh_search1(sid){
 	s.push("</table>");
 	$("#bm_count").text("(found:"+ cnt +")");
 	$("#bm_all").html(s.join(""));
-	var w = LoadOption("popup_width")-220; 
+	var w = LoadOption("popup_width")-210; 
   $(".nowrap1 a").width(w);
   $(".bm_link").width(w);
 }

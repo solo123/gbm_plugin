@@ -22,12 +22,12 @@ function bm_label_clicked(event){
   bkg.States.current_label_id = lnk.attr("tag");
   bm_set_div_height();
   
-	$("#labels .selected").removeClass("selected");
-	lnk.addClass("selected");
-	$("#bookmark_list").html(bm_render_bookmarks());
+  $("#labels .selected").removeClass("selected");
+  lnk.addClass("selected");
+  $("#bookmark_list").html(bm_render_bookmarks());
   $(".nowrap a").width(LoadOption("popup_width")-120);
-	var options = { to: "#div_bookmarks", className: 'ui-effects-transfer' }; 
-	lnk.effect("transfer",options,500);
+  var options = { to: "#div_bookmarks", className: 'ui-effects-transfer' }; 
+  lnk.effect("transfer",options,500);
 }
 function bm_render_labels(){
   if (!bookmarks.load_ready) return "";

@@ -34,6 +34,4 @@ function restore_options() {
   $("#popup_height").val("620");
   $("#bookmark_url").val("http://www.google.com/bookmarks/");
   $("#sig_url").val("http://www.google.com/bookmarks/find");
-  
-  $('#switcher').themeswitcher();
 }
