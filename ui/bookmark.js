@@ -199,18 +199,24 @@ function default_option(option){
   else if (option=="font_size") return "0.9em";
   
 }
-$(function(){
-  var w = parseInt(LoadOption("popup_width"));
-  var h = parseInt(LoadOption("popup_height"));
-  var s = $("#status").height();
-  $("body").width(w).css("font-size", LoadOption("font_size")).height(h);
-  $('#container').height(h-2);
 
+var pop_w = 0;
+var pop_h = 0;
+$(function(){
+  var pop_w = parseInt(LoadOption("popup_width"));
+  var pop_h = parseInt(LoadOption("popup_height"));
+  var s = $("#status").height();
+  $("body")
+  	.css("font-size", LoadOption("font_size"))
+	.height(pop_h).width(pop_w);
 
   $("#tabs").tabs({show: function(event,ui){AfterTabShow(ui.index)}});
 
+  pop_w = $('body').width;
+  pop_h = $('body').height;
   var th= $('#tabs .ui-tabs-nav').height();
   $(".tab").height(h-s-th-33);
+  $('#container').height(h-2);
   $("#div_main").height(h-s-th-16);
   $("#div_add").height(h-s-th-26);
   $("#bm_all").height(h-s-th-56);
