@@ -26,7 +26,10 @@ $(function(){
 });
 function bm_loaded(){alert("bookmark loaded.");}
 function show_bm_obj(){
-  $('#output').append($('<p>').text("bookmarks(labels:"+bookmarks.all_labels.length+", boomarks:"+ bookmarks.all_bookmarks.length +", sig:"+bookmarks.sig+")"));
+  $('#output').append($('<p>').html(
+    "bookmarks(labels:"+bookmarks.all_labels.length+", boomarks:"+ bookmarks.all_bookmarks.length +", sig:"+bookmarks.sig+")"+"<br />"
+    + "ready:" + bookmarks.load_ready +", error:" + bookmarks.load_error
+  ));
 }
 function test_tabs(){
   render_tabs(div_main, $('#test_para1').val().split(',') );

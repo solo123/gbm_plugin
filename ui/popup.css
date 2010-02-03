@@ -3,20 +3,27 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 html {overflow:hidden;}
 body {margin:0;padding:0;}
 #container {border:solid 1px transparent;margin:0;padding:0;}
-
-#main{}
+.main{overflow:hidden;}
+.footer {height:22px;overflow:hidden;}
 
 .f {float:left;margin:1px;padding:1px;border:solid 1px transparent;cursor:pointer;}
 .f:hover {text-decoration:underline;color:red;}
 .selected {border:solid 1px red;background-color:#ffffcc;}
 .clear {clear:both;}
-.bm-labels {background:#dceaf9 url(images/bg_title.png) repeat-x; padding:4px;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:90%;}
-.bm-bookmarks {display:table;border-collapse:separate;}
+.float-r {float:right;}
+.float-l {float:left;}
+.button {padding:1px; margin:1px; border:solid 1px transparent;}
+.button:hover {border:solid 1px red;background-color:#ffffcc;}
+#status {font-size:12px;}
+.bm-labels {background:#dceaf9 url(images/bg_title.png) repeat-x; padding:4px;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:90%;overflow-y:auto;overflow-x:hidden;}
+.bm-bookmarks {overflow-y:auto;overflow-x:hidden;}
+.bm-table {display:table;border-collapse:separate;border-spacing:4px;}
 .row { display:table-row; }
  .row div { display:table-cell; }
- .row .icons { width:60px; }
+ .row .icons {width:34px;}
  .row .icons span {float:left;}
- .row .bm1 { width:200px;}
- .row .bm1 a {display:block; width:200px; text-overflow:ellipsis;white-space:nowrap;overflow:hidden; }
+ .row .bm {padding-right:4px;}
+ .row .bm a {display:block;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-decoration:none; }
+ .row .bm a:hover {text-decoration:underline; color:red;background-color:#ffffcc; }
  .row .three {}
   

@@ -1,17 +1,43 @@
 function render_loading(div){
   if(!div) return;
     var s = '\
-<div class="ui-widget" style="width:200px;margin:auto;font-size:14px;padding:4px;">\
+<div class="ui-widget" style="width:280px;margin:auto;font-size:14px;padding:4px;">\
 	<div style="padding:0.7em;" class="ui-state-highlight ui-corner-all"> \
 		<p> \
   		<img src="images/indicator.gif" /> \
-  		<strong>&nbsp;Loading Bookmarks...</strong><br /> \
+  		<strong>&nbsp;Loading Google Bookmarks...</strong><br /> \
   		<br /> \
   		&nbsp;<a href="http://www.google.com/bookmarks" target="_blank">not login?</a> \
     </p> \
 	</div> \
 </div>';
     div.css('border','solid 1px transparent').html(s);
+}
+function render_error(div){
+  if(!div) return;
+    var s = '\
+<div class="ui-widget" style="width:280px;margin:auto;font-size:14px;padding:4px;">\
+	<div style="padding:0.7em;" class="ui-state-error ui-corner-all"> \
+		<p> \
+  		<strong>Load Google Bookmarks Error!</strong><br /> \
+  		<br /> \
+      <a href="javascript:void(0)" onclick="reload_bookmarks();"><span class="icon ui-icon ui-icon-arrowrefresh-1-e" style="float:left;" />Re-load</a> \
+  		&nbsp;<a href="http://www.google.com/bookmarks" target="_blank">not login?</a> \
+    </p> \
+	</div> \
+</div>';
+    div.css('border','solid 1px transparent').html(s);
+}
+function render_status(){
+  var s = ' \
+<div id="status"> \
+	<a href="#" target="_blank" style="float:left;display:block;text-decoration:none;color:white;cursor:text;">.</a> \
+	<div id="status_bar" class="float-l"> &gt; </div> \
+	<div class="float-r button" id="btn_refresh" title="Reload bookmarks"><img src="images/refresh.png" /></div> \
+	<div class="float-r button" title="Options" onclick="set_options();"><img src="../public/options.png" /></div> \
+	<div class="clear"></div> \
+</div>';
+	div_footer.html(s);
 }
 
 function render_tabs(div, tablist){
@@ -21,7 +47,7 @@ function render_tabs(div, tablist){
   var tabs = $('<div>');
   var ul = $('<ul>');
   for (var i=0; i<tablist.length; i++){
-    tabs.append( $("<div>").attr("id","tab_" + i).height(0).width(600));   // tab_height width
+    tabs.append($("<div>").attr("id","tab_" + i));
     ul.append($('<li>').append($('<a>').attr('href','#tab_'+i).text(tablist[i])));
   }
   tabs.prepend(ul);
@@ -43,7 +69,8 @@ function render_bookmarks(div, current_label){
   if (!bookmarks.load_ready) return render_loading();
   
   var lbs = $('<div class="bm-labels">');
-  var bms = $('<div class="bm-bookmarks">');
+  var bmz = $('<div class="bm-bookmarks">');
+  var bms = $('<div class="bm-table">');
   
   div.html("");
   render_labels(lbs, current_label);
@@ -51,8 +78,9 @@ function render_bookmarks(div, current_label){
     
   lbs.css('padding','4px');
   lbs.click(label_onclick);
-  bms.addClass('ui-widget-content').css('padding','4px');
-  div.append(lbs).append(bms);
+  bmz.addClass('ui-widget-content').css('padding','4px');
+  bmz.append(bms);
+  div.append(lbs).append(bmz);
 }
 function label_onclick(){
   var tag = event.srcElement;
@@ -62,12 +90,13 @@ function label_onclick(){
   //var options = { to: "#div_bookmarks", className: 'ui-effects-transfer' }; 
   //lnk.effect("transfer",options,500);
      var bid = $(tag).addClass('selected').attr('tag');
-     var div = $('.bm-bookmarks');
-     render_label_bookmarks(div,bid);   
+     var div = div_main.find('.bm-table');
+     render_label_bookmarks(div,bid);
+     div.find('.bm a').width(div_main.width()-76);
   }
 
  viewportheight = document.documentElement.clientHeight
-  div_footer.text("viewportheight:"+ viewportheight );
+ status_text("viewportheight:"+ viewportheight +", top:" + div_top.height() + ", main:"+div_main.height() + ", footer:"+div_footer.height()+", config:"+config.height );
 }
 function render_labels(div, selected_label){
   if (!bookmarks.load_ready) return;
@@ -91,7 +120,7 @@ function render_label_bookmarks(div, label){
 		var col1 = $('<div>').addClass('icons')
       .append($("<span class='icon ui-icon ui-icon-pencil ui-corner-all' title='Edit' onclick='bm_edit("+ i +")' />"))
       .append($("<span class='icon ui-icon ui-icon-trash ui-corner-all'  title='Delete' onclick='bm_dele("+ i +")' />"))
-    var col2 = $('<div>').addClass('bm1');
+    var col2 = $('<div>').addClass('bm');
     var ancr = $('<a>')
       .attr('href',bm.href)
       .attr('target','_blank')
