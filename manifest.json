@@ -1,6 +1,6 @@
 {
   "name": "Google bookmarks",
-  "version": "2.4.1",
+  "version": "3.0.0",
   "description": "Google bookmarks extension for Chrome",
   "background_page": "background/background.html",
   "options_page": "options/options.html",
@@ -13,7 +13,7 @@
   "browser_action": {
     "default_icon": "public/folder32.png",
 		"default_title": "Google Bookmarks",
-		"popup": "ui/bookmark.html"
+		"popup": "ui/popup.html"
   },
   "permissions": [
 		"tabs",

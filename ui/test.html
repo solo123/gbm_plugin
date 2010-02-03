@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<meta http-equiv=content-type content="text/html; charset=UTF-8"> 
+		<link rel="stylesheet" type="text/css" href="../public/jqueryui/lightBlue/jquery-ui-1.7.2.custom.css"/> 
+		<link rel="stylesheet" type="text/css" href="../public/jquery.autocomplete.css"/> 
+		<script type="text/javascript" src="../public/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="../public/jquery-ui-1.7.2.custom.min.js"></script> 
+		<script type="text/javascript" src="../public/jquery.autocomplete.min.js"></script> 
+		<script type="text/javascript" src="tools.js"></script>
+		<script type="text/javascript" src="popup.js"></script>
+		<script type="text/javascript" src="render.js"></script>
+
+<style type="text/css">
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td 
+{border:0 none;font-family:inherit;font-size:100%;font-style:inherit;font-weight:inherit;margin:0;padding:0;vertical-align:baseline;}
+#container {border:solid 1px red;}
+#main {border:solid 1px blue;}
+#output {border:solid 1px black;background-color:#ffffcc;margin:2px;}
+.f {float:left;margin:4px;border:solid 1px transparent;}
+.selected {border:solid 1px red;}
+.clear {clear:both;}
+</style>
+<script type="text/javascript">
+var on_testing = true;
+$(function(){
+});
+function bm_loaded(){alert("bookmark loaded.");}
+function show_bm_obj(){
+  $('#output').append($('<p>').text("bookmarks(labels:"+bookmarks.all_labels.length+", boomarks:"+ bookmarks.all_bookmarks.length +", sig:"+bookmarks.sig+")"));
+}
+function test_tabs(){
+  render_tabs(div_main, $('#test_para1').val().split(',') );
+}
+function test_bookmarks(){
+  render_bookmarks(div_main, -1);
+}
+function test_search(){
+  div_main.html("");
+  var r = render_search_result(div_main, $('#test_para1').val(), search_id);
+  $('#output').html("found: " + r);
+}
+</script>
+	</head>
+
+	<body>
+	  <div id="testbox">
+	   <input type="button" value="load bookmark" onclick="load_bookmarks(bm_loaded);" />
+	   <input type="button" value="show boomark object" onclick="show_bm_obj();" /><br />
+	   <fieldset>
+	     <legend>render</legend>
+	     <input type="button" value="loading" onclick="render_loading(div_main);" />
+	     <input type="text" value="" id="test_para1" />
+	     <input type="button" value="tabs" onclick="test_tabs();" />
+	     <input type="button" value="bookmarks" onclick="test_bookmarks();" />
+	     <input type="button" value="search" onclick="test_search();" />
+	     <input type="button" value="multi-labels" onclick="test_multi_labels();" />
+	     <input type="button" value="add&edit" onclick="test_edit();" />
+	     <input type="button" value="delete" onclick="test_delete();" />
+	     <input type="button" value="status" onclick="test_status();" />
+	  </fieldset>
+	  </div>
+	  <div id="output">
+	  </div>
+  	<div id="container"><div id="main"></div></div>	
+	</body>
+</html>
