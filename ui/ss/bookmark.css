@@ -1,0 +1,67 @@
+body {font-size:90%;padding:0;margin:0;font-family:Times New Roman,Times,serif;}
+a.prompt.link {color:darkblue;text-decoration:none;}
+a.prompt.visited {color:darkblue;}
+a.prompt:hover {text-decoration:underline;color:red;}
+
+#container {overflow:hidden;margin:0px;height:438px;padding:1px;}
+#labels {background:#dceaf9 url(images/bg_title.png) repeat-x; padding:4px;font-family:Verdana,Arial,Helvetica,sans-serif;}
+#labels div.f {float:left;border:solid transparent 2px;cursor:pointer;}
+#labels div.f:hover {background-color:lightYellow;border:solid red 2px;}
+#labels div.selected {float:left;cursor:text;background-color:lightYellow;border:solid blue 2px;}
+#div_bookmarks {background:#fff url(images/bg_title_b.png) repeat-x; overflow-y:scroll;padding-top:6px;margin:auto;}
+#div_bookmarks a { text-decoration:none;color:#666;overflow:hidden;}
+#div_bookmarks a:visited {text-decoration:none;color:darkblue;}
+#div_bookmarks a:hover {background-color:lightYellow;text-decoration:underline;color:red;}
+.clear { float:none; clear:both; }
+.error {color:red;}
+h2 {margin:0;margin-bottom:4px;padding:0;font-size:110%;}
+
+
+#div_main {padding:0;margin:0;height:378px;}
+#div_add {border:solid 3px #ddd; padding:4px;height:376px;}
+.opicon {padding:2px;border:solid 1px #ddd;}
+.opicon:hover {border:solid 1px red;background-color:lightYellow;}
+.nowrap a {display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nowrap1 a {width:380px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+.tab {padding:0;margin:-2px -16px;}
+.icon {float:left;border:solid 1px #eee; margin-left:2px;}
+.icon:hover {border:solid 1px red;background-color:#ffffa0;}
+#status {margin-top:2px;font-size:11px;}
+#status_bar {float:left;padding-left:8px;font-size:70%;color:red;font-family:Courier New,Courier,monospace; }
+#options_icon {float:right;margin-right:4px;border:solid 1px transparent;padding:2px;}
+#options_icon:hover {border:solid 1px red; background-color:#ffffcc;}
+#refresh_icon {float:right;border:solid 1px transparent;margin-right:4px;padding:2px;}
+#refresh_icon:hover {border:solid 1px red;background-color:#ffffcc;}
+#bm_all {height:480px;overflow-y:scroll;margin-top:6px;}
+#bm_all a { text-decoration:none;color:#666;overflow:hidden;}
+#bm_all a:visited {text-decoration:none;color:darkblue;}
+#bm_all a:hover {background-color:lightYellow;text-decoration:underline;color:red;}
+#bm_search {padding-left:20px;font-size:110%;background:transparent url(images/search.png) no-repeat 4px 6px;}
+#bm_count {font-size:85%;color:#8B4513;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
+.bm_link {font-size:85%;color:darkGreen;padding-bottom:4px;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
+.prompt {font-size:85%;color:#999;text-decoration:none;}
+#tab-search a.prompt.link {color:#999;}
+#tab-search a.prompt.visited {color:#999;}
+#tab-search a.prompt:hover {text-decoration:underline;color:red;}
+.ui-effects-transfer { border: 2px dotted gray; }
+#table_bm {font-family:Verdana,Arial,Helvetica,sans-serif;font-size:90%;}
+#table_bm input[type="text"], #table_bm textarea {font-size:120%; width:100%;}
+#div_multi_labels {height:500px;}
+#acc_labels{padding:4px;font-size:110%;font-family:Courier New,Courier,monospace;}
+#acc_labels .f {float:left;border:solid transparent 2px;cursor:pointer;}
+#acc_labels .selected {border:solid blue 2px;background-color:lightyellow;}
+#acc_labels .f:hover {background-color:lightYellow;border:solid red 2px;}
+#acc_labels div.added {float:left;cursor:text;background-color:lightYellow;border:solid blue 2px;}
+#acc_selected_labels .b{font-weight:bold;font-size:110%;}
+.grayText {color:gray;}
+#tools {font-size:120%;}
+#tools a {text-decoration:none;}
+#tools a:hover {text-decoration:underline;color:red;}
+.labels {font-size:80%;}
+
+h3 {margin:0;padding:0;}
+#resizer {border:solid 1px #999;margin:5px;padding:1px;display:none;}
+#resizer-tool {position:absolute;bottom:0;width:100%;height:60px;text-align:center;}
+#resizer-body {padding:0.5em;}
+.resizer-prompt {width: 60px; text-align:right;display:-moz-inline-box; display:inline-block;}
