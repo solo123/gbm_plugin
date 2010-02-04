@@ -2,10 +2,12 @@
 	<head>
 		<meta http-equiv=content-type content="text/html; charset=UTF-8"> 
 		<link rel="stylesheet" type="text/css" href="../public/jqueryui/lightBlue/jquery-ui-1.7.2.custom.css"/> 
+		<link rel="stylesheet" type="text/css" href="../public/databales/css/demo_table.css"/> 
 		<link rel="stylesheet" type="text/css" href="../public/jquery.autocomplete.css"/> 
 		<script type="text/javascript" src="../public/jquery-1.3.2.min.js"></script>
 		<script type="text/javascript" src="../public/jquery-ui-1.7.2.custom.min.js"></script> 
 		<script type="text/javascript" src="../public/jquery.autocomplete.min.js"></script> 
+    <script type="text/javascript" src="../public/jquery.dataTables.js"></script> 
 		<script type="text/javascript" src="tools.js"></script>
 		<script type="text/javascript" src="popup.js"></script>
 		<script type="text/javascript" src="render.js"></script>
@@ -42,13 +44,22 @@ function test_search(){
   var r = render_search_result(div_main, $('#test_para1').val(), search_id);
   $('#output').html("found: " + r);
 }
+function test_datatable(){
+
+  var o = $('#output');
+  $('#demo').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>' );
+  
+
+}
 </script>
 	</head>
 
 	<body>
 	  <div id="testbox">
 	   <input type="button" value="load bookmark" onclick="load_bookmarks(bm_loaded);" />
-	   <input type="button" value="show boomark object" onclick="show_bm_obj();" /><br />
+	   <input type="button" value="show boomark object" onclick="show_bm_obj();" />
+	   <input type="button" value="datatable" onclick="test_datatable();" />
+     <br />
 	   <fieldset>
 	     <legend>render</legend>
 	     <input type="button" value="loading" onclick="render_loading(div_main);" />

@@ -1,3 +1,15 @@
+function GetStateInt(state){
+  if (typeof(bkg.States[state])=="undefined")
+    return -1;
+  else
+    return bkg.States[state];
+}
+function GetState(state){
+  if (typeof(bkg.States[state])=="undefined")
+    return "";
+  else
+    return bkg.States[state];
+}
 
 function string_in_array(str,arr){
   for(var i in arr){

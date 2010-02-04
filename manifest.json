@@ -13,12 +13,12 @@
   "browser_action": {
     "default_icon": "public/folder32.png",
 		"default_title": "Google Bookmarks",
-		"popup": "ui/popup.html"
+		"popup": "ui/bookmark.html"
   },
   "permissions": [
-		"tabs",
-		"bookmarks",
-	    "http://www.google.com/"
+    "tabs",
+    "bookmarks",
+    "http://www.google.com/"
   ]
 
 }
