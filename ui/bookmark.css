@@ -15,11 +15,13 @@ body {margin:0;padding:0;}
 .clear {clear:both;}
 .float-r {float:right;}
 .float-l {float:left;}
+.text-r {text-align:right;}
 .button {padding:1px; margin:1px; border:solid 1px transparent;}
 .button:hover {border:solid 1px red;background-color:#ffffcc;}
 
 .bm-labels {background:#dceaf9 url(images/bg_title.png) repeat-x; padding:4px;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:90%;overflow-y:auto;overflow-x:hidden;}
 .bm-bookmarks {overflow-y:auto;overflow-x:hidden;}
+.bookmarks {font-size:90%;font-family:'Lucida Grande', 'Lucida Sans', Arial, sans-serif;}
 .bm-table {display:table;border-collapse:separate;border-spacing:4px;}
 .row { display:table-row; }
  .row div { display:table-cell; }
@@ -31,6 +33,7 @@ body {margin:0;padding:0;}
  .row .three {}
 .alt {background-color:#F0F2FF;}
 .fixwidth {overflow:hidden;text-overflow:ellipsis;}
+.icon {cursor:pointer;}
 
 #bm_search {padding-left:20px;font-size:110%;background:transparent url(images/search.png) no-repeat 4px 6px;}
 #bm_count {font-size:85%;color:#8B4513;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
@@ -38,7 +41,7 @@ body {margin:0;padding:0;}
 #bm_all a { text-decoration:none;color:#666;overflow:hidden;}
 #bm_all a:visited {text-decoration:none;color:darkblue;}
 #bm_all a:hover {background-color:lightYellow;text-decoration:underline;color:red;}
-.bm_link {font-size:85%;color:darkGreen;padding-bottom:4px;white-space:nowrap;width:380px;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
+.bm_link {font-size:85%;color:darkGreen;padding-bottom:4px;white-space:nowrap;text-overflow:ellipsis;font-family:Courier New,Courier,monospace;overflow:hidden;}
 .prompt {font-size:85%;color:#999;text-decoration:none;}
 #tab-search a.prompt.link {color:#999;}
 #tab-search a.prompt.visited {color:#999;}
@@ -47,4 +50,34 @@ body {margin:0;padding:0;}
 .nu:hover {text-decoration:none !important;}
 .mg {margin-bottom:3px;}
 .lbs {font-size:70%;font-family:Courier New,Courier,monospace;}
+
+#bm_edit {font-size:90%;border-spacing:1px;font-family:Courier New,Courier,monospace;
+margin-top:16px;clear:both;width:100%;}
+#bm_edit .text-r {vertical-align:middle;font-size:90%;}
+#bm_edit .row div{padding:4px;}
+#bm_edit input[type="text"], #bm_edit textarea { width:100%;}
+
+.account{float:right;padding-top:6px;margin-right:6px;}
+.account a{text-decoration:none;color:gray;}
+.account a:hover{text-decoration:underline;color:red;}
+
+#tools {font-size:90%;}
+#tools a {text-decoration:none;}
+#tools a:hover {text-decoration:underline;color:red;}
+#tools li {height:40px;}
+
+#resizer {font-family:Courier New,Courier,monospace;font-size:0.8em;}
+#resizer p {padding:4px;}
+#resizer fieldset {border:solid 1px;margin:8px;float:left;}
+#resizer h3 {text-align:center;}
+.resizer-body {padding:4px;}
+.resizer-tools {padding:10px;clear:both;}
+#resizer {border:solid 1px #999;margin:5px;padding:1px;}
+.resizer-prompt {width: 60px; text-align:right;display:-moz-inline-box; display:inline-block;}
+
+#sortable1, #sortable2{ font-family:Verdana,Arial,Helvetica,sans-serif;list-style-type: none; margin: 0; padding: 0;margin-top:2px; background: #eee; padding: 4px; height:30px; }
+#sortable2 {background-color:#ccc;}
+#sortable2 h2 {color:white;}
+#sortable1 li, #sortable2 li {float:left;margin:4px;padding:4px;}
+#sortable1 h2, #sortable2 h2 {float:right;font-size:90%;font-family:fantasy,cursive,Courier;font-weight:normal;}
   

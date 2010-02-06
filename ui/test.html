@@ -2,37 +2,84 @@
 	<head>
 		<meta http-equiv=content-type content="text/html; charset=UTF-8"> 
 		<link rel="stylesheet" type="text/css" href="../public/jqueryui/lightBlue/jquery-ui-1.7.2.custom.css"/> 
-		<link rel="stylesheet" type="text/css" href="../public/databales/css/demo_table.css"/> 
-		<link rel="stylesheet" type="text/css" href="../public/jquery.autocomplete.css"/> 
+		<link rel="stylesheet" type="text/css" href="../public/jquery.autocomplete.css"/>
 		<script type="text/javascript" src="../public/jquery-1.3.2.min.js"></script>
 		<script type="text/javascript" src="../public/jquery-ui-1.7.2.custom.min.js"></script> 
-		<script type="text/javascript" src="../public/jquery.autocomplete.min.js"></script> 
-    <script type="text/javascript" src="../public/jquery.dataTables.js"></script> 
+		<script type="text/javascript" src="../public/jquery.autocomplete.min.js"></script>
+    <script type="text/javascript" src="../public/jquery.dataTables.min.js"></script> 
+		<script type="text/javascript" src="bookmark.js"></script>
+		<script type="text/javascript" src="BookmarkApp.js"></script>
+		<script type="text/javascript" src="ApplicationTabs.js"></script>
+		<script type="text/javascript" src="BookmarkShowObject.js"></script>
+		<script type="text/javascript" src="BookmarkSearchObject.js"></script>
+		<script type="text/javascript" src="LabelsObject.js"></script>
+		<script type="text/javascript" src="BookmarkEditObject.js"></script>
+		<script type="text/javascript" src="ToolsObject.js"></script>
 		<script type="text/javascript" src="tools.js"></script>
-		<script type="text/javascript" src="popup.js"></script>
-		<script type="text/javascript" src="render.js"></script>
+
 
 <style type="text/css">
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td 
 {border:0 none;font-family:inherit;font-size:100%;font-style:inherit;font-weight:inherit;margin:0;padding:0;vertical-align:baseline;}
-#container {border:solid 1px red;}
 #main {border:solid 1px blue;}
 #output {border:solid 1px black;background-color:#ffffcc;margin:2px;}
 .f {float:left;margin:4px;border:solid 1px transparent;}
 .selected {border:solid 1px red;}
 .clear {clear:both;}
+
+body{background:#dceaf9 url(../ui/images/bg_title.png) repeat-x;padding:10px;font-size:80%;}
+h2 {margin:0;padding:6px;text-align:right;color:#999;font-family:fantasy,cursive,Courier;font-weight:normal;}
+#top {width:75%;margin:auto;font-size:1.3em;}
+#container {width:75%;height:80%;overflow:hidden;margin:auto;}
+.out {width:55%;height:60%;border:solid 1px brown;overflow:auto;}
 </style>
+    <link rel="stylesheet" type="text/css" href="../public/databales/css/demo_page.css"/>  
+    <link rel="stylesheet" type="text/css" href="../public/databales/css/demo_table.css"/>  
+
+
 <script type="text/javascript">
 var on_testing = true;
+var gbm_app = new BookmarkApp();
+
 $(function(){
+  $('#container').tabs();
+  gbm_app.start_up($('#test_out'));
 });
-function bm_loaded(){alert("bookmark loaded.");}
+function test_datatable(){
+  var bms = gbm_app.bookmarks.all_bookmarks;
+  var data = [];
+  for (var i=0; i<bms.length; i++){
+    var d = [];
+    var o = bms[i];
+    d.push(''+o.bm_id);
+    d.push(''+o.title);
+    d.push(''+o.url);
+    d.push(''+o.labels.join(", "));
+    data.push(d);
+  }
+  $('#example').dataTable({
+    "aaData" : data,
+		"aoColumns": [
+			{ "sTitle": "ID" },
+			{ "sTitle": "Title" },
+			{ "sTitle": "Url" },
+			{ "sTitle": "Labels", "sClass": "center" }
+		]
+  });
+}
+
 function show_bm_obj(){
-  $('#output').append($('<p>').html(
+  var bookmarks = gbm_app.bookmarks;
+  $('#test_out').html("").append($('<p>').html(
     "bookmarks(labels:"+bookmarks.all_labels.length+", boomarks:"+ bookmarks.all_bookmarks.length +", sig:"+bookmarks.sig+")"+"<br />"
     + "ready:" + bookmarks.load_ready +", error:" + bookmarks.load_error
   ));
 }
+
+function test_render_loading(){
+  gbm_app.render_loading();
+}
+
 function test_tabs(){
   render_tabs(div_main, $('#test_para1').val().split(',') );
 }
@@ -44,37 +91,103 @@ function test_search(){
   var r = render_search_result(div_main, $('#test_para1').val(), search_id);
   $('#output').html("found: " + r);
 }
-function test_datatable(){
 
-  var o = $('#output');
-  $('#demo').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>' );
-  
-
-}
 </script>
+
+
+<style type="text/css">
+	#sortable1, #sortable2, #sortable3 { list-style-type: none; margin: 0; padding: 0; float: left; margin-right: 10px; background: #eee; padding: 5px; width: 143px;}
+	#sortable1 li, #sortable2 li, #sortable3 li { margin: 5px; padding: 5px; font-size: 1.2em; width: 120px; }
+</style>
+<script type="text/javascript">
+	$(function() {
+		$("ul.droptrue").sortable({
+			connectWith: 'ul',
+			items: 'li',
+		});
+
+		$("#sortable1, #sortable2, #sortable3").disableSelection();
+	});
+
+function test_getselected(){
+  var s = [];
+   $('#sortable1 > li').each(function(idx, d){
+    s.push($(d).text());    
+   });
+   $('#tab_out').text(s.join(", "));
+}
+	</script>
+
 	</head>
 
 	<body>
-	  <div id="testbox">
-	   <input type="button" value="load bookmark" onclick="load_bookmarks(bm_loaded);" />
-	   <input type="button" value="show boomark object" onclick="show_bm_obj();" />
-	   <input type="button" value="datatable" onclick="test_datatable();" />
-     <br />
-	   <fieldset>
-	     <legend>render</legend>
-	     <input type="button" value="loading" onclick="render_loading(div_main);" />
-	     <input type="text" value="" id="test_para1" />
-	     <input type="button" value="tabs" onclick="test_tabs();" />
-	     <input type="button" value="bookmarks" onclick="test_bookmarks();" />
-	     <input type="button" value="search" onclick="test_search();" />
-	     <input type="button" value="multi-labels" onclick="test_multi_labels();" />
-	     <input type="button" value="add&edit" onclick="test_edit();" />
-	     <input type="button" value="delete" onclick="test_delete();" />
-	     <input type="button" value="status" onclick="test_status();" />
-	  </fieldset>
-	  </div>
-	  <div id="output">
-	  </div>
-  	<div id="container"><div id="main"></div></div>	
+
+<div id="top"><h2>Google Bookmarks Chrome Extension Test Page</h2></div>
+<div id="container">	
+  <ul>		
+    <li>
+    <a href="#tabs-1">Bookmarks objects</a>
+    </li>		
+    <li>
+    <a href="#tabs-2">Datatabler</a>
+    </li>
+    <li>
+    <a href='#tabs-3'>Sort</a>
+    </li>		
+    <li style='float:right;padding-top:4px;'>			
+      <span>Test Page</span>		
+    </li>	
+  </ul>
+  <div id="tabs-1">
+    <div style="padding:8px;">
+      <input type="button" value="show boomark object" onclick="show_bm_obj();" />	        
+      <input type="button" value="loading" onclick="test_render_loading();" />	            
+      <input type="text" value="" id="test_para1" />	            
+      <input type="button" value="tabs" onclick="test_tabs();" />	            
+      <input type="button" value="bookmarks" onclick="test_bookmarks();" />	            
+      <input type="button" value="search" onclick="test_search();" />	            
+      <input type="button" value="multi-labels" onclick="test_multi_labels();" />	            
+      <input type="button" value="add&edit" onclick="test_edit();" />	            
+      <input type="button" value="delete" onclick="test_delete();" />	            
+      <input type="button" value="status" onclick="test_status();" />
+      <div style="overflow:auto;height:78%;">	        
+        <div id="test_out" class="out"></div>
+      </div>
+    </div>	 
+  </div>	
+  <div id="tabs-2">
+    <div style="padding:8px;">
+      <input type="button" value="datatable" onclick="test_datatable();" />
+      <div style="overflow:auto;height:78%;">	        
+        <table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>
+      </div>
+    </div>	 
+  </div>
+  <div id="tabs-3">
+
+
+
+
+<div class="option_sort">
+<ul id="sortable1" class='droptrue'>
+  <h2>SHOW</h2>
+	<li class="ui-state-default">Bookmarks</li>
+	<li class="ui-state-default">Search</li>
+	<li class="ui-state-default">Labels</li>
+	<li class="ui-state-highlight">Add</li>
+	<li class="ui-state-hover">Tools</li>
+</ul>
+<ul id="sortable2" class='droptrue'>
+  <h2>HIDE</h2>
+</ul>
+<br clear="both" />
+</div><!-- End demo -->
+
+<input type="button" value="save" onclick="test_getselected();" />
+<div class="out" id="tab_out"></div>
+
+  </div>
+</div>
+<div style="width:75%;margin:auto;">* press CTRL+SHIFT+J for javascript console.</div>
 	</body>
 </html>

@@ -7,12 +7,20 @@ Any comments and suggestions are welcome!
 
 Source Code: http://github.com/solo123/gbm_plugin
 
+Ref:
+1) Javascript OOP: https://developer.mozilla.org/en/Introduction_to_Object-Oriented_JavaScript
+2) Chrome extension: http://code.google.com/chrome/extensions/
+3) Google bookmarks API: http://lnkr.mobi/bm/google_bookmarks_api/
+
 TODO:
-1. Themes?
 ...
 
 Update history
 --------------
+v3.0 (2010.02.05)
+1. Change to oo javascript of agility;
+2. dynamic tab position. users can config the prefer tab to show first.
+
 v2.4 (2010.02.02)
 1. Fix bug on options page.
 

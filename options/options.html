@@ -16,6 +16,11 @@ h2 {margin:0;padding:6px;text-align:right;color:#999;font-family:fantasy,cursive
 .notes {font-size:80%;font-family:Times, "Times New Roman", Georgia, serif;}
 .prompt {width: 100px; text-align:right;display:-moz-inline-box; display:inline-block;}
 .prompt1 {width: 200px; text-align:right;display:-moz-inline-box; display:inline-block;}
+#sortable1, #sortable2{ font-family:Verdana,Arial,Helvetica,sans-serif;list-style-type: none; margin: 0; padding: 0;margin-top:2px; background: #eee; padding: 4px; width: 390px;height:30px; }
+#sortable2 {background-color:#ccc;}
+#sortable2 h2 {color:white;}
+#sortable1 li, #sortable2 li {float:left;margin:4px;padding:4px;}
+#sortable1 h2, #sortable2 h2 {float:right;font-size:90%;font-family:fantasy,cursive,Courier;font-weight:normal;}
 </style>
 </head>
 <body>
@@ -50,6 +55,17 @@ h2 {margin:0;padding:6px;text-align:right;color:#999;font-family:fantasy,cursive
         <input type="text" class="options" id="height" size="5" />px (450 ~ 900px)
       </p>
       </fieldset>
+
+<div class="option_sort"> 
+<ul id="sortable1" class="droptrue"> 
+  <h2>SHOW TABS</h2> 
+</ul> 
+<ul id="sortable2" class="droptrue"> 
+  <h2>HIDE TABS</h2> 
+</ul> 
+<br clear="both" /> 
+</div> 
+
     </div>	 
   </div>	
   <div id="tabs-2">

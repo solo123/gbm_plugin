@@ -14,7 +14,10 @@ var bookmarks = {
   error_message: "",
   // for delete need signature. just get from rss, don't know the best way. jimmy 2009.12.26
   sig: "",
-  load_handle: null
+  load_handle: null,
+  all_labels : [],
+  all_bookmarks : [],
+  labels_auto :[]
 };
 var _bm_url = localStorage["bookmark_url"];
 if (_bm_url && _bm_url.length>5) GOOGLE_BOOKMARK_BASE = _bm_url;
@@ -25,8 +28,6 @@ bookmarks.LoadBookmarkFromUrl = function(afterLoaded)
   this.load_ready = false;
   this.load_error = false;
   this.error_message = "";
-  this.all_labels = [];
-  this.all_bookmarks = [];
   
 	// load bookmarks xml from url:GOOGLE_BOOKMARK_BASE
 	if (this.load_handle) this.load_handle.abort();
@@ -91,6 +92,9 @@ bookmarks.GetBookmarkByUrl = function(url){
 }
 //------------- private functions blow -----------------------
 bookmarks.ParseBookmarks = function(bookmarksXml){
+  bookmarks.all_labels = [];
+  bookmarks.all_bookmarks = [];
+
 	$(bookmarksXml).find("bookmark").each(function(){
 		var bookmark = $(this);
     var lbo = [];
@@ -135,6 +139,7 @@ bookmarks.AddLabel = function(label, bookmark){
 		lb.label = label;
 		lb.bookmarks = new Array();
 		this.all_labels.push(lb);
+		if (label!="blank") this.labels_auto.push(label);
 	}
 	// save bookmark
 	lb.bookmarks.push(bookmark);
