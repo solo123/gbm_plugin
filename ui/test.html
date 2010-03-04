@@ -116,6 +116,24 @@ function test_getselected(){
    });
    $('#tab_out').text(s.join(", "));
 }
+
+function load_signature(parse_sig){
+  $.ajax({
+		type: "get",
+		url: "http://www.google.com/bookmarks/mark",
+		data: {op:"add", output:"popup"},
+		success: function(data, textStatus){
+			console.log("Got signature:" + data);
+		},
+		error: function(data){
+			console.error(data);                   
+		}
+	}); 
+}
+function parse_sig(data){
+  var d = data;
+  console.log(data);
+}
 	</script>
 
 	</head>
@@ -124,7 +142,8 @@ function test_getselected(){
 
 <div id="top"><h2>Google Bookmarks Chrome Extension Test Page</h2></div>
 <div id="container">	
-  <ul>		
+  <ul>
+    <li><a href="#tabs-0">API</a></li>		
     <li>
     <a href="#tabs-1">Bookmarks objects</a>
     </li>		
@@ -138,6 +157,14 @@ function test_getselected(){
       <span>Test Page</span>		
     </li>	
   </ul>
+  <div id="tabs-0">
+    <div style="padding:8px;">
+      <input type="button" value="signature" onclick="load_signature();" />
+      <div style="overflow:auto;height:78%;">	        
+        <div id="test_out0" class="out"></div>
+      </div>
+    </div>
+  </div>
   <div id="tabs-1">
     <div style="padding:8px;">
       <input type="button" value="show boomark object" onclick="show_bm_obj();" />	        

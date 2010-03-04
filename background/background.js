@@ -6,7 +6,7 @@
 *
 ************************************************************************/
 // public vars
-var GOOGLE_BOOKMARK_BASE = "http://www.google.com/bookmarks/";
+var GOOGLE_BOOKMARK_BASE = "https://www.google.com/bookmarks/";
 var States = {};
 var bookmarks = {
   load_ready: false,
@@ -53,7 +53,7 @@ bookmarks.LoadBookmarkFromUrl = function(afterLoaded)
 		}
 	});
 	
-	this.LoadSig();
+	//this.LoadSig();
 }
 bookmarks.LoadSig = function(){
   // load signature from url:GOOGLE_BOOKMARK_BASE/find?output=rss
