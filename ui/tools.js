@@ -1,14 +1,27 @@
+function load_option(option){
+  var op = localStorage[option];
+  if (op && op.length>0) 
+    return op;
+  else 
+    return default_option(option);
+}
+function default_option(option){
+  if (option=="width") return "400";
+  else if (option=="height") return "400";
+  else if (option=="font_size") return "0.9em";
+  else return "";
+}
 function GetStateInt(state){
-  if (typeof(bkg.States[state])=="undefined")
+  if (typeof(gbm_app.bkg.States[state])=="undefined")
     return -1;
   else
-    return bkg.States[state];
+    return gbm_app.bkg.States[state];
 }
 function GetState(state){
-  if (typeof(bkg.States[state])=="undefined")
+  if (typeof(gbm_app.bkg.States[state])=="undefined")
     return "";
   else
-    return bkg.States[state];
+    return gbm_app.bkg.States[state];
 }
 
 function string_in_array(str,arr){
@@ -31,26 +44,27 @@ function have_one_in_array(srcArr, tagArr){
   return false;
 }
 
-var status_cout = 0;
-function status_text(statusText){
-	if ( statusText==null){
-		if (status_count==3)
-			$("#status_bar").css("color","black");
-	  else if (status_count==2)
-	  	$("#status_bar").css("color","gray");
-	  else if (status_count==1)
-	  	$("#status_bar").css("color","#aaa");
-	  status_count -= 1;
-	  if (status_count>0)
-	  	setTimeout("status_text();", 2000);
-	  else
-	  	$("#status_bar").text(">");
-	}
-	else {
-		$("#status_bar").text("> " + statusText).css("color","red");
-    if (statusText!=""){
-      status_count = 4;
-      setTimeout("status_text()",2000);
-    }
-	}
+function status_text(txt){
+  gbm_app.status_text(txt);
+}
+
+function bookmark_tips(bookmark){
+		var tips = bookmark.title + 
+			'\n----------------------------------------------------------------\n' +
+			'Url   : ' + bookmark.href.toString().substr(0,55)   + "\n" + 
+			'Labels: ' + bookmark.labels.join(",").substr(0,50) + "\n" +
+			'Create: ' + timestamp_tostring(bookmark.timestamp) + "\n";
+   return tips;
+}
+function timestamp_tostring(timestamp){
+  if (!timestamp) return "";
+	return '' + timestamp.getFullYear() +"."
+			+ timestamp.getMonth() + "."
+			+ timestamp.getDay() + " " 
+      + timestamp.toTimeString() + "\n";
+}
+
+function resize_popup(){
+  var op = new BMOptions();
+  op.render($('#container'));
 }
