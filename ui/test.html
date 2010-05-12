@@ -67,7 +67,15 @@ function test_datatable(){
 		]
   });
 }
-
+function load_bookmarks(){
+	var b = gbm_app.bookmarks;
+	console.log("load start...");
+	b.LoadBookmarkFromUrl(load_done);
+	console.log("load done.");
+}
+function load_done(){
+	alert("Load done");
+}
 function show_bm_obj(){
   var bookmarks = gbm_app.bookmarks;
   $('#test_out').html("").append($('<p>').html(
@@ -90,6 +98,39 @@ function test_search(){
   div_main.html("");
   var r = render_search_result(div_main, $('#test_para1').val(), search_id);
   $('#output').html("found: " + r);
+}
+function test_edit(){
+	
+}
+
+function bookmarks_api_test(){
+	console.log("Edit ... " + api_test_edit());
+}
+function api_test_edit(){
+	var lb = gbm_app.bookmarks.all_bookmarks[0];
+    $.ajax({
+  		type: "post",
+  		url: "https://www.google.com/bookmarks/mark",
+  		data: {
+        bkmk : lb.href, 
+        prev : '', 
+        title : "[test_edit]" + lb.title, 
+        labels : lb.labels.join(","), 
+        sig : gbm_app.bookmarks.sig},
+  		success: function(data, textStatus){
+  		  console.log("Bookmark Saved:" + data.toString());
+  		  gbm_app.reload();
+  		},
+  		error: function(){
+  		  console.log('Bookmark save error!');
+  		}
+  	});
+    gbm_app.reload();
+	var lb1 = gbm_app.bookmarks.all_bookmarks[0];
+	if (lb1.title.match(/^[test_edit]/))
+		return "passed.";
+	else
+		return "FAILED!";
 }
 
 </script>
@@ -140,6 +181,7 @@ function test_getselected(){
   </ul>
   <div id="tabs-1">
     <div style="padding:8px;">
+      <input type="button" value="load boomark" onclick="load_bookmarks();" />	        
       <input type="button" value="show boomark object" onclick="show_bm_obj();" />	        
       <input type="button" value="loading" onclick="test_render_loading();" />	            
       <input type="text" value="" id="test_para1" />	            
@@ -147,6 +189,7 @@ function test_getselected(){
       <input type="button" value="bookmarks" onclick="test_bookmarks();" />	            
       <input type="button" value="search" onclick="test_search();" />	            
       <input type="button" value="multi-labels" onclick="test_multi_labels();" />	            
+      <input type="button" value="GBM API" onclick="bookmarks_api_test();" />	            
       <input type="button" value="add&edit" onclick="test_edit();" />	            
       <input type="button" value="delete" onclick="test_delete();" />	            
       <input type="button" value="status" onclick="test_status();" />

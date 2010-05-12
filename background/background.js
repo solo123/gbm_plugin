@@ -6,14 +6,14 @@
 *
 ************************************************************************/
 // public vars
-var GOOGLE_BOOKMARK_BASE = "http://www.google.com/bookmarks/";
+var GOOGLE_BOOKMARK_BASE = "https://www.google.com/bookmarks/";
 var States = {};
 var bookmarks = {
   load_ready: false,
   load_error: false,
   error_message: "",
-  // for delete need signature. just get from rss, don't know the best way. jimmy 2009.12.26
   sig: "",
+  // for delete need signature. just get from rss, don't know the best way. jimmy 2009.12.26
   load_handle: null,
   all_labels : [],
   all_bookmarks : [],
@@ -28,6 +28,7 @@ bookmarks.LoadBookmarkFromUrl = function(afterLoaded)
   this.load_ready = false;
   this.load_error = false;
   this.error_message = "";
+  
   
 	// load bookmarks xml from url:GOOGLE_BOOKMARK_BASE
 	if (this.load_handle) this.load_handle.abort();
@@ -52,14 +53,13 @@ bookmarks.LoadBookmarkFromUrl = function(afterLoaded)
 			console.log('Bookmarks loaded.');
 		}
 	});
-	
 	this.LoadSig();
 }
 bookmarks.LoadSig = function(){
   // load signature from url:GOOGLE_BOOKMARK_BASE/find?output=rss
   $.ajax({
 		type: "get",
-		url: GOOGLE_BOOKMARK_BASE + "find",
+		url: "https://www.google.com/bookmarks/find",
 		data: {output:"rss", q:"a:false"},
 		success: function(data, textStatus){
 			bookmarks.sig = $(data).find("signature:first").text();
@@ -68,7 +68,7 @@ bookmarks.LoadSig = function(){
 		error: function(){
 		  bookmarks.load_error = true;
 			bookmarks.error_message += "Retrieve signature error.";
-			console.error(this.error_message);                   
+			//console.error(this.error_message);                   
 		}
 	}); 
 }

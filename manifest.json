@@ -1,6 +1,6 @@
 {
   "name": "Google bookmarks",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Google bookmarks extension for Chrome",
   "background_page": "background/background.html",
   "options_page": "options/options.html",
@@ -18,7 +18,8 @@
   "permissions": [
     "tabs",
     "bookmarks",
-    "http://www.google.com/"
+    "http://www.google.com/",
+	"https://www.google.com/"
   ]
 
 }

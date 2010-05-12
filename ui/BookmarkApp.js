@@ -4,7 +4,7 @@ function BookmarkApp(){
     width    : parseInt(load_option("width")),
     height   : parseInt(load_option("height")),
     font_size: load_option("font_size"),
-    tabs     : (tabs && tabs.length>0 ? tabs.split(",") : ["Bookmarks", "Search", "Labels","Add","Tools"])
+    tabs     : (tabs && tabs.length>0 ? tabs.split(",") : ["Bookmarks", "Search", "Add","Tools"])
   };
   
   this.tabsobj = [
@@ -69,7 +69,7 @@ function BookmarkApp(){
     
     this.reload = function(){
       if (this.bookmarks.all_bookmarks.length<1)
-        load_data();
+        this.load_data();
       else {
         status_text("reload bookmarks...")
         this.bookmarks.LoadBookmarkFromUrl(function(){

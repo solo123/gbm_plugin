@@ -42,7 +42,10 @@ function BookmarkTabObject(){
   
   this.render_label_bookmarks = function(div, label){
     div.html("");
-    if (!gbm_app.bookmarks.load_ready || label<0) return;
+    if (!gbm_app.bookmarks.load_ready || gbm_app.bookmarks.all_bookmarks.length<1 || label<=0) {
+		div.html("no bookmarks found. <a href='http://www.google.com/bookmarks' target='_blank'>Not login?</a>");
+		return;
+	}
 
     var lb = gbm_app.bookmarks.all_labels[label];
   	var s = [];
