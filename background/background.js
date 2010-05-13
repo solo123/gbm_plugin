@@ -94,6 +94,7 @@ bookmarks.GetBookmarkByUrl = function(url){
 bookmarks.ParseBookmarks = function(bookmarksXml){
   bookmarks.all_labels = [];
   bookmarks.all_bookmarks = [];
+  bookmarks.labels_auto = [];
 
 	$(bookmarksXml).find("bookmark").each(function(){
 		var bookmark = $(this);

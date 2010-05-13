@@ -17,6 +17,10 @@ TODO:
 
 Update history
 --------------
+v3.1 (2010.05.13)
+1. google bookmarks api changed to https.
+2. fix duplicates in auto-complete.
+
 v3.0 (2010.02.05)
 1. Change to oo javascript of agility;
 2. dynamic tab position. users can config the prefer tab to show first.

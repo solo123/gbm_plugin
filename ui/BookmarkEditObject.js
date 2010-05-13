@@ -134,12 +134,14 @@ function BookmarkAddObj(){
         bm.labels = bm1.labels;
         bm.timestamp = bm1.timestamp;
       	gbm_app.current_edit_bm = bm;
+		console.log("current edit title:" + bm.title);
         gbm_app.app_tabs.show_edit_tab("Edit");
         gbm_app.app_tabs.on_tab_show("edit");
       } else {
         gbm_app.current_tabobj.set_bookmark(bm,"Add");
       }
-		});
+	  
+	});
   }
 }
 
@@ -155,6 +157,7 @@ function BookmarkEditObj(){
     this.render0(div);
     this.div_title.css('color','blue');
     this.set_bookmark(gbm_app.current_edit_bm);
+	console.log("edit:[" + gbm_app.current_edit_bm.title + "]");
   }
 }
 
