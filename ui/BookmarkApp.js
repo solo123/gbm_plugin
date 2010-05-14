@@ -19,7 +19,7 @@ function BookmarkApp(){
   
   this.start_up = function(div){
     this.bkg = chrome.extension.getBackgroundPage();  // ref to background.html
-    this.bookmarks = this.bkg.bookmarks;
+    this.bookmarks = this.bkg.gbm;
     this.parentDiv = div;
     div.css('font-size',this.config.font_size);
     this.load_bookmarks();
@@ -33,7 +33,7 @@ function BookmarkApp(){
   }
   this.load_data = function(){
     this.render_loading();
-    this.bookmarks.LoadBookmarkFromUrl(function(){
+    this.bookmarks.LoadBookmarks(function(){
       var o = gbm_app;
       if (o.bookmarks.load_error)
         o.render_error();
@@ -72,7 +72,7 @@ function BookmarkApp(){
         this.load_data();
       else {
         status_text("reload bookmarks...")
-        this.bookmarks.LoadBookmarkFromUrl(function(){
+        this.bookmarks.LoadBookmarks(function(){
           status_text("Bookmark loaded.");
           gbm_app.current_tabobj.refresh();
         });

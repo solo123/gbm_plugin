@@ -6,16 +6,7 @@
 		<script type="text/javascript" src="../public/jquery-1.3.2.min.js"></script>
 		<script type="text/javascript" src="../public/jquery-ui-1.7.2.custom.min.js"></script> 
 		<script type="text/javascript" src="../public/jquery.autocomplete.min.js"></script>
-    <script type="text/javascript" src="../public/jquery.dataTables.min.js"></script> 
-		<script type="text/javascript" src="bookmark.js"></script>
-		<script type="text/javascript" src="BookmarkApp.js"></script>
-		<script type="text/javascript" src="ApplicationTabs.js"></script>
-		<script type="text/javascript" src="BookmarkShowObject.js"></script>
-		<script type="text/javascript" src="BookmarkSearchObject.js"></script>
-		<script type="text/javascript" src="LabelsObject.js"></script>
-		<script type="text/javascript" src="BookmarkEditObject.js"></script>
-		<script type="text/javascript" src="ToolsObject.js"></script>
-		<script type="text/javascript" src="tools.js"></script>
+		<script type="text/javascript" src="../public/jquery.dataTables.min.js"></script> 
 
 
 <style type="text/css">
@@ -31,20 +22,92 @@ body{background:#dceaf9 url(../ui/images/bg_title.png) repeat-x;padding:10px;fon
 h2 {margin:0;padding:6px;text-align:right;color:#999;font-family:fantasy,cursive,Courier;font-weight:normal;}
 #top {width:75%;margin:auto;font-size:1.3em;}
 #container {width:75%;height:80%;overflow:hidden;margin:auto;}
-.out {width:55%;height:60%;border:solid 1px brown;overflow:auto;}
+.out {height:60%;border:solid 1px brown;overflow:auto;font-family: "Courier New", Courier, monospace;}
 </style>
     <link rel="stylesheet" type="text/css" href="../public/databales/css/demo_page.css"/>  
     <link rel="stylesheet" type="text/css" href="../public/databales/css/demo_table.css"/>  
 
 
 <script type="text/javascript">
-var on_testing = true;
-var gbm_app = new BookmarkApp();
-
 $(function(){
   $('#container').tabs();
-  gbm_app.start_up($('#test_out'));
 });
+function test_bookmarks_obj(){
+	var div = $("#test_out");
+	div.html("");
+	var bkg = chrome.extension.getBackgroundPage();  // ref to background.html
+	var bm = bkg.gbm;
+	var line = $('<p>').html(test_result("Bookmarks Obj init", (bm!=null), bm));
+	div.append(line);
+	bm.Clear();
+	line = $('<p>').html(test_result("Is empty", (bm.IsNotEmpty()==false), null));
+	div.append(line);
+	console.log("before load");
+	bm.LoadBookmarks(test_bookmarks_loaded);
+	
+}
+function test_bookmarks_loaded(){
+	var div = $("#test_out");
+	var bkg = chrome.extension.getBackgroundPage();  // ref to background.html
+	var bm = bkg.gbm;
+	
+	var line = $('<p>').html(test_result("Load bookmarks", bm.IsNotEmpty(), bm));
+	div.append(line);
+
+	var line = $('<p>').html(test_result("Check SIG", bm.sig!="", bm.sig));
+	div.append(line);
+	
+	var b = { bkmk: "http://www.test.com/", title: "test page", labels: "test" };
+	bm.SaveBookmark(b, test_bookmark_saved);	
+}
+
+function test_bookmark_saved(){
+	var div = $("#test_out");
+	var bkg = chrome.extension.getBackgroundPage();  // ref to background.html
+	var bm = bkg.gbm;
+	
+	var line = $('<p>').html(test_result("Save bookmark", bm.load_error==false, bm.load_error));
+	div.append(line);
+	
+	var u = bm.GetBookmarkByUrl("http://www.test.com/");
+	line = $('<p>').html(test_result("Find Saved bookmark", u!=null, u.href));
+	div.append(line);
+	
+	bm.DeleteBookmark(u.bm_id, test_after_delete_bookmark);
+}
+function test_after_delete_bookmark(){
+	var div = $("#test_out");
+	var bkg = chrome.extension.getBackgroundPage();  // ref to background.html
+	var bm = bkg.gbm;
+	
+	var line = $('<p>').html(test_result("Delete bookmark", true, "deleted"));
+	div.append(line);
+
+	bm.Clear();
+	bm.LoadBookmarks(test_after_deleted);
+}
+
+function test_after_deleted(){
+	var div = $("#test_out");
+	var bkg = chrome.extension.getBackgroundPage();  // ref to background.html
+	var bm = bkg.gbm;
+
+	var u = bm.GetBookmarkByUrl("http://www.test.com/");
+	var line = $('<p>').html(test_result("Check Delete bookmark", u==null, u));
+	div.append(line);
+}
+
+var dot_line = '.................................';
+function test_result(msg, passed, result){
+	var s = dot_line.substr(msg.length);
+	var r = "";
+	if (passed) 
+		r = "<span style='color:green;'>PASSED</span>";
+	else
+		r = "<span style='color:red;font-weight:bold;'>FAILED</span>";
+	return "&gt;&gt; " + msg + s + " " + r + " = " + result;
+}
+
 function test_datatable(){
   var bms = gbm_app.bookmarks.all_bookmarks;
   var data = [];
@@ -67,72 +130,11 @@ function test_datatable(){
 		]
   });
 }
-function load_bookmarks(){
-	var b = gbm_app.bookmarks;
-	console.log("load start...");
-	b.LoadBookmarkFromUrl(load_done);
-	console.log("load done.");
-}
-function load_done(){
-	alert("Load done");
-}
-function show_bm_obj(){
-  var bookmarks = gbm_app.bookmarks;
-  $('#test_out').html("").append($('<p>').html(
-    "bookmarks(labels:"+bookmarks.all_labels.length+", boomarks:"+ bookmarks.all_bookmarks.length +", sig:"+bookmarks.sig+")"+"<br />"
-    + "ready:" + bookmarks.load_ready +", error:" + bookmarks.load_error
-  ));
-}
-
-function test_render_loading(){
-  gbm_app.render_loading();
-}
-
-function test_tabs(){
-  render_tabs(div_main, $('#test_para1').val().split(',') );
-}
-function test_bookmarks(){
-  render_bookmarks(div_main, -1);
-}
 function test_search(){
   div_main.html("");
   var r = render_search_result(div_main, $('#test_para1').val(), search_id);
   $('#output').html("found: " + r);
 }
-function test_edit(){
-	
-}
-
-function bookmarks_api_test(){
-	console.log("Edit ... " + api_test_edit());
-}
-function api_test_edit(){
-	var lb = gbm_app.bookmarks.all_bookmarks[0];
-    $.ajax({
-  		type: "post",
-  		url: "https://www.google.com/bookmarks/mark",
-  		data: {
-        bkmk : lb.href, 
-        prev : '', 
-        title : "[test_edit]" + lb.title, 
-        labels : lb.labels.join(","), 
-        sig : gbm_app.bookmarks.sig},
-  		success: function(data, textStatus){
-  		  console.log("Bookmark Saved:" + data.toString());
-  		  gbm_app.reload();
-  		},
-  		error: function(){
-  		  console.log('Bookmark save error!');
-  		}
-  	});
-    gbm_app.reload();
-	var lb1 = gbm_app.bookmarks.all_bookmarks[0];
-	if (lb1.title.match(/^[test_edit]/))
-		return "passed.";
-	else
-		return "FAILED!";
-}
-
 </script>
 
 
@@ -181,18 +183,7 @@ function test_getselected(){
   </ul>
   <div id="tabs-1">
     <div style="padding:8px;">
-      <input type="button" value="load boomark" onclick="load_bookmarks();" />	        
-      <input type="button" value="show boomark object" onclick="show_bm_obj();" />	        
-      <input type="button" value="loading" onclick="test_render_loading();" />	            
-      <input type="text" value="" id="test_para1" />	            
-      <input type="button" value="tabs" onclick="test_tabs();" />	            
-      <input type="button" value="bookmarks" onclick="test_bookmarks();" />	            
-      <input type="button" value="search" onclick="test_search();" />	            
-      <input type="button" value="multi-labels" onclick="test_multi_labels();" />	            
-      <input type="button" value="GBM API" onclick="bookmarks_api_test();" />	            
-      <input type="button" value="add&edit" onclick="test_edit();" />	            
-      <input type="button" value="delete" onclick="test_delete();" />	            
-      <input type="button" value="status" onclick="test_status();" />
+      <input type="button" value="boomark OBJ" onclick="test_bookmarks_obj();" />	        
       <div style="overflow:auto;height:78%;">	        
         <div id="test_out" class="out"></div>
       </div>

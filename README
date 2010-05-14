@@ -17,6 +17,9 @@ TODO:
 
 Update history
 --------------
+v3.2 (2010.05.14)
+1. change backgound.js to oo and add tests.
+
 v3.1 (2010.05.13)
 1. google bookmarks api changed to https.
 2. fix duplicates in auto-complete.

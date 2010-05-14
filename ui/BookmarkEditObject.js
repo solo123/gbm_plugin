@@ -82,28 +82,27 @@ function BookmarkEditObject(){
     gbm_app.current_tabobj.btn_op
       .attr('disabled','true')
       .val("Saving...");
-    $.ajax({
-  		type: "post",
-  		url: gbm_app.bkg.GOOGLE_BOOKMARK_BASE + "mark",
-  		data: {
-        bkmk : gbm_app.current_tabobj.inp_url.val(), 
-        prev : '', 
-        title : gbm_app.current_tabobj.inp_title.val(), 
-        labels : gbm_app.current_tabobj.inp_labels.val(), 
-        sig : gbm_app.bookmarks.sig},
-  		success: function(data, textStatus){
-  		  gbm_app.current_tabobj.btn_op.val("Saved");
-  		  status_text("Bookmark Saved:" + data.toString());
-  		  gbm_app.reload();
-  		},
-  		error: function(){
-  		  gbm_app.current_tabobj.btn_op
-          .val(gbm_app.current_tabobj.btn_op.command)
-          .removeAttr('disabled');
-  		  status_text('Bookmark save error!');
-  		}
-  	});
+
+	var bm = {
+		bkmk : gbm_app.current_tabobj.inp_url.val(), 
+		title : gbm_app.current_tabobj.inp_title.val(), 
+		labels : gbm_app.current_tabobj.inp_labels.val()
+	};
+	gbm_app.bookmarks.SaveBookmark(bm, AfterBookmarkSaved);
   }    
+}
+
+function AfterBookmarkSaved(){
+	if (gbm_app.bookmarks.load_error) {
+		gbm_app.current_tabobj.btn_op
+		.val(gbm_app.current_tabobj.btn_op.command);
+		gbm_app.current_tabobj.btn_op.removeAttr('disabled');
+		status_text('Bookmark save error!');
+	} else {
+		gbm_app.current_tabobj.btn_op.val("Saved.");
+		status_text("Bookmark Saved.");
+		gbm_app.reload();
+	}
 }
 
 BookmarkAddObj.prototype = new BookmarkEditObject;
@@ -157,7 +156,6 @@ function BookmarkEditObj(){
     this.render0(div);
     this.div_title.css('color','blue');
     this.set_bookmark(gbm_app.current_edit_bm);
-	console.log("edit:[" + gbm_app.current_edit_bm.title + "]");
   }
 }
 
@@ -179,12 +177,11 @@ function BookmarkDelObj(){
       .attr('disabled','true')
       .val("Deleting...");
   	var bmid = gbm_app.current_tabobj.div_id.text();
-  	console.log("Delete:(" + bmid + ")");
-   	$.post(gbm_app.bkg.GOOGLE_BOOKMARK_BASE + "mark", {dlq: bmid, sig:gbm_app.bookmarks.sig}, function(data){
-  	 		console.log("delete success:" + data);
-  			status_text("Bookmark deleted: " + bmid);
-  			gbm_app.current_tabobj.btn_op.val("Deleted");
-  			gbm_app.reload();
-  	 	}, "text");	
+	gbm_app.bookmarks.DeleteBookmark(bmid, AfterBookmarkDeleted);
   }  
+}
+function AfterBookmarkDeleted(){
+	status_text("Bookmark deleted.");
+	gbm_app.current_tabobj.btn_op.val("Deleted");
+	gbm_app.reload();
 }
