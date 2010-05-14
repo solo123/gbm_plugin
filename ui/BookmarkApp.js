@@ -91,7 +91,7 @@ function BookmarkApp(){
   		<img src="images/indicator.gif" /> \
   		<strong>&nbsp;Loading Google Bookmarks...</strong><br /> \
   		<br /> \
-  		&nbsp;<a href="http://www.google.com/bookmarks" target="_blank">not login?</a> \
+  		&nbsp;<a href="http://www.google.com/bookmarks" target="_blank">Not logged in?</a> \
     </p> \
 	</div> \
 </div>';
