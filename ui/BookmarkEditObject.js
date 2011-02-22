@@ -147,16 +147,18 @@ function BookmarkAddObj(){
         gbm_app.app_tabs.on_tab_show("edit");
       } else {
         gbm_app.current_tabobj.set_bookmark(bm,"Add");
+
+        // set the tags input as default then
+        // overrides the enter button but doesn't conflict with autocompletes
+  	    $('.ac_input').select()
+        $('.ac_input').keypress(function(e) {
+            if(e.keyCode == 13) {
+                $('input[type=button]').click()
+                gbm_app.current_tabobj.closeAfterSave = true;
+            }
+        });
       }
 	  
-      // set the 
-	    $('.ac_input').select()
-      $('.ac_input').keypress(function(e) {
-          if(e.keyCode == 13) {
-              $('input[type=button]').click()
-              gbm_app.current_tabobj.closeAfterSave = true;
-          }
-      });
 	});
   }
 }
